@@ -1,7 +1,7 @@
-import NearToExpire from "../components/Home/NearToExpire";
-import Revenue from "../components/Home/Revenue";
-import SalesAndPurchase from "../components/Home/SalesAndPurchase";
-import SummaryCard from "../components/Home/SummaryCard";
+import NearToExpire from "./components/NearToExpire";
+import Revenue from "./components/Revenue";
+import SalesAndPurchase from "./components/SalesAndPurchase";
+import SummaryCard from "./components/SummaryCard";
 
 const Home = () => {
 
@@ -53,7 +53,11 @@ const Home = () => {
                 <SalesAndPurchase />
 
                 {/* Near Expiry Medicines */}
-                <NearToExpire />
+                <NearToExpire label={'Near-to-Expiry Medicines'} />
+
+
+                {/* Expired Medicines */}
+                <NearToExpire label={'Expired Medicines'} />
 
             </div>
         </div>

@@ -7,11 +7,11 @@ const expiryMedicines = [
     { name: "Cetrizine", expiry: "2025-11-15", stock: 22 },
 ];
 
-const NearToExpire = () => {
+const NearToExpire = ({label}) => {
     return (
         <div className="bg-white p-6 rounded-2xl shadow-md  border-2 border-gray-200 w-full">
             <h2 className="text-lg font-semibold text-gray-700 mb-4">
-                Near-to-Expiry Medicines
+                {label}
             </h2>
             <table className="w-full text-left border-collapse">
                 <thead>

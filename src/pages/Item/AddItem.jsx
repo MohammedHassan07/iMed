@@ -39,26 +39,24 @@ const AddItem = () => {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      
+
       {/* Tabs */}
       <div className="flex space-x-4 mb-6">
-    
+
         <button
-          className={`px-4 py-2 rounded-md ${
-            activeTab === "single"
-              ? "bg-blue-900 text-white"
-              : "bg-gray-200 text-gray-700"
-          }`}
+          className={`text-sm cursor-pointer px-4 py-2 rounded-md ${activeTab === "single"
+            ? "bg-blue-950 text-white"
+            : "bg-gray-200 text-gray-700"
+            }`}
           onClick={() => setActiveTab("single")}
         >
           Add Single Item
         </button>
         <button
-          className={`px-4 py-2 rounded-md ${
-            activeTab === "excel"
-              ? "bg-blue-900 text-white"
-              : "bg-gray-200 text-gray-700"
-          }`}
+          className={`text-sm cursor-pointer px-4 py-2 rounded-md ${activeTab === "excel"
+            ? "bg-blue-950 text-white"
+            : "bg-gray-200 text-gray-700"
+            }`}
           onClick={() => setActiveTab("excel")}
         >
           Upload Excel File
@@ -69,12 +67,12 @@ const AddItem = () => {
       {activeTab === "single" && (
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-white p-6 rounded-lg shadow-md"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-white p-6 rounded-lg "
         >
-          
+
           {Object.keys(formData).map((field) => (
             <div key={field} className="flex flex-col">
-              <label className="text-gray-700 capitalize mb-1">
+              <label className="text-gray-700 capitalize mb-1 text-sm">
                 {field.replace(/([A-Z])/g, " $1")}
               </label>
 
@@ -83,7 +81,7 @@ const AddItem = () => {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="border rounded-md p-2 focus:ring-2 focus:ring-blue-600"
+                  className="outline-0 border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950"
                   rows="2"
                 />
               ) : field === "expiryDate" ? (
@@ -92,15 +90,17 @@ const AddItem = () => {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="border rounded-md p-2 focus:ring-2 focus:ring-blue-600"
+                  className="outline-0 border rounded-md py-1 px- focus:outline-none focus:ring-1 focus:ring-blue-950"
                 />
+
               ) : (
                 <input
                   type="text"
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="border rounded-md p-2 focus:ring-2 focus:ring-blue-600"
+                  className="border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950 transition-all duration-100"
+
                 />
               )}
             </div>
@@ -109,7 +109,7 @@ const AddItem = () => {
           <div className="col-span-full flex justify-end mt-4">
             <button
               type="submit"
-              className="bg-blue-900 text-white px-6 py-2 rounded-md hover:bg-blue-800"
+              className="bg-blue-900 text-sm text-white px-6 py-2 rounded-md hover:bg-blue-950 cursor-pointer"
             >
               Add Item
             </button>
@@ -119,17 +119,18 @@ const AddItem = () => {
 
       {/* Upload Excel File */}
       {activeTab === "excel" && (
-        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center">
-          <p className="text-gray-700 mb-4">
+        <div className="bg-white p-6 rounded-lg flex items-center justify-start gap-5">
+          <p className="text-gray-700 ">
             Upload an Excel (.xlsx or .csv) file containing your item data.
           </p>
           <input
             type="file"
             accept=".xlsx,.csv"
             onChange={handleFileUpload}
-            className="border p-2 rounded-md"
+            className="border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950 transition-all duration-100"
+
           />
-          <button className="mt-4 bg-blue-900 text-white px-6 py-2 rounded-md hover:bg-blue-800">
+          <button className="bg-blue-900 text-sm  text-white px-6 py-2 rounded-md hover:bg-blue-950 cursor-pointer" >
             Upload
           </button>
         </div>
