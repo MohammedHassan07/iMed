@@ -109,7 +109,7 @@ const AddItem = () => {
           <div className="col-span-full flex justify-end mt-4">
             <button
               type="submit"
-              className="bg-blue-900 text-sm text-white px-6 py-2 rounded-md hover:bg-blue-950 cursor-pointer"
+              className="bg-blue-950 text-sm text-white px-6 py-2 rounded-md hover:bg-blue-900 cursor-pointer"
             >
               Add Item
             </button>
@@ -130,7 +130,7 @@ const AddItem = () => {
             className="border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950 transition-all duration-100"
 
           />
-          <button className="bg-blue-900 text-sm  text-white px-6 py-2 rounded-md hover:bg-blue-950 cursor-pointer" >
+          <button className="bg-blue-950 text-sm  text-white px-6 py-2 rounded-md hover:bg-blue-900 cursor-pointer" >
             Upload
           </button>
         </div>

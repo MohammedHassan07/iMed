@@ -41,9 +41,9 @@ const Navbar = () => {
     {
       name: "Stock",
       submenu: [
-        { name: "Purchase", path: "/stock/purchase" },
-        { name: "Return Purchase", path: "/stock/return-purchase" },
-        { name: "Update Purchase", path: "/stock/update-purchase" },
+        { name: "Purchase", path: "/purchase/" },
+        { name: "Return Purchase", path: "/purchase/return-purchase" },
+        { name: "Update Purchase", path: "/purchase/update-purchase" },
       ],
     },
     {
