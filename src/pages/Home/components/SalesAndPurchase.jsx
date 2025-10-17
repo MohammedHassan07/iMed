@@ -31,7 +31,7 @@ const SalesAndPurchase = () => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="Sales" fill="oklch(90.1% 0.058 230.902)" barSize={20} />
+                    <Bar dataKey="Sales" fill="oklch(87.2% 0.01 258.338)" barSize={20} />
                     <Bar dataKey="Purchase" fill="oklch(28.2% 0.091 267.935)" barSize={20} />
                 </BarChart>
             </ResponsiveContainer>
