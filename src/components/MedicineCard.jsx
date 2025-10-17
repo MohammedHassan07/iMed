@@ -5,7 +5,7 @@ const MedicineCard = ({ med, handleAddMedicine }) => {
         <>
 
             {/* card */}
-            <div key={med.id} className='cursor-pointer border-1 border-gray-400 rounded-lg relative w-30  flex flex-col items-center justify-center '
+            <button key={med.id} className='cursor-pointer border-1 border-gray-400 rounded-lg relative w-30  flex flex-col items-center justify-center '
                 onClick={() => handleAddMedicine(med)}
             >
 
@@ -27,7 +27,7 @@ const MedicineCard = ({ med, handleAddMedicine }) => {
                     <span className='text-xs text-gray-600 w-full'>{med.saltName}</span>
                 </div>
 
-            </div>
+            </button>
 
         </>
     )

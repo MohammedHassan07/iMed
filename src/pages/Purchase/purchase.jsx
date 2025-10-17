@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Minus, Search } from "lucide-react";
+import { Plus, Minus, Search, Trash } from "lucide-react";
 import MedicineCard from "../../components/MedicineCard";
 
 const Purchase = () => {
@@ -129,32 +129,22 @@ const Purchase = () => {
     ]);
 
     const handleAddMedicine = (med) => {
-        const exists = selectedItems.find((i) => i.id === med.id);
-        if (!exists) {
-            setSelectedItems([
-                ...selectedItems,
-                { ...med, quantity: 1, batchNumber: "" },
-            ]);
-        }
+        setSelectedItems((prev) => {
+            const exists = prev.find((i) => i.id === med.id);
+            if (exists) {
+                // Increase quantity by 1 if already exists
+                return prev.map((item) =>
+                    item.id === med.id
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                );
+            } else {
+                // Add new item with quantity 1
+                return [...prev, { ...med, quantity: 1, batchNumber: "" }];
+            }
+        });
     };
 
-    const handleQuantityChange = (id, type) => {
-        setSelectedItems((prev) =>
-            prev.map((item) =>
-                item.id === id
-                    ? {
-                        ...item,
-                        quantity:
-                            type === "inc"
-                                ? item.quantity + 1
-                                : item.quantity > 1
-                                    ? item.quantity - 1
-                                    : 1,
-                    }
-                    : item
-            )
-        );
-    };
 
     const handleInputChange = (id, field, value) => {
         setSelectedItems((prev) =>
@@ -163,6 +153,13 @@ const Purchase = () => {
             )
         );
     };
+
+    const handleRemoveItem = (id) => {
+        setSelectedItems((prevItems) =>
+            prevItems.filter((item) => item.id !== id)
+        );
+    };
+
 
     // Billing Calculations
     const subTotal = selectedItems.reduce(
@@ -173,94 +170,107 @@ const Purchase = () => {
     const netTotal = subTotal + tax;
 
     return (
-        <div className="grid grid-cols-[8fr_4fr]  p-3 gap-3">
+        <div className="grid grid-cols-[8fr_4fr] p-3 gap-3">
+
             {/* Purchase Details */}
-            <div className="w-full  bg-gray-50 rounded-xl p-2 border-1 border-gray-300">
+            <div className="min-w-0 w-full bg-gray-50 rounded-xl p-4 border border-gray-300 ">
                 {selectedItems.length === 0 ? (
-                    <p className="text-gray-500 text-center">
-                        No medicines added yet.
-                    </p>
+                    <p className="text-gray-500 text-center">No medicines added yet.</p>
                 ) : (
-                    <div className="space-y-4 max-h-[400px] overflow-y-auto">
-                        {selectedItems.map((item) => (
-                            <div
-                                key={item.id}
-                                className="border border-gray-300 rounded-lg p-3 flex flex-col gap-2 bg-gray-50"
-                            >
-                                <div className="flex ">
-                                    <div>
-                                        <p className="font-semibold">{item.brandName}</p>
-                                        <p className="text-sm text-gray-600">
-                                            {item.saltName}
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={() =>
-                                                handleQuantityChange(item.id, "dec")
-                                            }
-                                            className="p-1 bg-gray-200 rounded hover:bg-gray-300"
-                                        >
-                                            <Minus size={16} />
-                                        </button>
-                                        <span className="px-2">{item.quantity}</span>
-                                        <button
-                                            onClick={() =>
-                                                handleQuantityChange(item.id, "inc")
-                                            }
-                                            className="p-1 bg-gray-200 rounded hover:bg-gray-300"
-                                        >
-                                            <Plus size={16} />
-                                        </button>
-                                    </div>
+                    <div className="overflow-x-auto max-h-[400px] overflow-y-auto rounded-lg">
 
-                                    <input
-                                        type="text"
-                                        placeholder="Batch Number"
-                                        value={item.batchNumber}
-                                        onChange={(e) =>
-                                            handleInputChange(item.id, "batchNumber", e.target.value)
-                                        }
-                                        className="border border-gray-300  p-2 rounded-md"
-                                    />
-                                    <div >
-                                        <input
-                                            type="number"
-                                            placeholder="Purchase Price"
-                                            value={item.purchasePrice}
-                                            onChange={(e) =>
-                                                handleInputChange(
-                                                    item.id,
-                                                    "purchasePrice",
-                                                    parseFloat(e.target.value)
-                                                )
-                                            }
-                                            className="border p-2 rounded-md w-11     appearance-none 
-             [&::-webkit-inner-spin-button]:appearance-none 
-             [&::-webkit-outer-spin-button]:appearance-none 
-             [&::-webkit-inner-spin-button]:m-0 
-             [&::-webkit-outer-spin-button]:m-0
-             [&::-moz-appearance]:textfield"
-                                        />
-                                        <label className="text-sm text-gray-500" htmlFor="purchase-price">Purchase Price</label>
-
-                                    </div>
-                                    <input
-                                        type="number"
-                                        placeholder="Selling Price"
-                                        value={item.sellingPrice}
-                                        onChange={(e) =>
-                                            handleInputChange(
-                                                item.id,
-                                                "sellingPrice",
-                                                parseFloat(e.target.value)
-                                            )
-                                        }
-                                        className="border p-2 rounded-md"
-                                    />
-                                </div>
-                            </div>
-                        ))}
+                        <table className="min-w-full border border-gray-200 text-sm table-auto">
+                            <thead className="bg-gray-200 text-gray-700">
+                                <tr>
+                                    <th className="py-2 px-3 text-left font-semibold">Brand Name</th>
+                                    <th className="py-2 px-3 text-left font-semibold whitespace-nowrap">Salt Name</th>
+                                    <th className="py-2 px-3 text-center font-semibold">Quantity</th>
+                                    <th className="py-2 px-3 text-center font-semibold">Batch No.</th>
+                                    <th className="py-2 px-3 text-center font-semibold">Purchase Price</th>
+                                    <th className="py-2 px-3 text-center font-semibold">Selling Price</th>
+                                    <th className="py-2 px-3 text-center font-semibold">Purchase Date</th>
+                                    <th className="py-2 px-3 text-center font-semibold">Expiry Date</th>
+                                    <th className="py-2 px-3 text-center font-semibold">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {selectedItems.map((item) => (
+                                    <tr key={item.id} className="hover:bg-gray-100">
+                                        <td className="py-2 px-3 truncate">{item.brandName}</td>
+                                        <td className="py-2 px-3 text-gray-600 text-xs truncate whitespace-nowrap">{item.saltName}</td>
+                                        <td className="py-2 px-3 text-center">
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                value={item.quantity}
+                                                onChange={(e) =>
+                                                    handleInputChange(item.id, "quantity", parseInt(e.target.value) || 1)
+                                                }
+                                                className="border border-gray-300 p-1 rounded-md w-16 text-center bg-white"
+                                            />
+                                        </td>
+                                        <td className="py-2 px-3 text-center">
+                                            <input
+                                                type="text"
+                                                placeholder="Batch No."
+                                                value={item.batchNumber}
+                                                onChange={(e) =>
+                                                    handleInputChange(item.id, "batchNumber", e.target.value)
+                                                }
+                                                className="border border-gray-300 p-1 rounded-md w-28 text-center bg-white"
+                                            />
+                                        </td>
+                                        <td className="py-2 px-3 text-center">
+                                            <input
+                                                type="number"
+                                                placeholder="₹0.00"
+                                                value={item.purchasePrice}
+                                                onChange={(e) =>
+                                                    handleInputChange(item.id, "purchasePrice", parseFloat(e.target.value))
+                                                }
+                                                className="border border-gray-300 p-1 rounded-md w-24 text-center bg-white"
+                                            />
+                                        </td>
+                                        <td className="py-2 px-3 text-center">
+                                            <input
+                                                type="number"
+                                                placeholder="₹0.00"
+                                                value={item.sellingPrice}
+                                                onChange={(e) =>
+                                                    handleInputChange(item.id, "sellingPrice", parseFloat(e.target.value))
+                                                }
+                                                className="border border-gray-300 p-1 rounded-md w-24 text-center bg-white"
+                                            />
+                                        </td>
+                                        <td className="py-2 px-3 text-center">
+                                            <input
+                                                type="date"
+                                                value={item.purchaseDate || ""}
+                                                onChange={(e) =>
+                                                    handleInputChange(item.id, "purchaseDate", e.target.value)
+                                                }
+                                                className="border border-gray-300 p-1 rounded-md bg-white w-36 text-center"
+                                            />
+                                        </td>
+                                        <td className="py-2 px-3 text-center">
+                                            <input
+                                                type="date"
+                                                value={item.expiryDate || ""}
+                                                onChange={(e) =>
+                                                    handleInputChange(item.id, "expiryDate", e.target.value)
+                                                }
+                                                className="border border-gray-300 p-1 rounded-md bg-white w-36 text-center"
+                                            />
+                                        </td>
+                                        <td className="py-2 px-3 text-center cursor-pointer">
+                                            <div className="flex items-center justify-center" onClick={() => handleRemoveItem(item.id)}>
+                                                <Trash size={20} className="text-red-600 hover:text-red-800" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 )}
 
@@ -286,8 +296,10 @@ const Purchase = () => {
                 )}
             </div>
 
+
+
             {/*  Search Medicines */}
-            <div className="w-full  bg-gray-50 shadow-md rounded-xl p-4 border-1 border-gray-300 overflow-auto h-2/3">
+            <div className="w-full  bg-gray-50 shadow-md rounded-xl p-4 border-1 border-gray-300 overflow-auto h-[80vh]">
                 <div className="relative mb-5">
                     <Search className="absolute left-3 top-2 text-gray-500" size={18} />
                     <input
@@ -299,14 +311,14 @@ const Purchase = () => {
                     />
                 </div>
 
-                <div className="flex flex-wrap justify-start items-start gap-2 max-h-[450px] ">
+                <div className="flex flex-wrap justify-start items-start gap-5 max-h-[450px] ">
                     {medicines.map((med) => (
 
                         <MedicineCard med={med} handleAddMedicine={handleAddMedicine} />
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
