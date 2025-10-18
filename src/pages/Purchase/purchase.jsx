@@ -166,7 +166,7 @@ const Purchase = () => {
         (acc, cur) => acc + cur.purchasePrice * cur.quantity,
         0
     );
-    const tax = subTotal * 0.05; // 5% GST
+    const tax = subTotal * 0.05; 
     const netTotal = subTotal + tax;
 
     return (
@@ -295,7 +295,6 @@ const Purchase = () => {
                     </div>
                 )}
             </div>
-
 
 
             {/*  Search Medicines */}

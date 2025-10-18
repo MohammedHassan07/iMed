@@ -8,6 +8,7 @@ import GetSupplier from './pages/Suppliers/GetSupplier'
 import AddSupplier from './pages/Suppliers/AddSupplier'
 import AddTax from './pages/Tax/AddTax'
 import GetTax from './pages/Tax/GetTax'
+import AddSales from './pages/Sales/AddSales'
 
 function App() {
 
@@ -19,6 +20,9 @@ function App() {
 
         <Routes>
           <Route path='/' Component={Home} />
+
+          {/* sales */}
+          <Route path='/sales/add' Component={AddSales}/>
 
           {/* item */}
           <Route path='/item/add' Component={AddItem} />
