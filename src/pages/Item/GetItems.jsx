@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Pencil, Trash } from 'lucide-react'
-import UpdateDrug from "./components/UpdateDrug";
 import DeleteDrug from "./components/DeleteDrug";
+import EditDelete from "../../components/EditDelete";
+import DynamicForm from "../../components/DynamicForm";
 
 const GetItems = () => {
   const [items, setItems] = useState([]);
@@ -9,14 +9,14 @@ const GetItems = () => {
   const [modalType, setModalType] = useState(""); // update or delete
   const [selectedItem, setSelectedItem] = useState(null);
   const [formData, setFormData] = useState({});
-  const [search, setSearch] = useState({});
+  const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   const modalRef = useRef(null);
 
+  // Dummy data
   useEffect(() => {
-    // Dummy data for demo
     setItems([
       {
         id: 1,
@@ -39,6 +39,16 @@ const GetItems = () => {
     ]);
   }, []);
 
+  // Define form fields (dynamic form)
+  const fields = [
+    { name: "saltName", label: "Salt Name", type: "text", placeholder: "Enter salt name" },
+    { name: "brandName", label: "Brand Name", type: "text", placeholder: "Enter brand name" },
+    { name: "manufacturer", label: "Manufacturer", type: "text", placeholder: "Enter manufacturer" },
+    { name: "packageQuantity", label: "Package Quantity", type: "number", placeholder: "Enter quantity" },
+    { name: "productForm", label: "Product Form", type: "text", placeholder: "Enter product form" },
+    { name: "expiryDate", label: "Expiry Date", type: "date", placeholder: "Select expiry date" },
+  ];
+
   const handleOpenModal = (type, item) => {
     setModalType(type);
     setSelectedItem(item);
@@ -58,25 +68,24 @@ const GetItems = () => {
         handleCloseModal();
       }
     };
-
     if (showModal) {
       document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [showModal]);
 
   const handleUpdate = () => {
     console.log("Updated Item:", formData);
+    // Example update logic (you can replace with API call)
+    setItems((prev) =>
+      prev.map((item) => (item.id === formData.id ? formData : item))
+    );
     handleCloseModal();
   };
 
   const handleDelete = () => {
     console.log("Deleted Item:", selectedItem);
+    setItems((prev) => prev.filter((item) => item.id !== selectedItem.id));
     handleCloseModal();
   };
 
@@ -91,19 +100,32 @@ const GetItems = () => {
     currentPage * itemsPerPage
   );
 
+  // Filter search results
+  const filteredItems = paginatedItems.filter(
+    (item) =>
+      item.saltName.toLowerCase().includes(search.toLowerCase()) ||
+      item.brandName.toLowerCase().includes(search.toLowerCase()) ||
+      item.productForm.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="p-6">
-      <div className="grid grid-cols-[2fr_10fr]">
-        <h2 className="text-2xl font-semibold w-full">All Medicines</h2>
-        <div className="border border-blue-950 rounded w-full ">
-          <input onChange={(e) => setSearch(e.target.value)} className="outline-0 w-full py-1 px-2" type="text" placeholder="Salt Name, Brand Name, Poduct Form" />
+      <div className="grid grid-cols-[2fr_10fr] items-center">
+        <h2 className="text-2xl font-semibold">All Medicines</h2>
+        <div className="border border-blue-950 rounded w-full">
+          <input
+            onChange={(e) => setSearch(e.target.value)}
+            className="outline-0 w-full py-1 px-2"
+            type="text"
+            placeholder="Search by Salt Name, Brand Name, Product Form"
+          />
         </div>
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto bg-white rounded-lg shadow-md mt-5">
-        <table className="min-w-full table-auto">
-          <thead className="bg-gray-100">
+      <div className="overflow-x-auto bg-white mt-5">
+        <table className="min-w-full border border-gray-300 text-sm table-fixed">
+          <thead className="bg-gray-100 text-left text-gray-700">
             <tr>
               <th className="p-3 text-left">Salt Name</th>
               <th className="p-3 text-left">Brand</th>
@@ -115,22 +137,17 @@ const GetItems = () => {
             </tr>
           </thead>
           <tbody>
-            {paginatedItems.map((item) => (
-              <tr key={item.id} className="border-b hover:bg-gray-50">
+            {filteredItems.map((item) => (
+              <tr key={item.id}
+                className="hover:bg-gray-50 border-t border-gray-200 transition">
                 <td className="p-3">{item.saltName}</td>
                 <td className="p-3">{item.brandName}</td>
                 <td className="p-3">{item.manufacturer}</td>
                 <td className="p-3">{item.packageQuantity}</td>
                 <td className="p-3">{item.productForm}</td>
                 <td className="p-3">{item.expiryDate}</td>
-                <td className="p-3 text-center space-x-2 flex justify-center items-center gap-3">
-                  <span className="text-blue-500 cursor-pointer  hover:text-blue-950">
-                    <Pencil onClick={() => handleOpenModal("update", item)} size={20} />
-                  </span>
-
-                  <span className="text-red-500 cursor-pointer  hover:text-red-700">
-                    <Trash onClick={() => handleOpenModal("delete", item)} size={20} />
-                  </span>
+                <td className="p-3 text-center flex justify-center items-center gap-3">
+                  <EditDelete handleOpenModal={handleOpenModal} item={item} />
                 </td>
               </tr>
             ))}
@@ -168,31 +185,26 @@ const GetItems = () => {
             ref={modalRef}
             className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md relative"
           >
-            <h3 className="text-xl font-semibold mb-4 capitalize">
-              {modalType === "update"
-                ? "Update Item Details"
-                : "Confirm Deletion"}
-            </h3>
-
-            {modalType === "update" ?
-              <UpdateDrug
-                handleUpdate={handleUpdate}
+            {modalType === "update" ? (
+              <DynamicForm
+                title="Update Item Details"
+                fields={fields}
+                formData={formData}
                 handleChange={handleChange}
-                handleCloseModal={handleCloseModal}
-                formData={formData} /> :
-
+                handleSubmit={handleUpdate}
+                handleCancel={handleCloseModal}
+              />
+            ) : (
               <DeleteDrug
                 handleDelete={handleDelete}
                 selectedItem={selectedItem}
                 handleCloseModal={handleCloseModal}
-              />}
+              />
+            )}
           </div>
         </div>
       )}
-
-
     </div>
-
   );
 };
 

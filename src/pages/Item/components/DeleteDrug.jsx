@@ -1,4 +1,3 @@
-import React from 'react'
 
 const DeleteDrug = ({handleDelete, selectedItem, handleCloseModal}) => {
     return (

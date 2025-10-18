@@ -5,7 +5,8 @@ import AddItem from './pages/Item/AddItem'
 import GetItems from './pages/Item/GetItems'
 import purchase from './pages/Purchase/purchase'
 import TaxSettings from './pages/Tax/TaxSettings'
-import Supplier from './pages/Suppliers/Supplier'
+import GetSupplier from './pages/Suppliers/GetSupplier'
+import AddSupplier from './pages/Suppliers/AddSupplier'
 
 function App() {
 
@@ -29,7 +30,8 @@ function App() {
           <Route path='/taxes/' Component={TaxSettings}/>
 
           {/* Supplier */}
-          <Route path='/supplier/' Component={Supplier}/>
+          <Route path='/supplier/add' Component={AddSupplier}/>
+          <Route path='/supplier/' Component={GetSupplier}/>
 
         </Routes>
       </BrowserRouter>

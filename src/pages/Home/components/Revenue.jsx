@@ -15,9 +15,9 @@ import { useState } from "react";
 // Sample Revenue Data
 const revenueData = {
     monthly: [
-        { name: "Jan", revenue: 45000 },
+        { name: "Jan", revenue: 0 },
         { name: "Feb", revenue: 52000 },
-        { name: "Mar", revenue: 48000 },
+        { name: "Mar", revenue: 29000 },
         { name: "Apr", revenue: 61000 },
         { name: "May", revenue: 70000 },
         { name: "Jun", revenue: 66000 },

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import TabButton from "../../components/TabButton"; // adjust path as needed
-import AddSupplier from "./components/Tabs/AddSupplier";
-import GetSupplier from "./components/Tabs/GetSupplier";
+import AddSupplier from "./AddSupplier";
+import GetSupplier from "./GetSupplier";
 
 const Supplier = () => {
     const [activeTab, setActiveTab] = useState("get");
@@ -27,7 +27,7 @@ const Supplier = () => {
         <div className="p-6">
 
             {/* Tabs */}
-            <TabButton
+            {/* <TabButton
                 tabs={[
                     { label: "Get Supplier", value: "get" },
                     { label: "Add Supplier", value: "add" },
@@ -39,7 +39,7 @@ const Supplier = () => {
             <div className="mt-6">
                 {activeTab === "add" && <AddSupplier />}
                 {activeTab === "get" && <GetSupplier />}
-            </div>
+            </div> */}
 
 
             {/* Modal */}
@@ -68,6 +68,7 @@ const Supplier = () => {
                     </div>
                 </div>
             )}
+
         </div>
 
 
