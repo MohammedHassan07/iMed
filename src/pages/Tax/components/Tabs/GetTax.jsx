@@ -4,9 +4,9 @@ import { Pencil, Trash } from "lucide-react";
 const GetTax = ({ paginatedTaxes, handleOpenModal, currentPage, setCurrentPage, totalPages }) => {
     return (
         <div className="mt-6 bg-white rounded-lg p-4">
-            <table className="min-w-full table-auto">
+                 <table className="min-w-full border border-gray-300 rounded-lg table-auto">
                 <thead className="bg-gray-100">
-                    <tr>
+                     <tr className="bg-gray-100 text-left">
                         <th className="p-3 text-left">Tax Name</th>
                         <th className="p-3 text-left">Percentage (%)</th>
                         <th className="p-3 text-center">Actions</th>
@@ -14,7 +14,7 @@ const GetTax = ({ paginatedTaxes, handleOpenModal, currentPage, setCurrentPage, 
                 </thead>
                 <tbody>
                     {paginatedTaxes.map((tax) => (
-                        <tr key={tax.id} className="border-b hover:bg-gray-50">
+                        <tr key={tax.id} className="border-t border-gray-200 hover:bg-gray-50">
                             <td className="p-3">{tax.taxName}</td>
                             <td className="p-3">{tax.percentage}%</td>
                             <td className="p-3 text-center flex justify-center gap-3">

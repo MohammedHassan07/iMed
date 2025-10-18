@@ -7,7 +7,7 @@ import GetTax from "./components/Tabs/GetTax";
 
 
 const TaxSettings = () => {
-  const [activeTab, setActiveTab] = useState("add");
+  const [activeTab, setActiveTab] = useState("get");
   const [taxes, setTaxes] = useState([]);
   const [formData, setFormData] = useState({ taxName: "", percentage: "" });
   const [selectedTax, setSelectedTax] = useState(null);
@@ -105,8 +105,8 @@ const TaxSettings = () => {
       {/* Tabs */}
       <TabButton
         tabs={[
-          { label: 'Add Tax', value: 'add' },
           { label: 'Get Tax', value: 'get' },
+          { label: 'Add Tax', value: 'add' },
         ]}
         activeTab={activeTab}
         setActiveTab={setActiveTab}

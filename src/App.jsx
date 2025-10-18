@@ -5,6 +5,7 @@ import AddItem from './pages/Item/AddItem'
 import GetItems from './pages/Item/GetItems'
 import purchase from './pages/Purchase/purchase'
 import TaxSettings from './pages/Tax/TaxSettings'
+import Supplier from './pages/Suppliers/Supplier'
 
 function App() {
 
@@ -26,6 +27,9 @@ function App() {
 
           {/* Tax */}
           <Route path='/taxes/' Component={TaxSettings}/>
+
+          {/* Supplier */}
+          <Route path='/supplier/' Component={Supplier}/>
 
         </Routes>
       </BrowserRouter>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Minus, Search, Trash } from "lucide-react";
+import { Search, Trash } from "lucide-react";
 import MedicineCard from "../../components/MedicineCard";
 
 const Purchase = () => {
@@ -132,7 +132,7 @@ const Purchase = () => {
         setSelectedItems((prev) => {
             const exists = prev.find((i) => i.id === med.id);
             if (exists) {
-                // Increase quantity by 1 if already exists
+
                 return prev.map((item) =>
                     item.id === med.id
                         ? { ...item, quantity: item.quantity + 1 }

@@ -56,7 +56,7 @@ const Revenue = () => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="revenue" stroke="oklch(62.7% 0.194 149.214)" strokeWidth={2} />
+                    <Line type="monotone" dataKey="revenue" stroke="oklch(28.2% 0.091 267.935)" strokeWidth={2} />
                 </LineChart>
             </ResponsiveContainer>
         </div>
