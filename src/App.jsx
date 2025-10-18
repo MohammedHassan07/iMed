@@ -4,9 +4,10 @@ import Home from './pages/Home/Home'
 import AddItem from './pages/Item/AddItem'
 import GetItems from './pages/Item/GetItems'
 import purchase from './pages/Purchase/purchase'
-import TaxSettings from './pages/Tax/TaxSettings'
 import GetSupplier from './pages/Suppliers/GetSupplier'
 import AddSupplier from './pages/Suppliers/AddSupplier'
+import AddTax from './pages/Tax/AddTax'
+import GetTax from './pages/Tax/GetTax'
 
 function App() {
 
@@ -24,14 +25,15 @@ function App() {
           <Route path='/item/' Component={GetItems} />
 
           {/* purchase */}
-          <Route path='/purchase/' Component={purchase}/>
+          <Route path='/purchase/' Component={purchase} />
 
           {/* Tax */}
-          <Route path='/taxes/' Component={TaxSettings}/>
+          <Route path='/taxes/add' Component={AddTax} />
+          <Route path='/taxes/' Component={GetTax} />
 
           {/* Supplier */}
-          <Route path='/supplier/add' Component={AddSupplier}/>
-          <Route path='/supplier/' Component={GetSupplier}/>
+          <Route path='/supplier/add' Component={AddSupplier} />
+          <Route path='/supplier/' Component={GetSupplier} />
 
         </Routes>
       </BrowserRouter>

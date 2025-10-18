@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import EditDelete from "../../components/EditDelete";
 import DynamicForm from "../../components/DynamicForm";
-import DeleteTax from "./components/Modal/DeleteTax";
+import DeleteModal from "../../components/DeleteMoodal";
 
 const GetSupplier = () => {
   const [suppliers, setSuppliers] = useState([{
@@ -181,12 +181,7 @@ const GetSupplier = () => {
             ref={modalRef}
             className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md relative"
           >
-            <h3 className="text-xl font-semibold mb-4 capitalize">
-              {modalType === "update"
-                ? "Update Item Details"
-                : "Confirm Deletion"}
-            </h3>
-
+           
             {modalType === "update" ? <DynamicForm
               title="Update Supplier"
               fields={fields}
@@ -196,13 +191,13 @@ const GetSupplier = () => {
               handleCancel={handleCloseModal}
             />
               :
-
-              <DeleteTax
-                handleDelete={handleDelete}
+              <DeleteModal
                 selectedItem={selectedItem}
-                handleCloseModal={handleCloseModal}
-              />
-              }
+                itemLabel={'name'}
+                handleDelete={handleDelete}
+                handleCloseModal={handleCloseModal} />
+
+            }
           </div>
         </div>
       )}

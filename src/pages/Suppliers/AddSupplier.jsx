@@ -19,7 +19,7 @@ const AddSupplier = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-gray-50 min-h-screen flex justify-center items-start">
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
         <input
           name="name"

@@ -54,8 +54,13 @@ const Navbar = () => {
       ],
     },
     {
-      name: "Taxes", path: '/taxes'
+      name: "Taxes",
+      submenu: [
+        { name: "Get Taxes", path: "/taxes/" },
+        { name: "Add Taxes", path: "/taxes/add" },
+      ]
     },
+
     {
       name: "Suppliers",
       submenu: [

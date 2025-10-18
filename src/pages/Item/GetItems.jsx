@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import DeleteDrug from "./components/DeleteDrug";
 import EditDelete from "../../components/EditDelete";
 import DynamicForm from "../../components/DynamicForm";
+import DeleteModal from "../../components/DeleteMoodal";
 
 const GetItems = () => {
   const [items, setItems] = useState([]);
@@ -195,11 +195,12 @@ const GetItems = () => {
                 handleCancel={handleCloseModal}
               />
             ) : (
-              <DeleteDrug
-                handleDelete={handleDelete}
+              <DeleteModal
                 selectedItem={selectedItem}
-                handleCloseModal={handleCloseModal}
-              />
+                itemLabel={'brandName'}
+                handleDelete={handleDelete}
+                handleCloseModal={handleCloseModal} />
+
             )}
           </div>
         </div>
