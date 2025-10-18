@@ -9,6 +9,9 @@ import AddSupplier from './pages/Suppliers/AddSupplier'
 import AddTax from './pages/Tax/AddTax'
 import GetTax from './pages/Tax/GetTax'
 import AddSales from './pages/Sales/AddSales'
+import GetPurchase from './pages/Purchase/GetPurchase'
+import PurchaseDetails from './pages/Purchase/PurchaseDetails'
+import ReturnPurchase from './pages/Purchase/ReturnPurchase'
 
 function App() {
 
@@ -29,7 +32,10 @@ function App() {
           <Route path='/item/' Component={GetItems} />
 
           {/* purchase */}
-          <Route path='/purchase/' Component={purchase} />
+          <Route path='/purchase/add' Component={purchase} />
+          <Route path='/purchase/' Component={GetPurchase} />
+          <Route path='/purchase/purchase-details/:id' Component={PurchaseDetails} />
+          <Route path='/purchase/return-purchase' Component={ReturnPurchase} />
 
           {/* Tax */}
           <Route path='/taxes/add' Component={AddTax} />

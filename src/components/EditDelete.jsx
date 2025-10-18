@@ -1,7 +1,7 @@
 import React from 'react'
 import { Pencil, Trash } from 'lucide-react'
 
-const EditDelete = ({handleOpenModal, item}) => {
+const EditDelete = ({ handleOpenModal, item, isDelete }) => {
 
   return (
     <>
@@ -9,9 +9,10 @@ const EditDelete = ({handleOpenModal, item}) => {
         <Pencil onClick={() => handleOpenModal("update", item)} size={20} />
       </span>
 
-      <span className="text-red-500 cursor-pointer  hover:text-red-700">
+      {isDelete && <span className="text-red-500 cursor-pointer  hover:text-red-700">
         <Trash onClick={() => handleOpenModal("delete", item)} size={20} />
       </span>
+      }
     </>
   )
 }

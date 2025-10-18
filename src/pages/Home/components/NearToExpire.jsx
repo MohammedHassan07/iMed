@@ -23,7 +23,7 @@ const NearToExpire = ({label}) => {
                 </thead>
                 <tbody>
                     {expiryMedicines.map((med) => (
-                        <tr key={med.name} className="border-b hover:bg-blue-50">
+                        <tr key={med.name} className="border-b border-gray-300 hover:bg-blue-50">
                             <td className="py-2 px-4">{med.name}</td>
                             <td className="py-2 px-4">{med.expiry}</td>
                             <td className="py-2 px-4">{med.stock}</td>

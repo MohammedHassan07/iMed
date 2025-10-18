@@ -145,7 +145,6 @@ const Purchase = () => {
         });
     };
 
-
     const handleInputChange = (id, field, value) => {
         setSelectedItems((prev) =>
             prev.map((item) =>

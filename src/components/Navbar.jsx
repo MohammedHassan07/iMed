@@ -40,11 +40,11 @@ const Navbar = () => {
       ],
     },
     {
-      name: "Stock",
+      name: "Purchase",
       submenu: [
-        { name: "Purchase", path: "/purchase/" },
+        { name: "Purchase", path: "/purchase/add" },
         { name: "Return Purchase", path: "/purchase/return-purchase" },
-        { name: "Update Purchase", path: "/purchase/update-purchase" },
+        { name: "Get Purchase", path: "/purchase/" },
       ],
     },
     {
@@ -76,7 +76,7 @@ const Navbar = () => {
     <nav className="bg-blue-950 text-white shadow-md" ref={dropdownRef}>
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
 
-        {/* LEFT SIDE: Logo + Menu */}
+        {/*  Logo + Menu */}
         <div className="flex items-center space-x-10">
           {/* Logo */}
           <Link to="/" className="font-semibold">

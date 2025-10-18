@@ -147,7 +147,7 @@ const GetItems = () => {
                 <td className="p-3">{item.productForm}</td>
                 <td className="p-3">{item.expiryDate}</td>
                 <td className="p-3 text-center flex justify-center items-center gap-3">
-                  <EditDelete handleOpenModal={handleOpenModal} item={item} />
+                  <EditDelete handleOpenModal={handleOpenModal} item={item} isDelete={true} />
                 </td>
               </tr>
             ))}
