@@ -1,4 +1,6 @@
 import { useState } from "react";
+import TabButton from "../../components/TabButton";
+import AddButton from "../../components/AddButton";
 
 const AddItem = () => {
   const [activeTab, setActiveTab] = useState("single");
@@ -41,27 +43,14 @@ const AddItem = () => {
     <div className="p-6 bg-gray-50 min-h-screen">
 
       {/* Tabs */}
-      <div className="flex space-x-4 mb-6">
-
-        <button
-          className={`text-sm cursor-pointer px-4 py-2 rounded-md ${activeTab === "single"
-            ? "bg-blue-950 text-white"
-            : "bg-gray-200 text-gray-700"
-            }`}
-          onClick={() => setActiveTab("single")}
-        >
-          Add Single Item
-        </button>
-        <button
-          className={`text-sm cursor-pointer px-4 py-2 rounded-md ${activeTab === "excel"
-            ? "bg-blue-950 text-white"
-            : "bg-gray-200 text-gray-700"
-            }`}
-          onClick={() => setActiveTab("excel")}
-        >
-          Upload Excel File
-        </button>
-      </div>
+      <TabButton
+        tabs={[
+          { label: 'Add Single Item', value: 'single' },
+          { label: 'Upload Excel File', value: 'excel' },
+        ]}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        tabType={''} />
 
       {/* Add Single Item Form */}
       {activeTab === "single" && (
@@ -107,12 +96,8 @@ const AddItem = () => {
           ))}
 
           <div className="col-span-full flex justify-end mt-4">
-            <button
-              type="submit"
-              className="bg-blue-950 text-sm text-white px-6 py-2 rounded-md hover:bg-blue-900 cursor-pointer"
-            >
-              Add Item
-            </button>
+          
+            <AddButton label={'Add Item'} />
           </div>
         </form>
       )}
@@ -135,6 +120,7 @@ const AddItem = () => {
           </button>
         </div>
       )}
+      
     </div>
   );
 };

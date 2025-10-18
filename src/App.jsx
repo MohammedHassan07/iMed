@@ -4,6 +4,7 @@ import Home from './pages/Home/Home'
 import AddItem from './pages/Item/AddItem'
 import GetItems from './pages/Item/GetItems'
 import purchase from './pages/Purchase/purchase'
+import TaxSettings from './pages/Tax/TaxSettings'
 
 function App() {
 
@@ -22,6 +23,9 @@ function App() {
 
           {/* purchase */}
           <Route path='/purchase/' Component={purchase}/>
+
+          {/* Tax */}
+          <Route path='/taxes/' Component={TaxSettings}/>
 
         </Routes>
       </BrowserRouter>
