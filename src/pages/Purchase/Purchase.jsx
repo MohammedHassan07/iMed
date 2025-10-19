@@ -107,7 +107,7 @@ const Purchase = () => {
         setSelectedItems((prev) => prev.filter((item) => item.id !== id));
     };
 
-    // 🔹 PER ITEM TOTAL (with tax)
+    // PER ITEM TOTAL (with tax)
     const getItemTotal = (item) => {
         const qty = Number(item.quantity) || 0;
         const price = Number(item.purchasePrice) || 0;
@@ -117,7 +117,14 @@ const Purchase = () => {
         return totalWithoutTax + taxAmount;
     };
 
-    // 🔹 BILL TOTALS
+    const getItemProfit = (item) => {
+        const sellingPrice = item.sellingPrice
+        const purchasePrice = item.purchasePrice
+        const profit = (sellingPrice - purchasePrice) * item.quantity
+        return profit
+    }
+
+    // BILL TOTALS
     const subTotal = selectedItems.reduce(
         (acc, cur) => acc + cur.purchasePrice * cur.quantity,
         0
@@ -241,6 +248,9 @@ const Purchase = () => {
                                             Total (₹)
                                         </th>
                                         <th className="py-2 px-3 text-center font-semibold">
+                                            Profit (₹)
+                                        </th>
+                                        <th className="py-2 px-3 text-center font-semibold">
                                             Actions
                                         </th>
                                     </tr>
@@ -346,9 +356,12 @@ const Purchase = () => {
                                                 ₹{getItemTotal(item).toFixed(2)}
                                             </td>
                                             <td className="py-2 px-3 text-center">
+                                                ₹{getItemProfit(item).toFixed(2)}
+                                            </td>
+                                            <td className="py-2 px-3 text-center">
                                                 <button
                                                     onClick={() => handleRemoveItem(item.id)}
-                                                    className="text-red-600 hover:text-red-800"
+                                                    className="text-red-600 hover:text-red-800 cursor-pointer"
                                                 >
                                                     <Trash size={20} />
                                                 </button>

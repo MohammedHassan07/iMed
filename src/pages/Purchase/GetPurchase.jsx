@@ -30,6 +30,8 @@ const GetPurchase = () => {
                 supplier: "MedPlus Distributors",
                 purchaseDate: "2025-02-15",
                 expiryDate: "2026-02-15",
+                netTotal: 23894,
+                totalItems: 23
             },
             {
                 id: 2,
@@ -38,6 +40,8 @@ const GetPurchase = () => {
                 supplier: "Apollo Pharma",
                 purchaseDate: "2025-03-10",
                 expiryDate: "2026-03-10",
+                netTotal: 23894,
+                totalItems: 26
             },
             {
                 id: 3,
@@ -46,6 +50,8 @@ const GetPurchase = () => {
                 supplier: "HealthMart Traders",
                 purchaseDate: "2025-04-05",
                 expiryDate: "2026-04-05",
+                netTotal: 23894,
+                totalItems: 89
             },
         ]);
     }, []);
@@ -54,7 +60,6 @@ const GetPurchase = () => {
     const fields = [
         { name: "supplier", label: "Supplier Name", type: "text", placeholder: "Enter supplier name" },
         { name: "purchaseDate", label: "Purchase Date", type: "date", placeholder: "Select purchase date" },
-        { name: "expiryDate", label: "Expiry Date", type: "date", placeholder: "Select expiry date" },
     ];
 
     // Modal Handlers
@@ -144,11 +149,10 @@ const GetPurchase = () => {
                 <table className="min-w-full border-collapse text-sm">
                     <thead className="bg-gray-100 text-gray-700">
                         <tr>
-                            <th className="p-3 text-left">Salt Name</th>
-                            <th className="p-3 text-left">Brand Name</th>
                             <th className="p-3 text-left">Supplier</th>
                             <th className="p-3 text-left">Purchase Date</th>
-                            <th className="p-3 text-left">Expiry Date</th>
+                            <th className="p-3 text-left">Total Items</th>
+                            <th className="p-3 text-left">Net Total</th>
                             <th className="p-3 text-center">Actions</th>
                         </tr>
                     </thead>
@@ -158,11 +162,10 @@ const GetPurchase = () => {
                                 key={purchase.id}
                                 className="hover:bg-gray-50 border-t border-gray-200 transition"
                             >
-                                <td className="p-3">{purchase.saltName}</td>
-                                <td className="p-3">{purchase.brandName}</td>
                                 <td className="p-3">{purchase.supplier}</td>
                                 <td className="p-3">{purchase.purchaseDate}</td>
-                                <td className="p-3">{purchase.expiryDate}</td>
+                                <td className="p-3">{purchase.totalItems}</td>
+                                <td className="p-3">{purchase.netTotal}</td>
                                 <td className="p-3 text-center flex justify-center items-center gap-5">
                                     <EditDelete
                                         handleOpenModal={handleOpenModal}
