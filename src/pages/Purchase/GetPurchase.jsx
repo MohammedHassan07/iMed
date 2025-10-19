@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 import ViewDetailsButton from "../../components/ViewDetailsButton";
 
-const GetPurchase = ({ onOpenPurchaseDetails }) => {
+const GetPurchase = () => {
     const [purchases, setPurchases] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [modalType, setModalType] = useState(""); // update or delete

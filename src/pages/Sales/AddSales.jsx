@@ -98,7 +98,7 @@ const AddSales = () => {
     return (
         <>
             {/* Patient Details */}
-            <div className="p-4 bg-gray-300 rounded-xl mb-4 border border-gray-200">
+            <div className="p-4 bg-gray-200 rounded-xl mb-4 border border-gray-200">
                 <div className="grid grid-cols-[2fr_10fr] items-center mb-4 border-b border-gray-300 pb-3">
                     <div>
                         <h2 className="text-lg font-semibold">Patient Details</h2>
