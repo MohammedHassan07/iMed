@@ -222,10 +222,19 @@ const Purchase = () => {
                                         <th className="py-2 px-3 text-left font-semibold">Brand</th>
                                         <th className="py-2 px-3 text-left font-semibold">Salt</th>
                                         <th className="py-2 px-3 text-center font-semibold">
-                                            Qty
+                                            Quantity
+                                        </th>
+                                        <th className="py-2 px-3 text-center font-semibold">
+                                            Batch Number
                                         </th>
                                         <th className="py-2 px-3 text-center font-semibold">
                                             Purchase Price
+                                        </th>
+                                        <th className="py-2 px-3 text-center font-semibold">
+                                            Selling Price
+                                        </th>
+                                        <th className="py-2 px-3 text-center font-semibold">
+                                            Expiry Date
                                         </th>
                                         <th className="py-2 px-3 text-center font-semibold">Tax</th>
                                         <th className="py-2 px-3 text-center font-semibold">
@@ -240,7 +249,7 @@ const Purchase = () => {
                                     {selectedItems.map((item) => (
                                         <tr key={item.id} className="hover:bg-gray-100">
                                             <td className="py-2 px-3 truncate">{item.brandName}</td>
-                                            <td className="py-2 px-3 truncate">{item.saltName}</td>
+                                            <td className="py-2 px-3 truncate w-32">{item.saltName}</td>
                                             <td className="py-2 px-3 text-center">
                                                 <input
                                                     type="number"
@@ -258,6 +267,20 @@ const Purchase = () => {
                                             </td>
                                             <td className="py-2 px-3 text-center">
                                                 <input
+                                                    type="text"
+                                                    value={item.batchNumber}
+                                                    placeholder="Batch Number"
+                                                    onChange={(e) =>
+                                                        handleInputChange(
+                                                            item.id,
+                                                            "batchNumber"
+                                                        )
+                                                    }
+                                                    className="border border-gray-300 p-1 rounded-md w-20 text-center"
+                                                />
+                                            </td>
+                                            <td className="py-2 px-3 text-center">
+                                                <input
                                                     type="number"
                                                     value={item.purchasePrice}
                                                     onChange={(e) =>
@@ -268,6 +291,36 @@ const Purchase = () => {
                                                         )
                                                     }
                                                     className="border border-gray-300 p-1 rounded-md w-24 text-center"
+                                                />
+                                            </td>
+
+                                            <td className="py-2 px-3 text-center">
+                                                <input
+                                                    type="number"
+                                                    value={item.sellingPrice}
+                                                    onChange={(e) =>
+                                                        handleInputChange(
+                                                            item.id,
+                                                            "sellingPrice",
+                                                            parseFloat(e.target.value)
+                                                        )
+                                                    }
+                                                    className="border border-gray-300 p-1 rounded-md w-24 text-center"
+                                                />
+                                            </td>
+
+                                            <td className="py-2 px-3 text-center">
+                                                <input
+                                                    type="date"
+                                                    value={item.expiryDate}
+                                                    onChange={(e) =>
+                                                        handleInputChange(
+                                                            item.id,
+                                                            "expiryDate",
+                                                            parseFloat(e.target.value)
+                                                        )
+                                                    }
+                                                    className="border border-gray-300 p-1 rounded-md w-32 text-center"
                                                 />
                                             </td>
                                             <td className="py-2 px-3 text-center">
