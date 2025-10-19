@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ArrowLeft, FileDown } from "lucide-react";
 import { useParams } from "react-router-dom";
+import ExportPDF from "../../components/ExportPDF";
 
 const PurchaseDetails = () => {
     const [purchaseData, setPurchaseData] = useState(null);
@@ -118,15 +118,12 @@ const PurchaseDetails = () => {
     return (
         <div className="p-6">
             {/* Header */}
-            <div className="flex justify-start items-center mb-6 gap-6">
+            <div className="flex justify-between items-center mb-6 gap-6">
 
                 <h2 className="text-2xl font-semibold text-gray-800">
                     Purchase Details
                 </h2>
-                <button className="cursor-pointer text-sm flex items-center gap-2 px-4 py-2 bg-blue-950 text-white rounded hover:bg-blue-900">
-                    <FileDown size={18} />
-                    Export PDF
-                </button>
+               <ExportPDF />
             </div>
 
             {/* Purchase Info */}

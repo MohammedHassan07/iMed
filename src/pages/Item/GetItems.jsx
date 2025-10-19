@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import EditDelete from "../../components/EditDelete";
 import DynamicForm from "../../components/DynamicForm";
 import DeleteModal from "../../components/DeleteMoodal";
+import Pagination from "../../components/Pagination";
 
 const GetItems = () => {
   const [items, setItems] = useState([]);
@@ -156,27 +157,9 @@ const GetItems = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-between items-center p-4">
-        <p className="text-sm text-gray-600">
-          Page {currentPage} of {totalPages}
-        </p>
-        <div className="space-x-2">
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage(currentPage - 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50 cursor-pointer"
-          >
-            Prev
-          </button>
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage(currentPage + 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50 cursor-pointer"
-          >
-            Next
-          </button>
-        </div>
-      </div>
+      <Pagination currentPage={currentPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage} />
 
       {/* Modal */}
       {showModal && (

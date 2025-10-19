@@ -3,6 +3,7 @@ import EditDelete from "../../components/EditDelete";
 import DynamicForm from "../../components/DynamicForm";
 import DeleteModal from "../../components/DeleteMoodal";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../components/Pagination";
 
 const GetPurchase = ({ onOpenPurchaseDetails }) => {
     const [purchases, setPurchases] = useState([]);
@@ -158,7 +159,7 @@ const GetPurchase = ({ onOpenPurchaseDetails }) => {
                                 <td className="p-3">{purchase.purchaseDate}</td>
                                 <td className="p-3">{purchase.expiryDate}</td>
                                 <td className="p-3 text-center flex justify-center items-center gap-3"
-                                onClick={(e) => e.stopPropagation()}>
+                                    onClick={(e) => e.stopPropagation()}>
                                     <EditDelete
                                         handleOpenModal={handleOpenModal}
                                         item={purchase}
@@ -172,27 +173,10 @@ const GetPurchase = ({ onOpenPurchaseDetails }) => {
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-between items-center p-4">
-                <p className="text-sm text-gray-600">
-                    Page {currentPage} of {totalPages || 1}
-                </p>
-                <div className="space-x-2">
-                    <button
-                        disabled={currentPage === 1}
-                        onClick={() => setCurrentPage(currentPage - 1)}
-                        className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
-                    >
-                        Prev
-                    </button>
-                    <button
-                        disabled={currentPage === totalPages}
-                        onClick={() => setCurrentPage(currentPage + 1)}
-                        className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
-                    >
-                        Next
-                    </button>
-                </div>
-            </div>
+            {/* Pagination */}
+            <Pagination currentPage={currentPage}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage} />
 
             {/* Modal */}
             {showModal && (

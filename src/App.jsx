@@ -3,7 +3,7 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home/Home'
 import AddItem from './pages/Item/AddItem'
 import GetItems from './pages/Item/GetItems'
-import purchase from './pages/Purchase/purchase'
+import Purchase from './pages/Purchase/Purchase'
 import GetSupplier from './pages/Suppliers/GetSupplier'
 import AddSupplier from './pages/Suppliers/AddSupplier'
 import AddTax from './pages/Tax/AddTax'
@@ -12,6 +12,7 @@ import AddSales from './pages/Sales/AddSales'
 import GetPurchase from './pages/Purchase/GetPurchase'
 import PurchaseDetails from './pages/Purchase/PurchaseDetails'
 import ReturnPurchase from './pages/Purchase/ReturnPurchase'
+import GetSales from './pages/Sales/GetSales'
 
 function App() {
 
@@ -26,13 +27,14 @@ function App() {
 
           {/* sales */}
           <Route path='/sales/add' Component={AddSales}/>
+          <Route path='/sales/' Component={GetSales}/>
 
           {/* item */}
           <Route path='/item/add' Component={AddItem} />
           <Route path='/item/' Component={GetItems} />
 
           {/* purchase */}
-          <Route path='/purchase/add' Component={purchase} />
+          <Route path='/purchase/add' Component={Purchase} />
           <Route path='/purchase/' Component={GetPurchase} />
           <Route path='/purchase/purchase-details/:id' Component={PurchaseDetails} />
           <Route path='/purchase/return-purchase' Component={ReturnPurchase} />

@@ -27,7 +27,7 @@ const MedicineSearch = ({ medicines, onSelectMedicine }) => {
       </div>
 
       {/* Medicine List */}
-      <div className="flex flex-wrap justify-start items-start gap-5 max-h-[450px] overflow-y-auto">
+      <div className="flex flex-wrap justify-start items-start gap-3 max-h-[450px] overflow-y-auto">
         {filteredMedicines.length > 0 ? (
           filteredMedicines.map((med) => (
             <MedicineCard

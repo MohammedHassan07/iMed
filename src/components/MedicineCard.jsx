@@ -1,35 +1,45 @@
 import React from 'react'
+import tablet from '../assets/tablet.jpg'
+import syrup from '../assets/syrup.jpg'
+import ointment from '../assets/ointment.jpg'
 
 const MedicineCard = ({ med, handleAddMedicine }) => {
+
+    const getImage = (imageType) => {
+        const imageSrc = {
+            tablet: tablet,
+            ointment: ointment,
+            syrup: syrup
+        }
+        return imageSrc[imageType] || tablet
+    }
+
     return (
-        <>
+        <button
+            key={med.id}
+            className="cursor-pointer border border-gray-300 rounded-lg overflow-hidden flex flex-col items-center justify-between w-32 bg-white shadow-sm hover:shadow-md transition relative"
+            onClick={() => handleAddMedicine(med)}
+        >
+            {/* Quantity */}
+            <span className="bg-blue-950 text-white border-b border-r border-gray-200 rounded-lg text-xs px-2 py-1 absolute top-0 left-0">
+                230
+            </span>
 
-            {/* card */}
-            <button key={med.id} className='cursor-pointer border-1 border-gray-400 rounded-lg relative w-30  flex flex-col items-center justify-center '
-                onClick={() => handleAddMedicine(med)}
-            >
+            {/* Image Section */}
+            <div className="w-full h-32 flex items-center justify-center bg-gray-50">
+                <img
+                    src={getImage(med.productForm)}
+                    alt={med.brandName}
+                    className="object-cover w-full h-full"
+                />
+            </div>
 
-                {/* quantity */}
-                <span className='bg-blue-950 text-white rounded-lg text-xs p-1 absolute -top-0.5 left-0'>230</span>
-
-                {/* image */}
-                <div className='border-b-1 border-b-gray-300 w-full h-[50%] p-3 flex items-center justify-center'>
-                    <img
-                        src={med.image}
-                        alt={med.brandName}
-                        className=' '
-                    />
-                </div>
-
-                <div className='flex flex-col justify-start items-center w-full px-2 mt-1'>
-
-                    <span className='text-sm text-blue-950 w-full'>{med.brandName}</span>
-                    <span className='text-xs text-gray-600 w-full'>{med.saltName}</span>
-                </div>
-
-            </button>
-
-        </>
+            {/* Text Section */}
+            <div className="flex flex-col justify-start items-start w-full px-2 py-2">
+                <span className="text-sm font-medium text-blue-950">{med.brandName}</span>
+                <span className="text-xs text-gray-600">{med.saltName}</span>
+            </div>
+        </button>
     )
 }
 
