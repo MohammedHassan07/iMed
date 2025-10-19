@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Eye, Search, Calendar } from "lucide-react";
 import SalesDetails from "./SalesDetails";
 import Pagination from "../../components/Pagination";
+import { useNavigate } from "react-router-dom";
+import ViewDetailsButton from "../../components/ViewDetailsButton";
 
 const GetSales = () => {
     const [selectedSale, setSelectedSale] = useState(null);
@@ -9,6 +11,7 @@ const GetSales = () => {
     const [dateRange, setDateRange] = useState({ start: "", end: "" });
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 20;
+    const navigate = useNavigate()
 
     const [sales] = useState([
         {
@@ -18,6 +21,22 @@ const GetSales = () => {
             date: "2025-02-15",
             paymentMode: "Cash",
             totalAmount: 1250,
+            salesItem: [
+                {
+                    id: 1,
+                    saltName: "Paracetamol",
+                    brandName: "Calpol 500",
+                    quantity: 2,
+                    price: 50,
+                },
+                {
+                    id: 2,
+                    saltName: "Cetrizine",
+                    brandName: "Okacet",
+                    quantity: 1,
+                    price: 25,
+                },
+            ]
         },
         {
             id: 2,
@@ -26,6 +45,22 @@ const GetSales = () => {
             date: "2025-02-16",
             paymentMode: "UPI",
             totalAmount: 875,
+            salesItem: [
+                {
+                    id: 1,
+                    saltName: "Paracetamol",
+                    brandName: "Calpol 500",
+                    quantity: 2,
+                    price: 50,
+                },
+                {
+                    id: 2,
+                    saltName: "Cetrizine",
+                    brandName: "Okacet",
+                    quantity: 1,
+                    price: 25,
+                },
+            ]
         },
         {
             id: 3,
@@ -34,6 +69,22 @@ const GetSales = () => {
             date: "2025-02-17",
             paymentMode: "Card",
             totalAmount: 2310,
+            salesItem: [
+                {
+                    id: 1,
+                    saltName: "Paracetamol",
+                    brandName: "Calpol 500",
+                    quantity: 2,
+                    price: 50,
+                },
+                {
+                    id: 2,
+                    saltName: "Cetrizine",
+                    brandName: "Okacet",
+                    quantity: 1,
+                    price: 25,
+                },
+            ]
         },
         {
             id: 4,
@@ -42,6 +93,22 @@ const GetSales = () => {
             date: "2025-02-18",
             paymentMode: "Cash",
             totalAmount: 1900,
+            salesItem: [
+                {
+                    id: 1,
+                    saltName: "Paracetamol",
+                    brandName: "Calpol 500",
+                    quantity: 2,
+                    price: 50,
+                },
+                {
+                    id: 2,
+                    saltName: "Cetrizine",
+                    brandName: "Okacet",
+                    quantity: 1,
+                    price: 25,
+                },
+            ]
         },
         {
             id: 5,
@@ -50,6 +117,22 @@ const GetSales = () => {
             date: "2025-02-18",
             paymentMode: "UPI",
             totalAmount: 2300,
+            salesItem: [
+                {
+                    id: 1,
+                    saltName: "Paracetamol",
+                    brandName: "Calpol 500",
+                    quantity: 2,
+                    price: 50,
+                },
+                {
+                    id: 2,
+                    saltName: "Cetrizine",
+                    brandName: "Okacet",
+                    quantity: 1,
+                    price: 25,
+                },
+            ]
         },
         {
             id: 6,
@@ -58,6 +141,142 @@ const GetSales = () => {
             date: "2025-02-19",
             paymentMode: "Card",
             totalAmount: 1575,
+            salesItem: [
+                {
+                    id: 1,
+                    saltName: "Paracetamol",
+                    brandName: "Calpol 500",
+                    quantity: 2,
+                    price: 50,
+                },
+                {
+                    id: 2,
+                    saltName: "Cetrizine",
+                    brandName: "Okacet",
+                    quantity: 1,
+                    price: 25,
+                },
+            ]
+        },
+        {
+            id: 7,
+            invoiceNumber: "INV-1006",
+            customerName: "Ginny Weasley",
+            date: "2025-02-19",
+            paymentMode: "Card",
+            totalAmount: 1575,
+            salesItem: [
+                {
+                    id: 1,
+                    saltName: "Paracetamol",
+                    brandName: "Calpol 500",
+                    quantity: 2,
+                    price: 50,
+                },
+                {
+                    id: 2,
+                    saltName: "Cetrizine",
+                    brandName: "Okacet",
+                    quantity: 1,
+                    price: 25,
+                },
+            ]
+        },
+        {
+            id: 8,
+            invoiceNumber: "INV-1006",
+            customerName: "Ginny Weasley",
+            date: "2025-02-19",
+            paymentMode: "Card",
+            totalAmount: 1575,
+            salesItem: [
+                {
+                    id: 1,
+                    saltName: "Paracetamol",
+                    brandName: "Calpol 500",
+                    quantity: 2,
+                    price: 50,
+                },
+                {
+                    id: 2,
+                    saltName: "Cetrizine",
+                    brandName: "Okacet",
+                    quantity: 1,
+                    price: 25,
+                },
+            ]
+        },
+        {
+            id: 9,
+            invoiceNumber: "INV-1006",
+            customerName: "Ginny Weasley",
+            date: "2025-02-19",
+            paymentMode: "Card",
+            totalAmount: 1575,
+            salesItem: [
+                {
+                    id: 1,
+                    saltName: "Paracetamol",
+                    brandName: "Calpol 500",
+                    quantity: 2,
+                    price: 50,
+                },
+                {
+                    id: 2,
+                    saltName: "Cetrizine",
+                    brandName: "Okacet",
+                    quantity: 1,
+                    price: 25,
+                },
+            ]
+        },
+        {
+            id: 10,
+            invoiceNumber: "INV-1006",
+            customerName: "Ginny Weasley",
+            date: "2025-02-19",
+            paymentMode: "Card",
+            totalAmount: 1575,
+            salesItem: [
+                {
+                    id: 1,
+                    saltName: "Paracetamol",
+                    brandName: "Calpol 500",
+                    quantity: 2,
+                    price: 50,
+                },
+                {
+                    id: 2,
+                    saltName: "Cetrizine",
+                    brandName: "Okacet",
+                    quantity: 1,
+                    price: 25,
+                },
+            ]
+        },
+        {
+            id: 11,
+            invoiceNumber: "INV-1006",
+            customerName: "Ginny Weasley",
+            date: "2025-02-19",
+            paymentMode: "Card",
+            totalAmount: 1575,
+            salesItem: [
+                {
+                    id: 1,
+                    saltName: "Paracetamol",
+                    brandName: "Calpol 500",
+                    quantity: 2,
+                    price: 50,
+                },
+                {
+                    id: 2,
+                    saltName: "Cetrizine",
+                    brandName: "Okacet",
+                    quantity: 1,
+                    price: 25,
+                },
+            ]
         },
     ]);
 
@@ -89,51 +308,63 @@ const GetSales = () => {
         );
     }
 
+    const hadnleDetailClick = (salesData) => {
+
+        navigate('/sales/sales-details', { state: salesData })
+    }
+
     return (
-        <div className="p-6">
-            <h2 className="text-2xl font-semibold mb-5 text-gray-800">
-                Sales Records
-            </h2>
+        <div className="p-6 ">
+            <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-semibold mb-5 text-gray-800">
+                    Sales Records
+                </h2>
 
-            {/* Filters */}
-            <div className="flex flex-wrap gap-3 mb-5 items-end">
-                <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm">
-                    <Search className="text-gray-500 mr-2" size={18} />
-                    <input
-                        type="text"
-                        placeholder="Search Customer..."
-                        className="outline-none"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                </div>
+                {/* Filters */}
+                <div className="flex flex-wrap gap-3 mb-5 items-end">
+                    <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm">
+                        <Search className="text-gray-500 mr-2" size={18} />
+                        <input
+                            type="text"
+                            placeholder="Search Customer..."
+                            className="outline-none"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
 
-                <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm">
-                    <Calendar className="text-gray-500 mr-2" size={18} />
-                    <input
-                        type="date"
-                        className="outline-none"
-                        value={dateRange.start}
-                        onChange={(e) =>
-                            setDateRange({ ...dateRange, start: e.target.value })
-                        }
-                    />
-                </div>
+                    <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm">
+                        <Calendar className="text-gray-500 mr-2" size={18} />
+                        <input
+                            type="date"
+                            className="outline-none"
+                            value={dateRange.start}
+                            onChange={(e) =>
+                                setDateRange({ ...dateRange, start: e.target.value })
+                            }
+                        />
+                    </div>
 
-                <span className="text-gray-500">to</span>
+                    <span className="text-gray-500">to</span>
 
-                <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm">
-                    <Calendar className="text-gray-500 mr-2" size={18} />
-                    <input
-                        type="date"
-                        className="outline-none"
-                        value={dateRange.end}
-                        onChange={(e) =>
-                            setDateRange({ ...dateRange, end: e.target.value })
-                        }
-                    />
+                    <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm">
+                        <Calendar className="text-gray-500 mr-2" size={18} />
+                        <input
+                            type="date"
+                            className="outline-none"
+                            value={dateRange.end}
+                            onChange={(e) =>
+                                setDateRange({ ...dateRange, end: e.target.value })
+                            }
+                        />
+                    </div>
                 </div>
             </div>
+
+            {/* Pagination */}
+            <Pagination currentPage={currentPage}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage} />
 
             {/* Sales Table */}
             <div className="overflow-x-auto overflow-y-auto h-[80vh] bg-white shadow-md rounded-lg border border-gray-200">
@@ -152,19 +383,15 @@ const GetSales = () => {
                         {currentSales.map((sale) => (
                             <tr
                                 key={sale.id}
-                                className="border-t hover:bg-gray-50 cursor-pointer"
-                                onClick={() => setSelectedSale(sale)}
-                            >
+                                className="border-t hover:bg-gray-50 cursor-pointer">
                                 <td className="p-3">{sale.invoiceNumber}</td>
                                 <td className="p-3">{sale.customerName}</td>
                                 <td className="p-3">{sale.date}</td>
                                 <td className="p-3 text-left">{sale.paymentMode}</td>
                                 <td className="p-3 text-left">{sale.totalAmount}</td>
-                                <td className="p-3 text-center">
-                                    <buttton className="flex items-center justify-center">
+                                <td className="p-3 text-right flex items-center justify-center">
 
-                                        <Eye size={18} className="text-blue-600" />
-                                    </buttton>
+                                    <ViewDetailsButton hadnleDetailClick={hadnleDetailClick} data={sale} />
                                 </td>
                             </tr>
                         ))}
@@ -182,11 +409,6 @@ const GetSales = () => {
                     </tbody>
                 </table>
             </div>
-
-            {/* Pagination */}
-            <Pagination currentPage={currentPage}
-                totalPages={totalPages}
-                setCurrentPage={setCurrentPage} />
         </div>
     );
 };

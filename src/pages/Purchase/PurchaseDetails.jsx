@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import ExportPDF from "../../components/ExportPDF";
+import { useLocation, useNavigate } from "react-router-dom";
+import BackButton from '../../components/BackButton'
 
 const PurchaseDetails = () => {
     const [purchaseData, setPurchaseData] = useState(null);
-    const params = useParams()
-    console.log(params.id)
+    const navigate = useNavigate()
+    const location = useLocation()
+    const purchase = location.state
 
     // Dummy Data Simulation
     useEffect(() => {
 
         // Simulate fetching detailed purchase data
         setPurchaseData({
-            id: params.id,
-            invoiceNumber: `INV-${"selectedPurchase.id.toString().padStart(4)"}`,
-            supplier: "selectedPurchase.supplier",
+            id: purchase.id,
+            invoiceNumber: 'INV-90385',
+            supplier: purchase.supplier,
             purchaseDate: "selectedPurchase.purchaseDate",
             entryDate: "2025-02-16",
             paymentMode: "Cash",
@@ -123,7 +125,12 @@ const PurchaseDetails = () => {
                 <h2 className="text-2xl font-semibold text-gray-800">
                     Purchase Details
                 </h2>
-               <ExportPDF />
+
+                <div className="flex items-center justify-center gap-5">
+
+                    <BackButton url={'/purchase/'} />
+                    <ExportPDF />
+                </div>
             </div>
 
             {/* Purchase Info */}

@@ -13,6 +13,7 @@ import GetPurchase from './pages/Purchase/GetPurchase'
 import PurchaseDetails from './pages/Purchase/PurchaseDetails'
 import ReturnPurchase from './pages/Purchase/ReturnPurchase'
 import GetSales from './pages/Sales/GetSales'
+import SalesDetails from './pages/Sales/SalesDetails'
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           {/* sales */}
           <Route path='/sales/add' Component={AddSales}/>
           <Route path='/sales/' Component={GetSales}/>
+          <Route path='/sales/sales-details' Component={SalesDetails}/>
 
           {/* item */}
           <Route path='/item/add' Component={AddItem} />
@@ -36,7 +38,7 @@ function App() {
           {/* purchase */}
           <Route path='/purchase/add' Component={Purchase} />
           <Route path='/purchase/' Component={GetPurchase} />
-          <Route path='/purchase/purchase-details/:id' Component={PurchaseDetails} />
+          <Route path='/purchase/purchase-details/' Component={PurchaseDetails} />
           <Route path='/purchase/return-purchase' Component={ReturnPurchase} />
 
           {/* Tax */}

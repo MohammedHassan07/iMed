@@ -4,6 +4,7 @@ import DynamicForm from "../../components/DynamicForm";
 import DeleteModal from "../../components/DeleteMoodal";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination";
+import ViewDetailsButton from "../../components/ViewDetailsButton";
 
 const GetPurchase = ({ onOpenPurchaseDetails }) => {
     const [purchases, setPurchases] = useState([]);
@@ -114,9 +115,9 @@ const GetPurchase = ({ onOpenPurchaseDetails }) => {
             p.supplier.toLowerCase().includes(search.toLowerCase())
     );
 
-    const handlePurchaseDetails = (purchaseId) => {
-        event.preventDefault()
-        navigate(`/purchase/purchase-details/${purchaseId}`)
+    const handlePurchaseDetails = (purchaseData) => {
+
+        navigate('/purchase/purchase-details/', { state: purchaseData })
     }
 
     return (
@@ -132,6 +133,11 @@ const GetPurchase = ({ onOpenPurchaseDetails }) => {
                     />
                 </div>
             </div>
+
+            {/* Pagination */}
+            <Pagination currentPage={currentPage}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage} />
 
             {/* Table */}
             <div className="overflow-x-auto bg-white mt-5 rounded-lg border border-gray-300">
@@ -151,32 +157,27 @@ const GetPurchase = ({ onOpenPurchaseDetails }) => {
                             <tr
                                 key={purchase.id}
                                 className="hover:bg-gray-50 border-t border-gray-200 transition"
-                                onClick={() => handlePurchaseDetails(purchase.id)}
                             >
                                 <td className="p-3">{purchase.saltName}</td>
                                 <td className="p-3">{purchase.brandName}</td>
                                 <td className="p-3">{purchase.supplier}</td>
                                 <td className="p-3">{purchase.purchaseDate}</td>
                                 <td className="p-3">{purchase.expiryDate}</td>
-                                <td className="p-3 text-center flex justify-center items-center gap-3"
-                                    onClick={(e) => e.stopPropagation()}>
+                                <td className="p-3 text-center flex justify-center items-center gap-5">
                                     <EditDelete
                                         handleOpenModal={handleOpenModal}
                                         item={purchase}
                                         isDelete={false}
                                     />
+
+                                    <ViewDetailsButton hadnleDetailClick={handlePurchaseDetails} data={purchase} />
+
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-
-            {/* Pagination */}
-            {/* Pagination */}
-            <Pagination currentPage={currentPage}
-                totalPages={totalPages}
-                setCurrentPage={setCurrentPage} />
 
             {/* Modal */}
             {showModal && (

@@ -1,43 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { ArrowLeft, FileDown, RotateCcw } from "lucide-react";
 import ExportPDF from "../../components/ExportPDF";
+import { useLocation, useNavigate } from "react-router-dom";
+import BackButton from "../../components/BackButton";
 // import jsPDF from "jspdf";
 // import "jspdf-autotable";
 
-const SalesDetails = ({ selectedSale, onBack }) => {
+const SalesDetails = () => {
     const [saleData, setSaleData] = useState(null);
+    const location = useLocation()
+    const salesData = location.state
+    const navigate = useNavigate()
 
     useEffect(() => {
-        if (selectedSale) {
-            // Simulate fetching sale details
-            setSaleData({
-                id: selectedSale.id,
-                invoiceNumber: selectedSale.invoiceNumber,
-                customerName: selectedSale.customerName,
-                saleDate: selectedSale.date,
-                paymentMode: selectedSale.paymentMode,
-                addedBy: "Cashier A",
-                discountPercent: 10,
-                taxPercent: 5,
-                items: [
-                    {
-                        id: 1,
-                        saltName: "Paracetamol",
-                        brandName: "Calpol 500",
-                        quantity: 2,
-                        price: 50,
-                    },
-                    {
-                        id: 2,
-                        saltName: "Cetrizine",
-                        brandName: "Okacet",
-                        quantity: 1,
-                        price: 25,
-                    },
-                ],
-            });
-        }
-    }, [selectedSale]);
+
+        setSaleData({
+            id: salesData.id,
+            invoiceNumber: salesData.invoiceNumber,
+            customerName: salesData.customerName,
+            saleDate: salesData.date,
+            paymentMode: salesData.paymentMode,
+            addedBy: "Cashier A",
+            discountPercent: 10,
+            taxPercent: 5,
+            items: salesData.salesItem
+        });
+
+    }, []);
 
     if (!saleData)
         return (
@@ -73,7 +62,7 @@ const SalesDetails = ({ selectedSale, onBack }) => {
         doc.text(`Net Total: ₹${netTotal.toFixed(2)}`, 14, doc.lastAutoTable.finalY + 10);
         doc.save(`${saleData.invoiceNumber}.pdf`);
     };
-
+    
     return (
         <div className="p-6">
             {/* Header */}
@@ -83,13 +72,7 @@ const SalesDetails = ({ selectedSale, onBack }) => {
 
                 <div className="flex gap-2">
 
-                    <button
-                        onClick={onBack}
-                        className=" cursor-pointer flex items-center gap-2 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                    >
-                        <ArrowLeft size={18} />
-                        Back
-                    </button>
+                   <BackButton url={'/sales/'}/>
                     <ExportPDF />
 
                     <button
