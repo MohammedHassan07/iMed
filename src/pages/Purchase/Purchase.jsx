@@ -22,6 +22,7 @@ const Purchase = () => {
             availableQty: 50,
             purchasePrice: 12,
             sellingPrice: 20,
+            packageQuantity: 10
         },
         {
             id: 2,
@@ -31,6 +32,7 @@ const Purchase = () => {
             availableQty: 30,
             purchasePrice: 18,
             sellingPrice: 28,
+            packageQuantity: 50
         },
         {
             id: 3,
@@ -40,6 +42,7 @@ const Purchase = () => {
             availableQty: 40,
             purchasePrice: 8,
             sellingPrice: 15,
+            packageQuantity: 20
         },
     ]);
 
@@ -118,7 +121,7 @@ const Purchase = () => {
     };
 
     const getItemProfit = (item) => {
-        const sellingPrice = item.sellingPrice
+        const sellingPrice = item.sellingPrice * item.packageQuantity // TODO: multiply with package qunatity
         const purchasePrice = item.purchasePrice
         const profit = (sellingPrice - purchasePrice) * item.quantity
         return profit
@@ -220,36 +223,34 @@ const Purchase = () => {
 
                 <div className="min-w-0 w-full bg-gray-50 rounded-xl p-4 border border-gray-300">
 
-                    <div className="flex items-center justify-start space-x-4">
-                        <div className="flex flex-col">
-                            <label htmlFor="">Purchase date</label>
-                            <input
-                                className="border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950 transition-all duration-100"
-                                type="date"
-                                placeholder="Purchase Date"
-                            />
-                        </div>
-                        <div className="flex flex-col">
-                            <label htmlFor="">Notes</label>
-                            <input
-                                type="text"
-                                className="outline-0 border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950"
-                                rows="2"
-                                placeholder="Enter Notes"
-                            />
-                        </div>
-                    </div>
-
-
                     {selectedItems.length === 0 ? (
-                        <p className="text-gray-500 text-center mt-5">No medicines added yet.</p>
+                        <p className="text-gray-500 text-center ">No medicines added yet.</p>
                     ) : (
-                        <div className="overflow-x-auto max-h-[400px] overflow-y-auto rounded-lg mt-5">
-                            <table className="min-w-full border border-gray-200 text-sm table-fixed">
+                        <div className="overflow-x-auto max-h-[400px] overflow-y-auto rounded-lg">
+                            <div className="flex items-center justify-start space-x-4">
+                                <div className="flex flex-col">
+                                    <label htmlFor="">Purchase date</label>
+                                    <input
+                                        className="border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950 transition-all duration-100"
+                                        type="date"
+                                        placeholder="Purchase Date"
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label htmlFor="">Notes</label>
+                                    <input
+                                        type="text"
+                                        className="outline-0 border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950"
+                                        rows="2"
+                                        placeholder="Enter Notes"
+                                    />
+                                </div>
+                            </div>
+                            <table className="min-w-full border border-gray-200 text-sm table-fixed mt-5">
                                 <thead className="bg-gray-200 text-gray-700">
                                     <tr>
-                                        <th className="py-2 px-3 text-left font-semibold">Brand</th>
-                                        <th className="py-2 px-3 text-left font-semibold">Salt</th>
+                                        <th className="py-2 px-3 text-left font-semibold">Brand Name</th>
+                                        <th className="py-2 px-3 text-left font-semibold">Salt Name</th>
                                         <th className="py-2 px-3 text-center font-semibold">
                                             Quantity
                                         </th>
@@ -281,7 +282,14 @@ const Purchase = () => {
                                     {selectedItems.map((item) => (
                                         <tr key={item.id} className="hover:bg-gray-100">
                                             <td className="py-2 px-3 truncate">{item.brandName}</td>
-                                            <td className="py-2 px-3 truncate w-32">{item.saltName}</td>
+                                            <td className="py-2 px-3 truncate w-32 flex flex-col justify-center ">
+                                                <span className="">
+                                                    {item.saltName}
+                                                </span>
+                                                <span className="text-xs ">
+                                                    ({item.packageQuantity})
+                                                </span>
+                                            </td>
                                             <td className="py-2 px-3 text-center">
                                                 <input
                                                     type="number"
