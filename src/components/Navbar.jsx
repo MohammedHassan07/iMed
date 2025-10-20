@@ -51,7 +51,7 @@ const Navbar = () => {
       name: "Inventory",
       submenu: [
         { name: "Add Inventory", path: "/inventory/add" },
-        { name: "Get Inventory", path: "/inventory/get" },
+        { name: "Get Inventory", path: "/inventory/" },
       ],
     },
     {
