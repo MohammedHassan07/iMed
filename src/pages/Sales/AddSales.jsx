@@ -8,6 +8,9 @@ const AddSales = () => {
     const [searchPatient, setSearchPatient] = useState("");
     const [filteredPatients, setFilteredPatients] = useState([]);
     const [selectedPatient, setSelectedPatient] = useState(null);
+    const [deliveryCharge, setDeliveryCharge] = useState(0)
+    const [discount, setDiscount] = useState(0);
+    const [discountType, setDiscountType] = useState("percentage");
 
     const patients = [
         { id: 1, name: "Harry Potter", age: 17, gender: "Male", contact: "9876543210", address: "Godric's Hollow" },
@@ -35,28 +38,39 @@ const AddSales = () => {
             id: 1,
             saltName: "Paracetamol",
             brandName: "Calpol 500",
-            image: "https://cdn-icons-png.flaticon.com/512/2966/2966486.png",
+            productForm: "tablet",
             availableQty: 50,
+            purchasePrice: 12,
             sellingPrice: 20,
+            packageQuantity: 10,
+            batchNumber: 'BTC-97452',
+            quantity: 20
         },
         {
             id: 2,
             saltName: "Amoxicillin",
-            brandName: "Mox 250",
-            image: "https://cdn-icons-png.flaticon.com/512/2947/2947374.png",
-            availableQty: 35,
-            sellingPrice: 35,
+            brandName: "Amoxil 250",
+            productForm: "capsule",
+            availableQty: 30,
+            purchasePrice: 18,
+            sellingPrice: 28,
+            packageQuantity: 50,
+            batchNumber: 'BTC-12452',
+            quantity: 210
         },
         {
             id: 3,
             saltName: "Cetirizine",
             brandName: "Cetzine",
-            image: "https://cdn-icons-png.flaticon.com/512/3209/3209265.png",
-            availableQty: 75,
+            productForm: "tablet",
+            availableQty: 40,
+            purchasePrice: 8,
             sellingPrice: 15,
+            packageQuantity: 20,
+            batchNumber: 'BTC-1287',
+            quantity: 26
         },
     ]);
-
 
     const handlePatientChange = (e) => {
         setPatient({ ...patient, [e.target.name]: e.target.value });
@@ -88,12 +102,18 @@ const AddSales = () => {
     };
 
     // Billing Calculations
-    const subTotal = selectedItems.reduce(
+    let subTotal = selectedItems.reduce(
         (acc, cur) => acc + cur.sellingPrice * cur.quantity,
         0
     );
-    const tax = subTotal * 0.05;
-    const netTotal = subTotal + tax;
+
+    const discountValue = Number(discount) || 0;
+    const discountAmount =
+        discountType === "percentage"
+            ? (subTotal * discountValue) / 100
+            : discountValue;
+
+    const netTotal = subTotal + Number(deliveryCharge) - discountAmount;
 
     return (
         <>
@@ -205,7 +225,14 @@ const AddSales = () => {
                                         {selectedItems.map((item) => (
                                             <tr key={item.id} className="hover:bg-gray-100">
                                                 <td className="py-2 px-3">{item.brandName}</td>
-                                                <td className="py-2 px-3 text-gray-600 text-xs">{item.saltName}</td>
+                                                <td className="py-2 px-3 truncate w-32 flex flex-col justify-center ">
+                                                    <span className="">
+                                                        {item.saltName}
+                                                    </span>
+                                                    <span className="text-xs ">
+                                                        ({item.packageQuantity})
+                                                    </span>
+                                                </td>
                                                 <td className="py-2 px-3 text-center">
                                                     <input
                                                         type="number"
@@ -263,8 +290,37 @@ const AddSales = () => {
                                 <span>₹{subTotal.toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between mb-2">
-                                <span className="font-medium">Tax (5%)</span>
-                                <span>₹{tax.toFixed(2)}</span>
+                                <div className="flex flex-col">
+                                    <label htmlFor="">Delivery charge</label>
+                                    <input
+                                        type="number"
+                                        value={deliveryCharge}
+                                        onChange={(e) => setDeliveryCharge(e.target.value)}
+                                        className="outline-0 border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950"
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="font-medium">Discount:</span>
+                                <div className="flex items-center gap-2">
+
+                                    <select
+                                        value={discountType}
+                                        onChange={(e) => setDiscountType(e.target.value)}
+                                        className="border border-gray-300 p-2 rounded-md w-35 text-center"
+                                    >
+                                        <option value="percentage">Percentage (%)</option>
+                                        <option value="fixed">Fixed (₹)</option>
+                                    </select>
+
+                                    <input
+                                        type="number"
+                                        value={discount}
+                                        onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
+                                        className="border border-gray-300 p-1 rounded-md w-20 text-right"
+                                    />
+
+                                </div>
                             </div>
                             <div className="flex justify-between text-lg font-semibold mb-4">
                                 <span>Net Total</span>

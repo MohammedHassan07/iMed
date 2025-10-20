@@ -1,7 +1,7 @@
 import React from 'react'
-import tablet from '../assets/tablet.jpg'
+import tablet from '../assets/tablet.png'
 import syrup from '../assets/syrup.jpg'
-import ointment from '../assets/ointment.jpg'
+import ointment from '../assets/ointment.png'
 
 const MedicineCard = ({ med, handleAddMedicine }) => {
 

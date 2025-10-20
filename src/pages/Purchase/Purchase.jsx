@@ -406,8 +406,6 @@ const Purchase = () => {
                     {/* Billing Section */}
                     {selectedItems.length > 0 && (
                         <div className="mt-6 border-t pt-4 space-y-3">
-
-
                             <div className="mt-6 border-t pt-4 space-y-3">
                                 <div className="flex justify-between items-center">
                                     <span className="font-medium">Subtotal:</span>

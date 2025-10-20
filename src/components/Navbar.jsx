@@ -28,8 +28,8 @@ const Navbar = () => {
       name: "Sales",
       submenu: [
         { name: "Add Sales", path: "/sales/add" },
-        { name: "Return Sales", path: "/sales/return" },
         { name: "Get Sales", path: "/sales/" },
+        { name: "Return sales", path: "/sales/return-sales" },
       ],
     },
     {
