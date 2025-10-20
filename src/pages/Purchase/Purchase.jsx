@@ -219,10 +219,32 @@ const Purchase = () => {
             <div className="grid grid-cols-[8fr_4fr] p-3 gap-3">
 
                 <div className="min-w-0 w-full bg-gray-50 rounded-xl p-4 border border-gray-300">
+
+                    <div className="flex items-center justify-start space-x-4">
+                        <div className="flex flex-col">
+                            <label htmlFor="">Purchase date</label>
+                            <input
+                                className="border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950 transition-all duration-100"
+                                type="date"
+                                placeholder="Purchase Date"
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label htmlFor="">Notes</label>
+                            <input
+                                type="text"
+                                className="outline-0 border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950"
+                                rows="2"
+                                placeholder="Enter Notes"
+                            />
+                        </div>
+                    </div>
+
+
                     {selectedItems.length === 0 ? (
-                        <p className="text-gray-500 text-center">No medicines added yet.</p>
+                        <p className="text-gray-500 text-center mt-5">No medicines added yet.</p>
                     ) : (
-                        <div className="overflow-x-auto max-h-[400px] overflow-y-auto rounded-lg">
+                        <div className="overflow-x-auto max-h-[400px] overflow-y-auto rounded-lg mt-5">
                             <table className="min-w-full border border-gray-200 text-sm table-fixed">
                                 <thead className="bg-gray-200 text-gray-700">
                                     <tr>
