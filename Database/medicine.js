@@ -3,12 +3,35 @@ import { PrismaClient } from '../prisma/generated/prisma/index.js'
 
 export const prisma = new PrismaClient();
 
-// Example usage
-export async function createMedicine(name, email) {
+// add medicine
+export async function createMedicine(data) {
 
-    return await prisma.medicine.create({
-        data: { saltName: 'citrazine', brandName: 'dolo', },
-    });
+    try {
+
+        console.log(data.packageQuantity, typeof data.packageQuantity)
+        const medicine = {
+
+            saltName: data.saltName,
+            brandName: data.brandName,
+            manufacturer: data.manufacturer,
+            packageQuantity: Number(data.packageQuantity),
+            productForm: data.productForm,
+            minQuantityAlert: Number(data.minQuantityAlert),
+            storageCondition: data.storageCondition,
+            boxNumber: Number(data.boxNumber),
+            description: data.description
+        }
+        const result = await prisma.medicine.create({ data: medicine })
+
+        if (!result) {
+            return { status: 'failed', message: 'something went wrong !!!' }
+        }
+        return { status: 'success', message: 'Medicine added', result }
+
+    } catch (error) {
+        console.log(error)
+        return { status: 'failed', message: 'something went wrong !!!' , error}
+    }
 }
 
 export async function getMedicine() {

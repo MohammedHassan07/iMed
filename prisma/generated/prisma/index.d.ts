@@ -874,62 +874,122 @@ export namespace Prisma {
 
   export type MedicineAvgAggregateOutputType = {
     id: number | null
+    packageQuantity: number | null
+    minQuantityAlert: number | null
+    boxNumber: number | null
   }
 
   export type MedicineSumAggregateOutputType = {
     id: number | null
+    packageQuantity: number | null
+    minQuantityAlert: number | null
+    boxNumber: number | null
   }
 
   export type MedicineMinAggregateOutputType = {
     id: number | null
     saltName: string | null
     brandName: string | null
+    manufacturer: string | null
+    packageQuantity: number | null
+    productForm: string | null
+    minQuantityAlert: number | null
+    storageCondition: string | null
+    boxNumber: number | null
+    description: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type MedicineMaxAggregateOutputType = {
     id: number | null
     saltName: string | null
     brandName: string | null
+    manufacturer: string | null
+    packageQuantity: number | null
+    productForm: string | null
+    minQuantityAlert: number | null
+    storageCondition: string | null
+    boxNumber: number | null
+    description: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type MedicineCountAggregateOutputType = {
     id: number
     saltName: number
     brandName: number
+    manufacturer: number
+    packageQuantity: number
+    productForm: number
+    minQuantityAlert: number
+    storageCondition: number
+    boxNumber: number
+    description: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type MedicineAvgAggregateInputType = {
     id?: true
+    packageQuantity?: true
+    minQuantityAlert?: true
+    boxNumber?: true
   }
 
   export type MedicineSumAggregateInputType = {
     id?: true
+    packageQuantity?: true
+    minQuantityAlert?: true
+    boxNumber?: true
   }
 
   export type MedicineMinAggregateInputType = {
     id?: true
     saltName?: true
     brandName?: true
+    manufacturer?: true
+    packageQuantity?: true
+    productForm?: true
+    minQuantityAlert?: true
+    storageCondition?: true
+    boxNumber?: true
+    description?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type MedicineMaxAggregateInputType = {
     id?: true
     saltName?: true
     brandName?: true
+    manufacturer?: true
+    packageQuantity?: true
+    productForm?: true
+    minQuantityAlert?: true
+    storageCondition?: true
+    boxNumber?: true
+    description?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type MedicineCountAggregateInputType = {
     id?: true
     saltName?: true
     brandName?: true
+    manufacturer?: true
+    packageQuantity?: true
+    productForm?: true
+    minQuantityAlert?: true
+    storageCondition?: true
+    boxNumber?: true
+    description?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -1023,7 +1083,15 @@ export namespace Prisma {
     id: number
     saltName: string
     brandName: string
+    manufacturer: string
+    packageQuantity: number
+    productForm: string
+    minQuantityAlert: number
+    storageCondition: string
+    boxNumber: number | null
+    description: string | null
     createdAt: Date
+    updatedAt: Date
     _count: MedicineCountAggregateOutputType | null
     _avg: MedicineAvgAggregateOutputType | null
     _sum: MedicineSumAggregateOutputType | null
@@ -1049,31 +1117,63 @@ export namespace Prisma {
     id?: boolean
     saltName?: boolean
     brandName?: boolean
+    manufacturer?: boolean
+    packageQuantity?: boolean
+    productForm?: boolean
+    minQuantityAlert?: boolean
+    storageCondition?: boolean
+    boxNumber?: boolean
+    description?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["medicine"]>
 
   export type medicineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     saltName?: boolean
     brandName?: boolean
+    manufacturer?: boolean
+    packageQuantity?: boolean
+    productForm?: boolean
+    minQuantityAlert?: boolean
+    storageCondition?: boolean
+    boxNumber?: boolean
+    description?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["medicine"]>
 
   export type medicineSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     saltName?: boolean
     brandName?: boolean
+    manufacturer?: boolean
+    packageQuantity?: boolean
+    productForm?: boolean
+    minQuantityAlert?: boolean
+    storageCondition?: boolean
+    boxNumber?: boolean
+    description?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["medicine"]>
 
   export type medicineSelectScalar = {
     id?: boolean
     saltName?: boolean
     brandName?: boolean
+    manufacturer?: boolean
+    packageQuantity?: boolean
+    productForm?: boolean
+    minQuantityAlert?: boolean
+    storageCondition?: boolean
+    boxNumber?: boolean
+    description?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type medicineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "saltName" | "brandName" | "createdAt", ExtArgs["result"]["medicine"]>
+  export type medicineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "saltName" | "brandName" | "manufacturer" | "packageQuantity" | "productForm" | "minQuantityAlert" | "storageCondition" | "boxNumber" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["medicine"]>
 
   export type $medicinePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "medicine"
@@ -1082,7 +1182,15 @@ export namespace Prisma {
       id: number
       saltName: string
       brandName: string
+      manufacturer: string
+      packageQuantity: number
+      productForm: string
+      minQuantityAlert: number
+      storageCondition: string
+      boxNumber: number | null
+      description: string | null
       createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["medicine"]>
     composites: {}
   }
@@ -1509,7 +1617,15 @@ export namespace Prisma {
     readonly id: FieldRef<"medicine", 'Int'>
     readonly saltName: FieldRef<"medicine", 'String'>
     readonly brandName: FieldRef<"medicine", 'String'>
+    readonly manufacturer: FieldRef<"medicine", 'String'>
+    readonly packageQuantity: FieldRef<"medicine", 'Int'>
+    readonly productForm: FieldRef<"medicine", 'String'>
+    readonly minQuantityAlert: FieldRef<"medicine", 'Int'>
+    readonly storageCondition: FieldRef<"medicine", 'String'>
+    readonly boxNumber: FieldRef<"medicine", 'Int'>
+    readonly description: FieldRef<"medicine", 'String'>
     readonly createdAt: FieldRef<"medicine", 'DateTime'>
+    readonly updatedAt: FieldRef<"medicine", 'DateTime'>
   }
     
 
@@ -1889,7 +2005,15 @@ export namespace Prisma {
     id: 'id',
     saltName: 'saltName',
     brandName: 'brandName',
-    createdAt: 'createdAt'
+    manufacturer: 'manufacturer',
+    packageQuantity: 'packageQuantity',
+    productForm: 'productForm',
+    minQuantityAlert: 'minQuantityAlert',
+    storageCondition: 'storageCondition',
+    boxNumber: 'boxNumber',
+    description: 'description',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type MedicineScalarFieldEnum = (typeof MedicineScalarFieldEnum)[keyof typeof MedicineScalarFieldEnum]
@@ -1901,6 +2025,14 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -1946,14 +2078,30 @@ export namespace Prisma {
     id?: IntFilter<"medicine"> | number
     saltName?: StringFilter<"medicine"> | string
     brandName?: StringFilter<"medicine"> | string
+    manufacturer?: StringFilter<"medicine"> | string
+    packageQuantity?: IntFilter<"medicine"> | number
+    productForm?: StringFilter<"medicine"> | string
+    minQuantityAlert?: IntFilter<"medicine"> | number
+    storageCondition?: StringFilter<"medicine"> | string
+    boxNumber?: IntNullableFilter<"medicine"> | number | null
+    description?: StringNullableFilter<"medicine"> | string | null
     createdAt?: DateTimeFilter<"medicine"> | Date | string
+    updatedAt?: DateTimeFilter<"medicine"> | Date | string
   }
 
   export type medicineOrderByWithRelationInput = {
     id?: SortOrder
     saltName?: SortOrder
     brandName?: SortOrder
+    manufacturer?: SortOrder
+    packageQuantity?: SortOrder
+    productForm?: SortOrder
+    minQuantityAlert?: SortOrder
+    storageCondition?: SortOrder
+    boxNumber?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type medicineWhereUniqueInput = Prisma.AtLeast<{
@@ -1963,14 +2111,30 @@ export namespace Prisma {
     OR?: medicineWhereInput[]
     NOT?: medicineWhereInput | medicineWhereInput[]
     brandName?: StringFilter<"medicine"> | string
+    manufacturer?: StringFilter<"medicine"> | string
+    packageQuantity?: IntFilter<"medicine"> | number
+    productForm?: StringFilter<"medicine"> | string
+    minQuantityAlert?: IntFilter<"medicine"> | number
+    storageCondition?: StringFilter<"medicine"> | string
+    boxNumber?: IntNullableFilter<"medicine"> | number | null
+    description?: StringNullableFilter<"medicine"> | string | null
     createdAt?: DateTimeFilter<"medicine"> | Date | string
+    updatedAt?: DateTimeFilter<"medicine"> | Date | string
   }, "id" | "saltName">
 
   export type medicineOrderByWithAggregationInput = {
     id?: SortOrder
     saltName?: SortOrder
     brandName?: SortOrder
+    manufacturer?: SortOrder
+    packageQuantity?: SortOrder
+    productForm?: SortOrder
+    minQuantityAlert?: SortOrder
+    storageCondition?: SortOrder
+    boxNumber?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: medicineCountOrderByAggregateInput
     _avg?: medicineAvgOrderByAggregateInput
     _max?: medicineMaxOrderByAggregateInput
@@ -1985,53 +2149,117 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"medicine"> | number
     saltName?: StringWithAggregatesFilter<"medicine"> | string
     brandName?: StringWithAggregatesFilter<"medicine"> | string
+    manufacturer?: StringWithAggregatesFilter<"medicine"> | string
+    packageQuantity?: IntWithAggregatesFilter<"medicine"> | number
+    productForm?: StringWithAggregatesFilter<"medicine"> | string
+    minQuantityAlert?: IntWithAggregatesFilter<"medicine"> | number
+    storageCondition?: StringWithAggregatesFilter<"medicine"> | string
+    boxNumber?: IntNullableWithAggregatesFilter<"medicine"> | number | null
+    description?: StringNullableWithAggregatesFilter<"medicine"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"medicine"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"medicine"> | Date | string
   }
 
   export type medicineCreateInput = {
     saltName: string
     brandName: string
+    manufacturer: string
+    packageQuantity: number
+    productForm: string
+    minQuantityAlert: number
+    storageCondition: string
+    boxNumber?: number | null
+    description?: string | null
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type medicineUncheckedCreateInput = {
     id?: number
     saltName: string
     brandName: string
+    manufacturer: string
+    packageQuantity: number
+    productForm: string
+    minQuantityAlert: number
+    storageCondition: string
+    boxNumber?: number | null
+    description?: string | null
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type medicineUpdateInput = {
     saltName?: StringFieldUpdateOperationsInput | string
     brandName?: StringFieldUpdateOperationsInput | string
+    manufacturer?: StringFieldUpdateOperationsInput | string
+    packageQuantity?: IntFieldUpdateOperationsInput | number
+    productForm?: StringFieldUpdateOperationsInput | string
+    minQuantityAlert?: IntFieldUpdateOperationsInput | number
+    storageCondition?: StringFieldUpdateOperationsInput | string
+    boxNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type medicineUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     saltName?: StringFieldUpdateOperationsInput | string
     brandName?: StringFieldUpdateOperationsInput | string
+    manufacturer?: StringFieldUpdateOperationsInput | string
+    packageQuantity?: IntFieldUpdateOperationsInput | number
+    productForm?: StringFieldUpdateOperationsInput | string
+    minQuantityAlert?: IntFieldUpdateOperationsInput | number
+    storageCondition?: StringFieldUpdateOperationsInput | string
+    boxNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type medicineCreateManyInput = {
     id?: number
     saltName: string
     brandName: string
+    manufacturer: string
+    packageQuantity: number
+    productForm: string
+    minQuantityAlert: number
+    storageCondition: string
+    boxNumber?: number | null
+    description?: string | null
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type medicineUpdateManyMutationInput = {
     saltName?: StringFieldUpdateOperationsInput | string
     brandName?: StringFieldUpdateOperationsInput | string
+    manufacturer?: StringFieldUpdateOperationsInput | string
+    packageQuantity?: IntFieldUpdateOperationsInput | number
+    productForm?: StringFieldUpdateOperationsInput | string
+    minQuantityAlert?: IntFieldUpdateOperationsInput | number
+    storageCondition?: StringFieldUpdateOperationsInput | string
+    boxNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type medicineUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     saltName?: StringFieldUpdateOperationsInput | string
     brandName?: StringFieldUpdateOperationsInput | string
+    manufacturer?: StringFieldUpdateOperationsInput | string
+    packageQuantity?: IntFieldUpdateOperationsInput | number
+    productForm?: StringFieldUpdateOperationsInput | string
+    minQuantityAlert?: IntFieldUpdateOperationsInput | number
+    storageCondition?: StringFieldUpdateOperationsInput | string
+    boxNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -2059,6 +2287,31 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -2070,33 +2323,68 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type medicineCountOrderByAggregateInput = {
     id?: SortOrder
     saltName?: SortOrder
     brandName?: SortOrder
+    manufacturer?: SortOrder
+    packageQuantity?: SortOrder
+    productForm?: SortOrder
+    minQuantityAlert?: SortOrder
+    storageCondition?: SortOrder
+    boxNumber?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type medicineAvgOrderByAggregateInput = {
     id?: SortOrder
+    packageQuantity?: SortOrder
+    minQuantityAlert?: SortOrder
+    boxNumber?: SortOrder
   }
 
   export type medicineMaxOrderByAggregateInput = {
     id?: SortOrder
     saltName?: SortOrder
     brandName?: SortOrder
+    manufacturer?: SortOrder
+    packageQuantity?: SortOrder
+    productForm?: SortOrder
+    minQuantityAlert?: SortOrder
+    storageCondition?: SortOrder
+    boxNumber?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type medicineMinOrderByAggregateInput = {
     id?: SortOrder
     saltName?: SortOrder
     brandName?: SortOrder
+    manufacturer?: SortOrder
+    packageQuantity?: SortOrder
+    productForm?: SortOrder
+    minQuantityAlert?: SortOrder
+    storageCondition?: SortOrder
+    boxNumber?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type medicineSumOrderByAggregateInput = {
     id?: SortOrder
+    packageQuantity?: SortOrder
+    minQuantityAlert?: SortOrder
+    boxNumber?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -2132,6 +2420,39 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -2150,16 +2471,28 @@ export namespace Prisma {
     set?: string
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -2185,6 +2518,31 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -2240,6 +2598,50 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {

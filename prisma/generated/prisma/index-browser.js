@@ -121,12 +121,25 @@ exports.Prisma.MedicineScalarFieldEnum = {
   id: 'id',
   saltName: 'saltName',
   brandName: 'brandName',
-  createdAt: 'createdAt'
+  manufacturer: 'manufacturer',
+  packageQuantity: 'packageQuantity',
+  productForm: 'productForm',
+  minQuantityAlert: 'minQuantityAlert',
+  storageCondition: 'storageCondition',
+  boxNumber: 'boxNumber',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 

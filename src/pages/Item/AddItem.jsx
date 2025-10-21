@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TabButton from "../../components/TabButton";
 import AddButton from "../../components/AddButton";
+import showToast from "../../utils/Toast";
 
 const AddItem = () => {
   const [activeTab, setActiveTab] = useState("single");
@@ -12,7 +13,6 @@ const AddItem = () => {
     packageQuantity: "",
     productForm: "",
     minQuantityAlert: "",
-    purchasePrice: "",
     storageCondition: "",
     boxNumber: "",
     description: "",
@@ -36,9 +36,24 @@ const AddItem = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted Item:", formData);
+
+    for (const field in formData) {
+      if ((field !== "description" && field !== "boxNumber") && formData[field] === "") {
+        showToast(`Please fill in the ${field.replace(/([A-Z])/g, ' $1')}`, 'oklch(57.7% 0.245 27.325)');
+        return;
+      }
+    }
+
+    const response = await window.electronAPI.addMedicine(formData);
+    console.log(response)
+
+    if (response.status !== 'success') {
+      return showToast(response.message || 'Something went wrong !!!', 'oklch(57.7% 0.245 27.325)');
+    }
+
+    return showToast('Medicine Addedd', 'oklch(62.7% 0.194 149.214)');
   };
 
   const handleFileUpload = (e) => {
@@ -62,38 +77,26 @@ const AddItem = () => {
       {activeTab === "single" && (
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-white p-6 rounded-lg"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-white p-6 rounded-lg shadow-sm"
         >
           {Object.keys(formData).map((field) => {
-
+            // Hide boxNumber field unless storageCondition = "box"
             if (field === "boxNumber" && formData.storageCondition !== "box") {
-              return (
-                <div
-                  key={field}
-                  className="flex flex-col opacity-0 pointer-events-none"
-                >
-                  <label className="text-gray-700 capitalize mb-1 text-sm">
-                    Box Number
-                  </label>
-                  <input
-                    type="text"
-                    name={field}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    className="border rounded-md py-1 px-2"
-                  />
-                </div>
-              );
+              return null;
             }
 
             return (
               <div key={field} className="flex flex-col">
-                <label className="text-gray-700 capitalize mb-1 text-sm">
+                <label
+                  htmlFor={field}
+                  className="text-gray-700 capitalize mb-1 text-sm"
+                >
                   {field.replace(/([A-Z])/g, " $1")}
                 </label>
 
                 {field === "description" ? (
                   <textarea
+                    id={field}
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
@@ -102,6 +105,7 @@ const AddItem = () => {
                   />
                 ) : field === "storageCondition" ? (
                   <select
+                    id={field}
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
@@ -112,9 +116,30 @@ const AddItem = () => {
                     <option value="box">Box</option>
                     <option value="counter">Counter</option>
                   </select>
+                ) : field === "productForm" ? (
+                  <select
+                    id={field}
+                    name={field}
+                    value={formData[field]}
+                    onChange={handleChange}
+                    className="outline-0 border rounded-md py-1 px-2 focus:ring-1 focus:ring-blue-950"
+                  >
+                    <option value="">Select Product Form</option>
+                    <option value="Tablet">Tablet</option>
+                    <option value="Syrup">Syrup</option>
+                    <option value="Ointment">Ointment</option>
+                    <option value="Injection">Injection</option>
+                    <option value="Drops">Drops</option>
+                    <option value="Powder">Powder</option>
+                  </select>
                 ) : (
                   <input
-                    type={field === "purchasePrice" ? "number" : "text"}
+                    id={field}
+                    type={
+                      ["packageQuantity", "minQuantityAlert"].includes(field)
+                        ? "number"
+                        : "text"
+                    }
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
@@ -126,14 +151,14 @@ const AddItem = () => {
           })}
 
           <div className="col-span-full flex justify-end mt-4">
-            <AddButton label={"Add Item"} />
+            <AddButton label="Add Item" />
           </div>
         </form>
       )}
 
       {/* Upload Excel File */}
       {activeTab === "excel" && (
-        <div className="bg-white p-6 rounded-lg flex items-center justify-start gap-5">
+        <div className="bg-white p-6 rounded-lg flex items-center justify-start gap-5 shadow-sm">
           <p className="text-gray-700">
             Upload an Excel (.xlsx or .csv) file containing your item data.
           </p>
@@ -143,7 +168,10 @@ const AddItem = () => {
             onChange={handleFileUpload}
             className="border rounded-md py-1 px-2 focus:ring-1 focus:ring-blue-950 transition-all duration-100"
           />
-          <button className="bg-blue-950 text-sm text-white px-6 py-2 rounded-md hover:bg-blue-900 cursor-pointer">
+          <button
+            type="button"
+            className="bg-blue-950 text-sm text-white px-6 py-2 rounded-md hover:bg-blue-900 cursor-pointer"
+          >
             Upload
           </button>
         </div>

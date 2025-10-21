@@ -15,8 +15,16 @@ datasource db {
 }
 
 model medicine {
-  id        Int      @id @default(autoincrement())
-  saltName  String   @unique
-  brandName String
-  createdAt DateTime @default(now())
+  id               Int      @id @default(autoincrement())
+  saltName         String   @unique
+  brandName        String
+  manufacturer     String
+  packageQuantity  Int
+  productForm      String
+  minQuantityAlert Int
+  storageCondition String
+  boxNumber        Int?
+  description      String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }

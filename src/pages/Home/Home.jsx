@@ -8,14 +8,14 @@ const Home = () => {
 
     useEffect(() => {
 
+     
+        // window.electronAPI.createMedicine().then((data) => {
+        //     console.log(data)
+        // })
 
-        window.electronAPI.createMedicine().then((data) => {
-            console.log(data)
-        })
-
-        window.electronAPI.getMedicine().then((data) => {
-            console.log(data)
-        })
+        // window.electronAPI.getMedicine().then((data) => {
+        //     console.log(data)
+        // })
     }, [])
 
     return (

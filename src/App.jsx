@@ -16,6 +16,8 @@ import GetSales from './pages/Sales/GetSales'
 import SalesDetails from './pages/Sales/SalesDetails'
 import AddInventory from './pages/Inventory/AddInventory'
 import ReturnSales from './pages/Sales/ReturnSales'
+import { ToastContainer } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 
@@ -24,15 +26,16 @@ function App() {
 
       <BrowserRouter>
         <Navbar />
+        <ToastContainer />
 
         <Routes>
           <Route path='/' Component={Home} />
 
           {/* sales */}
-          <Route path='/sales/add' Component={AddSales}/>
-          <Route path='/sales/' Component={GetSales}/>
-          <Route path='/sales/sales-details' Component={SalesDetails}/>
-          <Route path='/sales/return-sales' Component={ReturnSales}/>
+          <Route path='/sales/add' Component={AddSales} />
+          <Route path='/sales/' Component={GetSales} />
+          <Route path='/sales/sales-details' Component={SalesDetails} />
+          <Route path='/sales/return-sales' Component={ReturnSales} />
 
           {/* item */}
           <Route path='/item/add' Component={AddItem} />
@@ -45,7 +48,7 @@ function App() {
           <Route path='/purchase/return-purchase' Component={ReturnPurchase} />
 
           {/* inventory */}
-          <Route path='/inventory/add' Component={AddInventory}/>
+          <Route path='/inventory/add' Component={AddInventory} />
 
           {/* Tax */}
           <Route path='/taxes/add' Component={AddTax} />

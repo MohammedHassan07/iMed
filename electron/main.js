@@ -11,12 +11,11 @@ let mainWindow;
 
 function createWindow() {
 
-  console.log(path.join(__dirname, 'preload.mjs'))
   mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 700,
+    width: 2000,
+    height: 1700,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.mjs'), // <- ESM preload
+      preload: path.join(__dirname, 'preload.mjs'), 
       sandbox: false,
       nodeIntegration: false,
       contextIsolation: true
@@ -56,10 +55,14 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-ipcMain.handle('create-medicine', async (event, name, email) => {
-  return await createMedicine(name, email);
+ipcMain.handle('create-medicine', async (event, data) => {
+  return await createMedicine(data);
 });
 
 ipcMain.handle('get-medicine', async () => {
   return await getMedicine();
 });
+
+ipcMain.handle('add-medicine', async (event, data) => {
+   return await createMedicine(data);
+})
