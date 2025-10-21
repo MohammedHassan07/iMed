@@ -2,6 +2,8 @@
 
 iMed is a **desktop pharmacy management application** built using **ReactJS**, **TailwindCSS**, and **Electron**. It uses **SQLite** as an offline, file-based database. The application is designed for pharmacies to manage purchases, sales, inventory, suppliers, and taxes efficiently while working completely offline.
 
+⚠️ Notice: This repository is for **educational/personal use only**. Commercial use is prohibited. See LICENSE for details.
+
 ## 📸 Screenshots
 
 ### 
