@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import NearToExpire from "./components/NearToExpire";
 import Revenue from "./components/Revenue";
 import SalesAndPurchase from "./components/SalesAndPurchase";
@@ -5,6 +6,17 @@ import SummaryCard from "./components/SummaryCard";
 
 const Home = () => {
 
+    useEffect(() => {
+
+
+        window.electronAPI.createMedicine().then((data) => {
+            console.log(data)
+        })
+
+        window.electronAPI.getMedicine().then((data) => {
+            console.log(data)
+        })
+    }, [])
 
     return (
         <div className="space-y-8 py-2 px-7 bg-gray-50">
