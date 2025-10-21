@@ -7,8 +7,11 @@ iMed is a **desktop pharmacy management application** built using **ReactJS**, *
 ### 
 ![Dashboard](./screenshots/dashboard.png)
 
-### 🏠 Sales
+### Add Sales
 ![sales](./screenshots/addsales.png)
+
+### Get Sales
+![sales](./screenshots/getsales.png)
 
 
 ## Features
