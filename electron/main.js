@@ -33,7 +33,7 @@ function createWindow() {
 
 app.whenReady().then(() => {
   createWindow();
-  Menu.setApplicationMenu(null);
+  // Menu.setApplicationMenu(null);
 
 
   if (process.env.NODE_ENV === 'development') {
@@ -59,8 +59,8 @@ ipcMain.handle('create-medicine', async (event, data) => {
   return await createMedicine(data);
 });
 
-ipcMain.handle('get-medicine', async () => {
-  return await getMedicine();
+ipcMain.handle('get-medicine', async (event, data) => {
+  return await getMedicine(data);
 });
 
 ipcMain.handle('add-medicine', async (event, data) => {

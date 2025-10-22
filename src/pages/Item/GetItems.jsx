@@ -3,6 +3,7 @@ import EditDelete from "../../components/EditDelete";
 import DynamicForm from "../../components/DynamicForm";
 import DeleteModal from "../../components/DeleteMoodal";
 import Pagination from "../../components/Pagination";
+import showToast from "../../utils/Toast";
 
 const GetItems = () => {
   const [items, setItems] = useState([]);
@@ -12,6 +13,7 @@ const GetItems = () => {
   const [formData, setFormData] = useState({});
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10)
   const itemsPerPage = 5;
 
   const modalRef = useRef(null);
@@ -95,19 +97,53 @@ const GetItems = () => {
   };
 
   // Pagination logic
-  const totalPages = Math.ceil(items.length / itemsPerPage);
-  const paginatedItems = items.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  // const totalPages = Math.ceil(items.length / itemsPerPage);
+  // const paginatedItems = items.slice(
+  //   (currentPage - 1) * itemsPerPage,
+  //   currentPage * itemsPerPage
+  // );
 
   // Filter search results
-  const filteredItems = paginatedItems.filter(
-    (item) =>
-      item.saltName.toLowerCase().includes(search.toLowerCase()) ||
-      item.brandName.toLowerCase().includes(search.toLowerCase()) ||
-      item.productForm.toLowerCase().includes(search.toLowerCase())
-  );
+  // const filteredItems = paginatedItems.filter(
+  //   (item) =>
+  //     item.saltName.toLowerCase().includes(search.toLowerCase()) ||
+  //     item.brandName.toLowerCase().includes(search.toLowerCase()) ||
+  //     item.productForm.toLowerCase().includes(search.toLowerCase())
+  // );
+
+  const fetchItems = async () => {
+    try {
+      const response = await window.electronAPI.getMedicine({
+        page: currentPage,
+        limit: itemsPerPage,
+        search: search.trim(),
+      });
+
+      console.log("Medicine Response:", response);
+
+      if (response.status !== "success") {
+        showToast(response.message, "oklch(57.7% 0.245 27.325)");
+        setItems([]);
+        return;
+      }
+
+      setItems(response.data || []);
+      setTotalPages(response.totalPages || 1);
+    } catch (error) {
+      showToast(error.message, "oklch(57.7% 0.245 27.325)");
+    }
+  };
+
+
+  // ---- Debounced API call ----
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      fetchItems();
+    }, 400); // wait 400ms after user stops typing
+    return () => clearTimeout(delayDebounce);
+  }, [search, currentPage]);
+
+
 
   return (
     <div className="p-6">
@@ -138,7 +174,7 @@ const GetItems = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredItems.map((item) => (
+            {items.map((item) => (
               <tr key={item.id}
                 className="hover:bg-gray-50 border-t border-gray-200 transition">
                 <td className="p-3">{item.saltName}</td>
