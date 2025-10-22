@@ -104,6 +104,38 @@ exports.Prisma.MedicineScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PurchaseScalarFieldEnum = {
+  id: 'id',
+  supplierId: 'supplierId',
+  purchaseDate: 'purchaseDate',
+  notes: 'notes',
+  discountType: 'discountType',
+  discount: 'discount',
+  subTotal: 'subTotal',
+  totalTax: 'totalTax',
+  netTotal: 'netTotal',
+  tax: 'tax',
+  total: 'total',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PurchaseItemScalarFieldEnum = {
+  id: 'id',
+  purchaseId: 'purchaseId',
+  medicineId: 'medicineId',
+  batchNumber: 'batchNumber',
+  expiryDate: 'expiryDate',
+  purchasePrice: 'purchasePrice',
+  sellingPrice: 'sellingPrice',
+  quantity: 'quantity',
+  profit: 'profit',
+  tax: 'tax',
+  total: 'total',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -116,7 +148,9 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  medicine: 'medicine'
+  medicine: 'medicine',
+  Purchase: 'Purchase',
+  PurchaseItem: 'PurchaseItem'
 };
 /**
  * Create the Client
@@ -157,7 +191,6 @@ const config = {
     "db"
   ],
   "activeProvider": "sqlite",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -166,13 +199,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel medicine {\n  id               Int      @id @default(autoincrement())\n  saltName         String   @unique\n  brandName        String\n  manufacturer     String\n  packageQuantity  Int\n  productForm      String\n  minQuantityAlert Int\n  storageCondition String\n  boxNumber        Int?\n  description      String?\n  createdAt        DateTime @default(now())\n  updatedAt        DateTime @updatedAt\n}\n",
-  "inlineSchemaHash": "76230b773cae58d6d7d8abc9a3a8568ea499b050d3bb78c91fd6f9249561d8b6",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel medicine {\n  id               Int            @id @default(autoincrement())\n  saltName         String         @unique\n  brandName        String\n  manufacturer     String\n  packageQuantity  Int\n  productForm      String\n  minQuantityAlert Int\n  storageCondition String\n  boxNumber        Int?\n  description      String?\n  createdAt        DateTime       @default(now())\n  updatedAt        DateTime       @updatedAt\n  purchaseItems    PurchaseItem[]\n}\n\nmodel Purchase {\n  id           Int      @id @default(autoincrement())\n  supplierId   Int\n  purchaseDate DateTime\n  notes        String?\n  discountType String   @default(\"percentage\")\n  discount     Float    @default(0)\n  subTotal     Float    @default(0)\n  totalTax     Float    @default(0)\n  netTotal     Float    @default(0)\n  tax          Float    @default(0)\n  total        Float    @default(0)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  purchasedItems PurchaseItem[]\n}\n\nmodel PurchaseItem {\n  id         Int @id @default(autoincrement())\n  purchaseId Int\n  medicineId Int\n\n  batchNumber   String\n  expiryDate    DateTime\n  purchasePrice Float\n  sellingPrice  Float\n  quantity      Int\n  profit        Float\n  tax           Float\n  total         Float\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  purchase Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)\n  medicine medicine @relation(fields: [medicineId], references: [id], onDelete: Cascade)\n}\n",
+  "inlineSchemaHash": "efe14a8e053c76c8a261085bd142402774c9894283d16b95275bfe3efe1d5651",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"medicine\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"saltName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"brandName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"manufacturer\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageQuantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"productForm\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"minQuantityAlert\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"storageCondition\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"boxNumber\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"medicine\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"saltName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"brandName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"manufacturer\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageQuantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"productForm\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"minQuantityAlert\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"storageCondition\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"boxNumber\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"purchaseItems\",\"kind\":\"object\",\"type\":\"PurchaseItem\",\"relationName\":\"PurchaseItemTomedicine\"}],\"dbName\":null},\"Purchase\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"supplierId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"purchaseDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"discountType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"discount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"subTotal\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"totalTax\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"netTotal\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"tax\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"total\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"purchasedItems\",\"kind\":\"object\",\"type\":\"PurchaseItem\",\"relationName\":\"PurchaseToPurchaseItem\"}],\"dbName\":null},\"PurchaseItem\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"purchaseId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"medicineId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"batchNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiryDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"purchasePrice\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"sellingPrice\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"profit\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"tax\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"total\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"purchase\",\"kind\":\"object\",\"type\":\"Purchase\",\"relationName\":\"PurchaseToPurchaseItem\"},{\"name\":\"medicine\",\"kind\":\"object\",\"type\":\"medicine\",\"relationName\":\"PurchaseItemTomedicine\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

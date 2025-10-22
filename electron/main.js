@@ -3,6 +3,7 @@ import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import chokidar from 'chokidar';
 import { createMedicine, getMedicine } from '../Database/medicine.js';
+import { addPurchase } from '../Database/purchase.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,7 +16,7 @@ function createWindow() {
     width: 2000,
     height: 1700,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.mjs'), 
+      preload: path.join(__dirname, 'preload.mjs'),
       sandbox: false,
       nodeIntegration: false,
       contextIsolation: true
@@ -55,14 +56,19 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-ipcMain.handle('create-medicine', async (event, data) => {
-  return await createMedicine(data);
-});
 
+// medicine
 ipcMain.handle('get-medicine', async (event, data) => {
   return await getMedicine(data);
 });
 
 ipcMain.handle('add-medicine', async (event, data) => {
-   return await createMedicine(data);
+  return await createMedicine(data);
 })
+
+// purchase
+ipcMain.handle('add-purchase', async (event, data) => {
+  return await addPurchase(data)
+})
+
+

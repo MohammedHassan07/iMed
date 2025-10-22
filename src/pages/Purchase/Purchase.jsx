@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Search, Trash } from "lucide-react";
 import MedicineCard from "../../components/MedicineCard";
+import showToast from "../../utils/Toast";
 
 const Purchase = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -9,8 +10,9 @@ const Purchase = () => {
     const [selectedTax, setSelectedTax] = useState(5);
     const [searchSupplier, setSearchSupplier] = useState("");
     const [selectedSupplier, setSelectedSupplier] = useState(null);
-
     const [discountType, setDiscountType] = useState("percentage"); // 'percentage' | 'fixed'
+    const [purchaseDate, setPurchaseDate] = useState('')
+    const [notes, setNotes] = useState('')
 
 
     const [medicines] = useState([
@@ -153,6 +155,90 @@ const Purchase = () => {
 
     const netTotal = subTotal - discountAmount + itemTaxAmount + overallTaxAmount;
 
+    // purchase click
+    const handlePurchaseClick = async () => {
+
+        if (!selectedSupplier) {
+
+            showToast("Please select a supplier before purchasing.", "oklch(57.7% 0.245 27.325)");
+            return;
+        }
+
+        if (selectedItems.length === 0) {
+            showToast("Please add at least one medicine to purchase.", "oklch(57.7% 0.245 27.325)");
+            return;
+        }
+
+        // Check for missing fields in medicines
+        for (const item of selectedItems) {
+            if (!item.batchNumber?.trim()) {
+                showToast(`Batch number missing for ${item.brandName}`, "oklch(57.7% 0.245 27.325)");
+                return;
+            }
+            if (!item.expiryDate) {
+                showToast(`Expiry date missing for ${item.brandName}`, "oklch(57.7% 0.245 27.325)");
+                return;
+            }
+            if (!item.purchasePrice || item.purchasePrice <= 0) {
+                showToast(`Purchase price missing or invalid for ${item.brandName}`, "oklch(57.7% 0.245 27.325)");
+                return;
+            }
+            if (!item.sellingPrice || item.sellingPrice <= 0) {
+                showToast(`Selling price missing or invalid for ${item.brandName}`, "oklch(57.7% 0.245 27.325)");
+                return;
+            }
+        }
+
+        if (!purchaseDate) {
+            showToast("Please select a purchase date.", "oklch(57.7% 0.245 27.325)");
+            return;
+        }
+
+        // 2️⃣ Prepare payload for backend
+        const purchaseData = {
+            supplierId: selectedSupplier.id,
+            purchaseDate,
+            notes: notes,
+            discountType,
+            discount,
+            tax: selectedTax,
+            subTotal,
+            totalTax: overallTaxAmount,
+            netTotal,
+            medicines: selectedItems.map((item) => ({
+                medicineId: item.id,
+                batchNumber: item.batchNumber,
+                expiryDate: item.expiryDate,
+                purchasePrice: item.purchasePrice,
+                sellingPrice: item.sellingPrice,
+                quantity: item.quantity,
+                tax: item.tax,
+                total: getItemTotal(item),
+                profit: getItemProfit(item),
+            })),
+        };
+
+        console.log(" Purchase Data:", purchaseData);
+
+        try {
+
+            const response = await window.electronAPI.addPurchase(purchaseData);
+
+            if (response.status === "success") {
+
+                setSelectedItems([]);
+                setSelectedSupplier(null);
+                setDiscount(0);
+                setSearchSupplier("");
+                return showToast(' Purchase recorded successfully!', 'oklch(62.7% 0.194 149.214)');
+            } else {
+                showToast(` ${response.message || "Failed to record purchase"}`, "oklch(57.7% 0.245 27.325)");
+            }
+        } catch (error) {
+            console.error("Purchase Error:", error);
+            showToast(` ${response.message || "Failed to record purchase"}`, "oklch(57.7% 0.245 27.325)");
+        }
+    };
 
     return (
         <>
@@ -234,6 +320,8 @@ const Purchase = () => {
                                         className="border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950 transition-all duration-100"
                                         type="date"
                                         placeholder="Purchase Date"
+                                        onChange={(e) => { setPurchaseDate(e.target.value) }}
+                                        value={purchaseDate}
                                     />
                                 </div>
                                 <div className="flex flex-col">
@@ -243,6 +331,8 @@ const Purchase = () => {
                                         className="outline-0 border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950"
                                         rows="2"
                                         placeholder="Enter Notes"
+                                        onChange={(e) => { setNotes(e.target.value) }}
+                                        value={notes}
                                     />
                                 </div>
                             </div>
@@ -313,7 +403,8 @@ const Purchase = () => {
                                                     onChange={(e) =>
                                                         handleInputChange(
                                                             item.id,
-                                                            "batchNumber"
+                                                            "batchNumber",
+                                                            e.target.value
                                                         )
                                                     }
                                                     className="border border-gray-300 p-1 rounded-md w-20 text-center"
@@ -357,7 +448,7 @@ const Purchase = () => {
                                                         handleInputChange(
                                                             item.id,
                                                             "expiryDate",
-                                                            parseFloat(e.target.value)
+                                                            e.target.value
                                                         )
                                                     }
                                                     className="border border-gray-300 p-1 rounded-md w-32 text-center"
@@ -462,7 +553,7 @@ const Purchase = () => {
                                     <span>₹{netTotal.toFixed(2)}</span>
                                 </div>
 
-                                <button className="w-full py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                <button onClick={handlePurchaseClick} className="w-full py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
                                     Purchase
                                 </button>
                             </div>
