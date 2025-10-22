@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Search, Trash } from "lucide-react";
 import MedicineCard from "../../components/MedicineCard";
 import showToast from "../../utils/Toast";
@@ -15,40 +15,9 @@ const Purchase = () => {
     const [notes, setNotes] = useState('')
 
 
-    const [medicines] = useState([
-        {
-            id: 1,
-            saltName: "Paracetamol",
-            brandName: "Calpol 500",
-            productForm: "tablet",
-            availableQty: 50,
-            purchasePrice: 12,
-            sellingPrice: 20,
-            packageQuantity: 10
-        },
-        {
-            id: 2,
-            saltName: "Amoxicillin",
-            brandName: "Amoxil 250",
-            productForm: "capsule",
-            availableQty: 30,
-            purchasePrice: 18,
-            sellingPrice: 28,
-            packageQuantity: 50
-        },
-        {
-            id: 3,
-            saltName: "Cetirizine",
-            brandName: "Cetzine",
-            productForm: "tablet",
-            availableQty: 40,
-            purchasePrice: 8,
-            sellingPrice: 15,
-            packageQuantity: 20
-        },
-    ]);
+    const [medicines, setMedicines] = useState([]);
 
-    const [suppliers] = useState([
+    const [suppliers, setSuppliers] = useState([
         {
             id: 1,
             name: "Draco Malfoy",
@@ -67,12 +36,6 @@ const Purchase = () => {
         },
     ]);
 
-    // Filter suppliers dynamically
-    const filteredSuppliers = suppliers.filter(
-        (supplier) =>
-            supplier.name.toLowerCase().includes(searchSupplier.toLowerCase()) ||
-            supplier.company.toLowerCase().includes(searchSupplier.toLowerCase())
-    );
 
     // Select supplier
     const handleSelectSupplier = (supplier) => {
@@ -93,7 +56,13 @@ const Purchase = () => {
             } else {
                 return [
                     ...prev,
-                    { ...med, quantity: 1, batchNumber: "", tax: selectedTax },
+                    {
+                        ...med, quantity: 1,
+                        batchNumber: "",
+                        tax: selectedTax,
+                        mrp: med.mrp || 0,
+                        scheme: 0
+                    },
                 ];
             }
         });
@@ -123,9 +92,9 @@ const Purchase = () => {
     };
 
     const getItemProfit = (item) => {
-        const sellingPrice = item.sellingPrice * item.packageQuantity // TODO: multiply with package qunatity
+        const sellingPrice = (item.sellingPrice || 0) * item.packageQuantity // TODO: multiply with package qunatity
         const purchasePrice = item.purchasePrice
-        const profit = (sellingPrice - purchasePrice) * item.quantity
+        const profit = (sellingPrice - (purchasePrice || 0)) * item.quantity
         return profit
     }
 
@@ -215,6 +184,8 @@ const Purchase = () => {
                 tax: item.tax,
                 total: getItemTotal(item),
                 profit: getItemProfit(item),
+                mrp: item.mrp,
+                scheme: item.scheme
             })),
         };
 
@@ -240,6 +211,63 @@ const Purchase = () => {
         }
     };
 
+    const fetchItems = async () => {
+
+        try {
+
+            const response = await window.electronAPI.getMedicineOnTyping({
+                search: searchTerm.trim(),
+            });
+
+            console.log("Medicine Response:", response);
+
+            if (response.status !== "success") {
+                showToast(response.message, "oklch(57.7% 0.245 27.325)");
+                // setItems([]);
+                return;
+            }
+
+            setMedicines(response.data || []);
+        } catch (error) {
+            showToast(error.message, "oklch(57.7% 0.245 27.325)");
+        }
+    }
+
+    const fetchSuppliers = async () => {
+        try {
+
+            const response = await window.electronAPI.getSuppliersOnTyping({
+                search: searchSupplier.trim(),
+            });
+
+            console.log("Medicine Response:", response);
+
+            if (response.status !== "success") {
+                showToast(response.message, "oklch(57.7% 0.245 27.325)");
+                // setItems([]);
+                return;
+            }
+
+            setSuppliers(response.data || []);
+        } catch (error) {
+            showToast(error.message, "oklch(57.7% 0.245 27.325)");
+        }
+    }
+
+    useEffect(() => {
+        const delayDebounce = setTimeout(() => {
+            fetchItems();
+        }, 400);
+        return () => clearTimeout(delayDebounce);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        const delayDebounce = setTimeout(() => {
+            fetchSuppliers()
+        }, 400);
+        return () => clearTimeout(delayDebounce);
+    }, [searchSupplier]);
+
     return (
         <>
             {/* Supplier Section */}
@@ -260,9 +288,9 @@ const Purchase = () => {
                             className="border border-blue-950 rounded-lg pl-10 pr-3 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300 w-full"
                         />
 
-                        {searchSupplier && filteredSuppliers.length > 0 && (
+                        {searchSupplier && suppliers.length > 0 && (
                             <ul className="absolute bg-gray-300 border border-gray-300 rounded-md mt-1 shadow-md z-10 w-full max-h-48 overflow-auto">
-                                {filteredSuppliers.map((supplier) => (
+                                {suppliers.map((supplier) => (
                                     <li
                                         key={supplier.id}
                                         onClick={() => handleSelectSupplier(supplier)}
@@ -305,7 +333,7 @@ const Purchase = () => {
             </div>
 
             {/* Purchase Details */}
-            <div className="grid grid-cols-[8fr_4fr] p-3 gap-3">
+            <div className="grid grid-cols-[7.5fr_4.5fr] p-3 gap-3">
 
                 <div className="min-w-0 w-full bg-gray-50 rounded-xl p-4 border border-gray-300">
 
@@ -345,6 +373,9 @@ const Purchase = () => {
                                             Quantity
                                         </th>
                                         <th className="py-2 px-3 text-center font-semibold">
+                                            Scheme
+                                        </th>
+                                        <th className="py-2 px-3 text-center font-semibold">
                                             Batch Number
                                         </th>
                                         <th className="py-2 px-3 text-center font-semibold">
@@ -352,6 +383,9 @@ const Purchase = () => {
                                         </th>
                                         <th className="py-2 px-3 text-center font-semibold">
                                             Selling Price
+                                        </th>
+                                        <th className="py-2 px-3 text-center font-semibold">
+                                            MRP
                                         </th>
                                         <th className="py-2 px-3 text-center font-semibold">
                                             Expiry Date
@@ -395,6 +429,17 @@ const Purchase = () => {
                                                     className="border border-gray-300 p-1 rounded-md w-16 text-center"
                                                 />
                                             </td>
+
+                                            <td className="py-2 px-3 text-center">
+                                                <input
+                                                    type="number"
+                                                    min="0"
+                                                    value={item.scheme}
+                                                    onChange={(e) => handleInputChange(item.id, "scheme", parseInt(e.target.value) || 0)}
+                                                    className="border border-gray-300 p-1 rounded-md w-16 text-center"
+                                                />
+                                            </td>
+
                                             <td className="py-2 px-3 text-center">
                                                 <input
                                                     type="text"
@@ -436,6 +481,16 @@ const Purchase = () => {
                                                             parseFloat(e.target.value)
                                                         )
                                                     }
+                                                    className="border border-gray-300 p-1 rounded-md w-24 text-center"
+                                                />
+                                            </td>
+
+                                            <td className="py-2 px-3 text-center">
+                                                <input
+                                                    type="number"
+                                                    min="0"
+                                                    value={item.mrp}
+                                                    onChange={(e) => handleInputChange(item.id, "mrp", parseFloat(e.target.value) || 0)}
                                                     className="border border-gray-300 p-1 rounded-md w-24 text-center"
                                                 />
                                             </td>
@@ -574,27 +629,14 @@ const Purchase = () => {
                             className="w-full pl-10 pr-3 border rounded-md py-1 px-2 border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300"
                         />
                     </div>
-                    <div className="flex flex-wrap justify-start gap-3 max-h-[450px] overflow-y-auto">
-                        {medicines
-                            .filter(
-                                (m) =>
-                                    m.saltName
-                                        .toLowerCase()
-                                        .includes(searchTerm.toLowerCase()) ||
-                                    m.brandName
-                                        .toLowerCase()
-                                        .includes(searchTerm.toLowerCase()) ||
-                                    m.productForm
-                                        .toLowerCase()
-                                        .includes(searchTerm.toLowerCase())
-                            )
-                            .map((med) => (
-                                <MedicineCard
-                                    key={med.id}
-                                    med={med}
-                                    handleAddMedicine={handleAddMedicine}
-                                />
-                            ))}
+                    <div className="flex flex-wrap justify-start gap-4 ">
+                        {medicines.map((med) => (
+                            <MedicineCard
+                                key={med.id}
+                                med={med}
+                                handleAddMedicine={handleAddMedicine}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

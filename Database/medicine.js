@@ -1,7 +1,7 @@
 import { PrismaClient } from '../prisma/generated/prisma/index.js'
 // import { PrismaClient } from '@prisma/client';
 
-export const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 // add medicine
 export async function createMedicine(data) {
@@ -10,7 +10,7 @@ export async function createMedicine(data) {
 
         const existingMedicine = await prisma.medicine.findUnique({ where: { saltName: data.saltName } })
         if (existingMedicine) {
-            
+
             return { status: 'failed', message: `Medicine ${existingMedicine.saltName} already exists`, saltName: data.saltName }
         }
 
@@ -82,4 +82,27 @@ export async function getMedicine({ page = 1, limit = 5, search = "" }) {
         console.log(error)
         return { status: "failed", message: "No medicines found" };
     }
+}
+
+// get medicine on typing 
+export async function getMedicineOnTyping({ search }) {
+    const medicines = await prisma.medicine.findMany({
+        where: {
+            OR: [
+                { saltName: { contains: search } },
+                { brandName: { contains: search } },
+                { productForm: { contains: search } },
+            ],
+        }
+    })
+
+    if (!medicines || medicines.length < 1) {
+        return { status: "failed", message: "No medicines found" };
+    }
+
+    return {
+        status: "success",
+        message: "Medicines found",
+        data: medicines,
+    };
 }

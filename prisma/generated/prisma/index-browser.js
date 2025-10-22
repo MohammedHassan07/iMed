@@ -164,6 +164,25 @@ exports.Prisma.PurchaseItemScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SupplierScalarFieldEnum = {
+  id: 'id',
+  companyName: 'companyName',
+  contactPerson: 'contactPerson',
+  contact: 'contact',
+  email: 'email',
+  address: 'address',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TaxScalarFieldEnum = {
+  id: 'id',
+  taxName: 'taxName',
+  percentage: 'percentage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -178,7 +197,9 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   medicine: 'medicine',
   Purchase: 'Purchase',
-  PurchaseItem: 'PurchaseItem'
+  PurchaseItem: 'PurchaseItem',
+  Supplier: 'Supplier',
+  Tax: 'Tax'
 };
 
 /**

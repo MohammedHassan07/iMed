@@ -13,8 +13,8 @@ const GetItems = () => {
   const [formData, setFormData] = useState({});
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(10)
-  const itemsPerPage = 5;
+  const [totalPages, setTotalPages] = useState(0)
+  const itemsPerPage = 20;
 
   const modalRef = useRef(null);
 

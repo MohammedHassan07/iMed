@@ -2,26 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import EditDelete from "../../components/EditDelete";
 import DynamicForm from "../../components/DynamicForm";
 import DeleteModal from "../../components/DeleteMoodal";
+import showToast from "../../utils/Toast";
 
 const GetSupplier = () => {
-  const [suppliers, setSuppliers] = useState([{
-    id: 1,
-    name: "Medico Pvt Ltd",
-    contactPerson: 'Prof. Snape',
-    contact: "9876543210",
-    coutryCode: '+91',
-    email: "info@medico.com",
-    address: "Rajendra Nagar",
-  },
-  {
-    id: 2,
-    name: "PharmaTech",
-    contactPerson: 'Malfoy',
-    contact: "9988776655",
-    coutryCode: '+91',
-    email: "support@pharmatech.com",
-    address: "Shaheen Bagh",
-  },]);
+  const [suppliers, setSuppliers] = useState([]);
 
   const [items, setItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -29,10 +13,11 @@ const GetSupplier = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [formData, setFormData] = useState({});
   const [search, setSearch] = useState("");
+  const [totalPages, setTotalPages] = useState(0)
 
   const modalRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 20;
   const handleOpenModal = (type, item) => {
     setModalType(type);
     setSelectedItem(item);
@@ -43,15 +28,6 @@ const GetSupplier = () => {
     setShowModal(false);
     setSelectedItem(null);
   };
-
-
-  // Pagination logic
-  const totalPages = Math.ceil(items.length / itemsPerPage);
-  const paginatedItems = items.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
 
   // Close modal when clicking outside
   useEffect(() => {
@@ -87,13 +63,46 @@ const GetSupplier = () => {
   };
 
   const fields = [
-    { name: "name", label: "Supplier Name", type: "text", placeholder: "Enter Supplier Name" },
+    { name: "companyName", label: "Company Name", type: "text", placeholder: "Enter Company Name" },
     { name: "contactPerson", label: "Contact Person", type: "text", placeholder: "Enter Contact Person" },
-    { name: "coutryCode", label: "Country Code", type: "text", placeholder: "+91" },
     { name: "contact", label: "Contact Number", type: "number", placeholder: "9876543210" },
     { name: "email", label: "Email", type: "email", placeholder: "info@supplier.com" },
     { name: "address", label: "Address", type: "text", placeholder: "Enter Address" },
   ]
+
+  const fetchItems = async () => {
+    try {
+      const response = await window.electronAPI.getSuppliers({
+        page: currentPage,
+        limit: itemsPerPage,
+        search: search.trim(),
+      });
+
+      console.log("Medicine Response:", response);
+
+      if (response.status !== "success") {
+        showToast(response.message, "oklch(57.7% 0.245 27.325)");
+        setSuppliers([]);
+        return;
+      }
+
+      setSuppliers(response.data || []);
+      setTotalPages(response.totalPages || 1);
+    } catch (error) {
+      showToast(error.message, "oklch(57.7% 0.245 27.325)");
+    }
+  };
+
+
+  // ---- Debounced API call ----
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      fetchItems();
+    }, 400); // wait 400ms after user stops typing
+    return () => clearTimeout(delayDebounce);
+  }, [search, currentPage]);
+
+
 
   return (
     <div className="p-6">
@@ -114,7 +123,7 @@ const GetSupplier = () => {
         <table className="min-w-full border border-gray-300 text-sm table-fixed">
           <thead>
             <tr className="bg-gray-100 text-left text-gray-700">
-              <th className="px-4 py-3 border-b w-[25%]">Name</th>
+              <th className="px-4 py-3 border-b w-[25%]">Company Name</th>
               <th className="px-4 py-3 border-b w-[25%]">Contact Person</th>
               <th className="px-4 py-3 border-b w-[15%]">Contact</th>
               <th className="px-4 py-3 border-b w-[25%]">Email</th>
@@ -130,7 +139,7 @@ const GetSupplier = () => {
                 key={supplier.id}
                 className="hover:bg-gray-50 border-t border-gray-200 transition"
               >
-                <td className="px-4 py-3 truncate">{supplier.name}</td>
+                <td className="px-4 py-3 truncate">{supplier.companyName}</td>
                 <td className="px-4 py-3 truncate">{supplier.contactPerson}</td>
                 <td className="px-4 py-3 truncate">{supplier.coutryCode + supplier.contact}</td>
                 <td className="px-4 py-3 truncate">{supplier.email}</td>
@@ -181,7 +190,7 @@ const GetSupplier = () => {
             ref={modalRef}
             className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md relative"
           >
-           
+
             {modalType === "update" ? <DynamicForm
               title="Update Supplier"
               fields={fields}

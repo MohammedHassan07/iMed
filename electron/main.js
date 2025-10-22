@@ -2,8 +2,9 @@ import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import chokidar from 'chokidar';
-import { createMedicine, getMedicine } from '../Database/medicine.js';
+import { createMedicine, getMedicine, getMedicineOnTyping } from '../Database/medicine.js';
 import { addPurchase } from '../Database/purchase.js';
+import { addSupplier, getSupplierOnTyping, getSuppliers } from '../Database/supplier.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -57,18 +58,35 @@ app.on('window-all-closed', () => {
 });
 
 
-// medicine
+// ------------medicine------------------------
 ipcMain.handle('get-medicine', async (event, data) => {
   return await getMedicine(data);
 });
 
+// add medicines
 ipcMain.handle('add-medicine', async (event, data) => {
   return await createMedicine(data);
 })
 
-// purchase
+// get medicine on typing
+ipcMain.handle('getMedicineOnTyping', async (event, search) => {
+  return await getMedicineOnTyping(search)
+})
+
+
+// ------------purchase------------------------
 ipcMain.handle('add-purchase', async (event, data) => {
   return await addPurchase(data)
 })
 
-
+// ------------supplier------------------------
+// add supplier
+ipcMain.handle('addSupplier', async (event, data) => {
+  return await addSupplier(data)
+})
+ipcMain.handle('getSupplierOnTyping', async (event, data) => {
+  return await getSupplierOnTyping(data)
+})
+ipcMain.handle('getSuppliers', async (event, data) => {
+  return await getSuppliers(data)
+})
