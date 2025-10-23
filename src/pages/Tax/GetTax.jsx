@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Pencil, Trash } from "lucide-react";
 import DynamicForm from "../../components/DynamicForm";
 import DeleteModal from "../../components/DeleteMoodal";
+import debounce from "../../utils/debounce";
+import showToast from "../../utils/Toast";
 
 const GetTax = () => {
     const [taxes, setTaxes] = useState([]);
@@ -11,6 +13,7 @@ const GetTax = () => {
     const [formData, setFormData] = useState({});
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+      const [totalPages, setTotalPages] = useState(1)
     const itemsPerPage = 5;
 
     const modalRef = useRef(null);
@@ -77,17 +80,29 @@ const GetTax = () => {
         handleCloseModal();
     };
 
-    // Pagination
-    const totalPages = Math.ceil(taxes.length / itemsPerPage);
-    const paginatedTaxes = taxes.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
+    const fetchItems = async () => {
+        try {
+            const response = await window.electronAPI.getTaxes({
+                page: currentPage,
+                limit: itemsPerPage,
+                search: search.trim(),
+            });
 
-    // Search
-    const filteredTaxes = paginatedTaxes.filter((tax) =>
-        tax.taxName.toLowerCase().includes(search.toLowerCase())
-    );
+            console.log("Medicine Response:", response);
+
+            if (response.status !== "success") {
+                showToast(response.message, "oklch(57.7% 0.245 27.325)");
+                setTaxes([]);
+                return;
+            }
+
+            setTaxes(response.data || []);
+            setTotalPages(response.totalPages || 1);
+        } catch (error) {
+            showToast(error.message, "oklch(57.7% 0.245 27.325)");
+        }
+    };
+    debounce(fetchItems, search, currentPage)
 
     return (
         <div className="p-6">
@@ -115,7 +130,7 @@ const GetTax = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredTaxes.map((tax) => (
+                        {taxes.map((tax) => (
                             <tr
                                 key={tax.id}
                                 className="hover:bg-gray-50 border-t border-gray-200 transition"

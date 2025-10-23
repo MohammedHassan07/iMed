@@ -2,39 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Search, Trash } from "lucide-react";
 import MedicineCard from "../../components/MedicineCard";
 import showToast from "../../utils/Toast";
+import debounce from '../../utils/debounce.js'
 
 const Purchase = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedItems, setSelectedItems] = useState([]);
     const [discount, setDiscount] = useState(0);
-    const [selectedTax, setSelectedTax] = useState(5);
+    const [selectedTax, setSelectedTax] = useState('');
     const [searchSupplier, setSearchSupplier] = useState("");
     const [selectedSupplier, setSelectedSupplier] = useState(null);
     const [discountType, setDiscountType] = useState("percentage"); // 'percentage' | 'fixed'
     const [purchaseDate, setPurchaseDate] = useState('')
     const [notes, setNotes] = useState('')
-
-
+    const [taxes, setTaxes] = useState([])
     const [medicines, setMedicines] = useState([]);
 
-    const [suppliers, setSuppliers] = useState([
-        {
-            id: 1,
-            name: "Draco Malfoy",
-            company: "Malfoy Potions Ltd.",
-            contact: "9876543210",
-            email: "draco@malfoypotions.com",
-            address: "Malfoy Manor, Wiltshire, England",
-        },
-        {
-            id: 2,
-            name: "Severus Snape",
-            company: "Snape’s Advanced Elixirs",
-            contact: "9823456712",
-            email: "snape@hogwardz.edu",
-            address: "Hogwardz Dungeon, Scotland",
-        },
-    ]);
+    const [suppliers, setSuppliers] = useState([]);
 
 
     // Select supplier
@@ -59,7 +42,7 @@ const Purchase = () => {
                     {
                         ...med, quantity: 1,
                         batchNumber: "",
-                        tax: selectedTax,
+                        tax: parseFloat(selectedTax),
                         mrp: med.mrp || 0,
                         scheme: 0
                     },
@@ -82,6 +65,7 @@ const Purchase = () => {
     };
 
     // PER ITEM TOTAL (with tax)
+    // total (with tax)
     const getItemTotal = (item) => {
         const qty = Number(item.quantity) || 0;
         const price = Number(item.purchasePrice) || 0;
@@ -91,12 +75,23 @@ const Purchase = () => {
         return totalWithoutTax + taxAmount;
     };
 
+    // profit (excluding tax)
     const getItemProfit = (item) => {
-        const sellingPrice = (item.sellingPrice || 0) * item.packageQuantity // TODO: multiply with package qunatity
-        const purchasePrice = item.purchasePrice
-        const profit = (sellingPrice - (purchasePrice || 0)) * item.quantity
-        return profit
-    }
+        const qty = Number(item.quantity) || 0;   
+        const scheme = Number(item.scheme) || 0;  // free strips
+        const purchasePrice = Number(item.purchasePrice) || 0;
+        const sellingPrice = Number(item.sellingPrice) || 0;
+
+        const totalStrips = qty + scheme; 
+        const totalPurchaseCost =  purchasePrice; 
+        const effectivePurchasePrice = totalPurchaseCost / totalStrips; 
+
+        const profitPerStrip = sellingPrice - effectivePurchasePrice;
+        const totalProfit = profitPerStrip * totalStrips; 
+
+        return totalProfit;
+    };
+
 
     // BILL TOTALS
     const subTotal = selectedItems.reduce(
@@ -163,14 +158,14 @@ const Purchase = () => {
             return;
         }
 
-        // 2️⃣ Prepare payload for backend
+        // Prepare payload for backend
         const purchaseData = {
             supplierId: selectedSupplier.id,
             purchaseDate,
             notes: notes,
             discountType,
             discount,
-            tax: selectedTax,
+            tax: parseFloat(selectedTax),
             subTotal,
             totalTax: overallTaxAmount,
             netTotal,
@@ -236,6 +231,7 @@ const Purchase = () => {
     const fetchSuppliers = async () => {
         try {
 
+            if (searchSupplier === "") return
             const response = await window.electronAPI.getSuppliersOnTyping({
                 search: searchSupplier.trim(),
             });
@@ -244,7 +240,7 @@ const Purchase = () => {
 
             if (response.status !== "success") {
                 showToast(response.message, "oklch(57.7% 0.245 27.325)");
-                // setItems([]);
+                setSuppliers([]);
                 return;
             }
 
@@ -254,19 +250,29 @@ const Purchase = () => {
         }
     }
 
-    useEffect(() => {
-        const delayDebounce = setTimeout(() => {
-            fetchItems();
-        }, 400);
-        return () => clearTimeout(delayDebounce);
-    }, [searchTerm]);
+    const fetchTaxes = async () => {
 
-    useEffect(() => {
-        const delayDebounce = setTimeout(() => {
-            fetchSuppliers()
-        }, 400);
-        return () => clearTimeout(delayDebounce);
-    }, [searchSupplier]);
+        try {
+
+            const response = await window.electronAPI.getAllTaxes();
+
+            console.log("Medicine Response:", response);
+
+            if (response.status !== "success") {
+                showToast(response.message, "oklch(57.7% 0.245 27.325)");
+                setTaxes([]);
+                return;
+            }
+
+            setTaxes(response.data || []);
+        } catch (error) {
+            showToast(error.message, "oklch(57.7% 0.245 27.325)");
+        }
+    }
+
+    debounce(fetchSuppliers, searchSupplier)
+    debounce(fetchItems, searchTerm)
+    debounce(fetchTaxes)
 
     return (
         <>
@@ -296,7 +302,7 @@ const Purchase = () => {
                                         onClick={() => handleSelectSupplier(supplier)}
                                         className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                                     >
-                                        {supplier.name} — {supplier.company}
+                                        {supplier.contactPerson} — {supplier.companyName}
                                     </li>
                                 ))}
                             </ul>
@@ -308,11 +314,11 @@ const Purchase = () => {
                     <div className="grid grid-cols-2 gap-4">
                         <div className="flex flex-col">
                             <span className="font-semibold text-gray-700">Name:</span>
-                            <span className="text-gray-600">{selectedSupplier.name}</span>
+                            <span className="text-gray-600">{selectedSupplier.contactPerson}</span>
                         </div>
                         <div className="flex flex-col">
                             <span className="font-semibold text-gray-700">Company:</span>
-                            <span className="text-gray-600">{selectedSupplier.company}</span>
+                            <span className="text-gray-600">{selectedSupplier.companyName}</span>
                         </div>
                         <div className="flex flex-col">
                             <span className="font-semibold text-gray-700">Contact:</span>
@@ -511,21 +517,22 @@ const Purchase = () => {
                                             </td>
                                             <td className="py-2 px-3 text-center">
                                                 <select
-                                                    value={item.tax}
+                                                    value={item.selectedTax}
                                                     onChange={(e) =>
                                                         handleInputChange(
                                                             item.id,
                                                             "tax",
-                                                            parseFloat(e.target.value)
+                                                            e.target.value
                                                         )
                                                     }
-                                                    className="border border-gray-300 p-1 rounded-md w-20 text-center"
+                                                    className="border border-gray-300 p-1 rounded-md w-32 text-right"
                                                 >
                                                     <option value="0">0%</option>
-                                                    <option value="5">5%</option>
-                                                    <option value="12">12%</option>
-                                                    <option value="18">18%</option>
-                                                    <option value="28">28%</option>
+                                                    {taxes.map((tax) => (
+                                                        <option key={tax.id} value={parseFloat(tax.percentage)}>
+                                                            {tax.taxName} ({tax.percentage}%)
+                                                        </option>
+                                                    ))}
                                                 </select>
                                             </td>
                                             <td className="py-2 px-3 text-center">
@@ -586,14 +593,17 @@ const Purchase = () => {
                                     <span className="font-medium">Overall Tax (%):</span>
                                     <select
                                         value={selectedTax}
-                                        onChange={(e) => setSelectedTax(parseFloat(e.target.value))}
-                                        className="border border-gray-300 p-1 rounded-md w-20 text-right "
+                                        onChange={(e) =>
+                                            setSelectedTax(parseFloat(e.target.value))
+                                        }
+                                        className="border border-gray-300 p-1 rounded-md w-32 text-right"
                                     >
                                         <option value="0">0%</option>
-                                        <option value="5">5%</option>
-                                        <option value="12">12%</option>
-                                        <option value="18">18%</option>
-                                        <option value="28">28%</option>
+                                        {taxes.map((tax) => (
+                                            <option key={tax.id} value={parseFloat(tax.percentage)}>
+                                                {tax.taxName} ({tax.percentage}%)
+                                            </option>
+                                        ))}
                                     </select>
                                 </div>
 

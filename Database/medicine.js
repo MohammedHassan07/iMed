@@ -1,7 +1,4 @@
-import { PrismaClient } from '../prisma/generated/prisma/index.js'
-// import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from './index.js'
 
 // add medicine
 export async function createMedicine(data) {

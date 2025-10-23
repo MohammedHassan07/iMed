@@ -84,8 +84,8 @@ model Supplier {
 
 model Tax {
   id         Int    @id @default(autoincrement())
-  taxName    String @unique
-  percentage Float
+  taxName    String
+  percentage String 
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

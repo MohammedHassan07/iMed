@@ -13,7 +13,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // suppliers
   addSupplier: (data) => ipcRenderer.invoke('addSupplier', data),
-  getSuppliersOnTyping: () => ipcRenderer.invoke('getSupplierOnTyping', data),
+  getSuppliersOnTyping: (data) => ipcRenderer.invoke('getSupplierOnTyping', data),
   getSuppliers: (data) => ipcRenderer.invoke('getSuppliers', data),
+
+
+  // tax
+  addTax: (data) => ipcRenderer.invoke('addTax', data),
+  getTaxes: (data) => ipcRenderer.invoke('getTaxes', data),
+  getAllTaxes: () => ipcRenderer.invoke('getAllTaxes')
 
 });

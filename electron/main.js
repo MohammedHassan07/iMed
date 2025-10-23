@@ -5,6 +5,7 @@ import chokidar from 'chokidar';
 import { createMedicine, getMedicine, getMedicineOnTyping } from '../Database/medicine.js';
 import { addPurchase } from '../Database/purchase.js';
 import { addSupplier, getSupplierOnTyping, getSuppliers } from '../Database/supplier.js';
+import { addTax, getAllTaxes, getTaxes } from '../Database/tax.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -89,4 +90,18 @@ ipcMain.handle('getSupplierOnTyping', async (event, data) => {
 })
 ipcMain.handle('getSuppliers', async (event, data) => {
   return await getSuppliers(data)
+})
+
+
+
+// ------------tax------------------------
+// add Tax
+ipcMain.handle('addTax', async (event, data ) => {
+    return await addTax(data)
+})
+ipcMain.handle('getTaxes', async (event, data) => {
+      return await getTaxes(data)
+})
+ipcMain.handle('getAllTaxes', async () => {
+  return await getAllTaxes()
 })

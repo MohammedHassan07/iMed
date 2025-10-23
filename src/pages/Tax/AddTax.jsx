@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AddButton from "../../components/AddButton";
+import showToast from '../../utils/Toast.js'
 
 const AddTax = () => {
     const [form, setForm] = useState({
@@ -13,11 +14,31 @@ const AddTax = () => {
     };
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Tax added:", form);
-        // API call to add tax can go here
-        // Example: await axios.post('/api/tax', form)
+
+        for (const field in form) {
+            if (form[field] === "") {
+                showToast(`Please fill in the ${field.replace(/([A-Z])/g, ' $1')}`, 'oklch(57.7% 0.245 27.325)');
+                return;
+            }
+        }
+
+        try {
+
+            const response = await window.electronAPI.addTax(form);
+            console.log(response)
+
+            if (response.status !== 'success') {
+                return showToast(response.message || 'Something went wrong !!!', 'oklch(57.7% 0.245 27.325)');
+            }
+
+            return showToast(response.message || 'Tax Added', 'oklch(62.7% 0.194 149.214)');
+        } catch (error) {
+            console.log(error)
+            return showToast(error.message || 'Something went wrong !!!', 'oklch(57.7% 0.245 27.325)');
+        }
     };
 
     return (

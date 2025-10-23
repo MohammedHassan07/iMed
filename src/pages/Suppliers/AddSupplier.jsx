@@ -18,7 +18,7 @@ const AddSupplier = () => {
     e.preventDefault();
 
     for (const field in form) {
-      if ((field !== "description" && field !== "boxNumber") && form[field] === "") {
+      if (form[field] === "") {
         showToast(`Please fill in the ${field.replace(/([A-Z])/g, ' $1')}`, 'oklch(57.7% 0.245 27.325)');
         return;
       }

@@ -46,9 +46,28 @@ export const addSupplier = async (data) => {
 }
 
 // get supplier on typing
-export const getSupplierOnTyping = ({ search }) => {
+export const getSupplierOnTyping = async ({ search }) => {
 
-    // const suppliers = await prisma.
+
+    const suppliers = await prisma.supplier.findMany({
+        where: {
+            OR: [
+
+                { companyName: { contains: search } },
+                { contactPerson: { contains: search } },
+                { contact: { contains: search } },
+                { email: { contains: search } }
+
+
+            ]
+        }
+    })
+
+    if (!suppliers || suppliers.length < 1) {
+        return { status: 'failed', message: 'Supplier not found' }
+    }
+
+    return { status: 'success', message: 'Supplier found', data: suppliers }
 }
 
 // get suppliers with pagination

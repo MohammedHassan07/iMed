@@ -3,6 +3,7 @@ import EditDelete from "../../components/EditDelete";
 import DynamicForm from "../../components/DynamicForm";
 import DeleteModal from "../../components/DeleteMoodal";
 import showToast from "../../utils/Toast";
+import debounce from '../../utils/debounce.js'
 
 const GetSupplier = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -95,12 +96,7 @@ const GetSupplier = () => {
 
 
   // ---- Debounced API call ----
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      fetchItems();
-    }, 400); // wait 400ms after user stops typing
-    return () => clearTimeout(delayDebounce);
-  }, [search, currentPage]);
+  debounce(fetchItems, search, currentPage)
 
 
 

@@ -6038,18 +6038,16 @@ export namespace Prisma {
 
   export type TaxAvgAggregateOutputType = {
     id: number | null
-    percentage: number | null
   }
 
   export type TaxSumAggregateOutputType = {
     id: number | null
-    percentage: number | null
   }
 
   export type TaxMinAggregateOutputType = {
     id: number | null
     taxName: string | null
-    percentage: number | null
+    percentage: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6057,7 +6055,7 @@ export namespace Prisma {
   export type TaxMaxAggregateOutputType = {
     id: number | null
     taxName: string | null
-    percentage: number | null
+    percentage: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6074,12 +6072,10 @@ export namespace Prisma {
 
   export type TaxAvgAggregateInputType = {
     id?: true
-    percentage?: true
   }
 
   export type TaxSumAggregateInputType = {
     id?: true
-    percentage?: true
   }
 
   export type TaxMinAggregateInputType = {
@@ -6196,7 +6192,7 @@ export namespace Prisma {
   export type TaxGroupByOutputType = {
     id: number
     taxName: string
-    percentage: number
+    percentage: string
     createdAt: Date
     updatedAt: Date
     _count: TaxCountAggregateOutputType | null
@@ -6260,7 +6256,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       taxName: string
-      percentage: number
+      percentage: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tax"]>
@@ -6688,7 +6684,7 @@ export namespace Prisma {
   interface TaxFieldRefs {
     readonly id: FieldRef<"Tax", 'Int'>
     readonly taxName: FieldRef<"Tax", 'String'>
-    readonly percentage: FieldRef<"Tax", 'Float'>
+    readonly percentage: FieldRef<"Tax", 'String'>
     readonly createdAt: FieldRef<"Tax", 'DateTime'>
     readonly updatedAt: FieldRef<"Tax", 'DateTime'>
   }
@@ -7563,7 +7559,7 @@ export namespace Prisma {
     NOT?: TaxWhereInput | TaxWhereInput[]
     id?: IntFilter<"Tax"> | number
     taxName?: StringFilter<"Tax"> | string
-    percentage?: FloatFilter<"Tax"> | number
+    percentage?: StringFilter<"Tax"> | string
     createdAt?: DateTimeFilter<"Tax"> | Date | string
     updatedAt?: DateTimeFilter<"Tax"> | Date | string
   }
@@ -7578,14 +7574,14 @@ export namespace Prisma {
 
   export type TaxWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    taxName?: string
     AND?: TaxWhereInput | TaxWhereInput[]
     OR?: TaxWhereInput[]
     NOT?: TaxWhereInput | TaxWhereInput[]
-    percentage?: FloatFilter<"Tax"> | number
+    taxName?: StringFilter<"Tax"> | string
+    percentage?: StringFilter<"Tax"> | string
     createdAt?: DateTimeFilter<"Tax"> | Date | string
     updatedAt?: DateTimeFilter<"Tax"> | Date | string
-  }, "id" | "taxName">
+  }, "id">
 
   export type TaxOrderByWithAggregationInput = {
     id?: SortOrder
@@ -7606,7 +7602,7 @@ export namespace Prisma {
     NOT?: TaxScalarWhereWithAggregatesInput | TaxScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Tax"> | number
     taxName?: StringWithAggregatesFilter<"Tax"> | string
-    percentage?: FloatWithAggregatesFilter<"Tax"> | number
+    percentage?: StringWithAggregatesFilter<"Tax"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Tax"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Tax"> | Date | string
   }
@@ -8013,7 +8009,7 @@ export namespace Prisma {
 
   export type TaxCreateInput = {
     taxName: string
-    percentage: number
+    percentage: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8021,14 +8017,14 @@ export namespace Prisma {
   export type TaxUncheckedCreateInput = {
     id?: number
     taxName: string
-    percentage: number
+    percentage: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type TaxUpdateInput = {
     taxName?: StringFieldUpdateOperationsInput | string
-    percentage?: FloatFieldUpdateOperationsInput | number
+    percentage?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8036,7 +8032,7 @@ export namespace Prisma {
   export type TaxUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     taxName?: StringFieldUpdateOperationsInput | string
-    percentage?: FloatFieldUpdateOperationsInput | number
+    percentage?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8044,14 +8040,14 @@ export namespace Prisma {
   export type TaxCreateManyInput = {
     id?: number
     taxName: string
-    percentage: number
+    percentage: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type TaxUpdateManyMutationInput = {
     taxName?: StringFieldUpdateOperationsInput | string
-    percentage?: FloatFieldUpdateOperationsInput | number
+    percentage?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8059,7 +8055,7 @@ export namespace Prisma {
   export type TaxUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     taxName?: StringFieldUpdateOperationsInput | string
-    percentage?: FloatFieldUpdateOperationsInput | number
+    percentage?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8509,7 +8505,6 @@ export namespace Prisma {
 
   export type TaxAvgOrderByAggregateInput = {
     id?: SortOrder
-    percentage?: SortOrder
   }
 
   export type TaxMaxOrderByAggregateInput = {
@@ -8530,7 +8525,6 @@ export namespace Prisma {
 
   export type TaxSumOrderByAggregateInput = {
     id?: SortOrder
-    percentage?: SortOrder
   }
 
   export type PurchaseItemCreateNestedManyWithoutMedicineInput = {
