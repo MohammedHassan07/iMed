@@ -2507,7 +2507,6 @@ export namespace Prisma {
     supplierId: number | null
     discount: number | null
     subTotal: number | null
-    totalTax: number | null
     netTotal: number | null
     tax: number | null
     total: number | null
@@ -2518,7 +2517,6 @@ export namespace Prisma {
     supplierId: number | null
     discount: number | null
     subTotal: number | null
-    totalTax: number | null
     netTotal: number | null
     tax: number | null
     total: number | null
@@ -2532,7 +2530,6 @@ export namespace Prisma {
     discountType: string | null
     discount: number | null
     subTotal: number | null
-    totalTax: number | null
     netTotal: number | null
     tax: number | null
     total: number | null
@@ -2548,7 +2545,6 @@ export namespace Prisma {
     discountType: string | null
     discount: number | null
     subTotal: number | null
-    totalTax: number | null
     netTotal: number | null
     tax: number | null
     total: number | null
@@ -2564,7 +2560,6 @@ export namespace Prisma {
     discountType: number
     discount: number
     subTotal: number
-    totalTax: number
     netTotal: number
     tax: number
     total: number
@@ -2579,7 +2574,6 @@ export namespace Prisma {
     supplierId?: true
     discount?: true
     subTotal?: true
-    totalTax?: true
     netTotal?: true
     tax?: true
     total?: true
@@ -2590,7 +2584,6 @@ export namespace Prisma {
     supplierId?: true
     discount?: true
     subTotal?: true
-    totalTax?: true
     netTotal?: true
     tax?: true
     total?: true
@@ -2604,7 +2597,6 @@ export namespace Prisma {
     discountType?: true
     discount?: true
     subTotal?: true
-    totalTax?: true
     netTotal?: true
     tax?: true
     total?: true
@@ -2620,7 +2612,6 @@ export namespace Prisma {
     discountType?: true
     discount?: true
     subTotal?: true
-    totalTax?: true
     netTotal?: true
     tax?: true
     total?: true
@@ -2636,7 +2627,6 @@ export namespace Prisma {
     discountType?: true
     discount?: true
     subTotal?: true
-    totalTax?: true
     netTotal?: true
     tax?: true
     total?: true
@@ -2739,7 +2729,6 @@ export namespace Prisma {
     discountType: string
     discount: number
     subTotal: number
-    totalTax: number
     netTotal: number
     tax: number
     total: number
@@ -2774,7 +2763,6 @@ export namespace Prisma {
     discountType?: boolean
     discount?: boolean
     subTotal?: boolean
-    totalTax?: boolean
     netTotal?: boolean
     tax?: boolean
     total?: boolean
@@ -2792,7 +2780,6 @@ export namespace Prisma {
     discountType?: boolean
     discount?: boolean
     subTotal?: boolean
-    totalTax?: boolean
     netTotal?: boolean
     tax?: boolean
     total?: boolean
@@ -2808,7 +2795,6 @@ export namespace Prisma {
     discountType?: boolean
     discount?: boolean
     subTotal?: boolean
-    totalTax?: boolean
     netTotal?: boolean
     tax?: boolean
     total?: boolean
@@ -2824,7 +2810,6 @@ export namespace Prisma {
     discountType?: boolean
     discount?: boolean
     subTotal?: boolean
-    totalTax?: boolean
     netTotal?: boolean
     tax?: boolean
     total?: boolean
@@ -2832,7 +2817,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PurchaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "supplierId" | "purchaseDate" | "notes" | "discountType" | "discount" | "subTotal" | "totalTax" | "netTotal" | "tax" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["purchase"]>
+  export type PurchaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "supplierId" | "purchaseDate" | "notes" | "discountType" | "discount" | "subTotal" | "netTotal" | "tax" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["purchase"]>
   export type PurchaseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchasedItems?: boolean | Purchase$purchasedItemsArgs<ExtArgs>
     _count?: boolean | PurchaseCountOutputTypeDefaultArgs<ExtArgs>
@@ -2853,7 +2838,6 @@ export namespace Prisma {
       discountType: string
       discount: number
       subTotal: number
-      totalTax: number
       netTotal: number
       tax: number
       total: number
@@ -3290,7 +3274,6 @@ export namespace Prisma {
     readonly discountType: FieldRef<"Purchase", 'String'>
     readonly discount: FieldRef<"Purchase", 'Float'>
     readonly subTotal: FieldRef<"Purchase", 'Float'>
-    readonly totalTax: FieldRef<"Purchase", 'Float'>
     readonly netTotal: FieldRef<"Purchase", 'Float'>
     readonly tax: FieldRef<"Purchase", 'Float'>
     readonly total: FieldRef<"Purchase", 'Float'>
@@ -3746,6 +3729,9 @@ export namespace Prisma {
     profit: number | null
     tax: number | null
     total: number | null
+    totalMedicines: number | null
+    remainingMedicines: number | null
+    scheme: number | null
   }
 
   export type PurchaseItemSumAggregateOutputType = {
@@ -3758,6 +3744,9 @@ export namespace Prisma {
     profit: number | null
     tax: number | null
     total: number | null
+    totalMedicines: number | null
+    remainingMedicines: number | null
+    scheme: number | null
   }
 
   export type PurchaseItemMinAggregateOutputType = {
@@ -3772,6 +3761,9 @@ export namespace Prisma {
     profit: number | null
     tax: number | null
     total: number | null
+    totalMedicines: number | null
+    remainingMedicines: number | null
+    scheme: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3788,6 +3780,9 @@ export namespace Prisma {
     profit: number | null
     tax: number | null
     total: number | null
+    totalMedicines: number | null
+    remainingMedicines: number | null
+    scheme: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3804,6 +3799,9 @@ export namespace Prisma {
     profit: number
     tax: number
     total: number
+    totalMedicines: number
+    remainingMedicines: number
+    scheme: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3820,6 +3818,9 @@ export namespace Prisma {
     profit?: true
     tax?: true
     total?: true
+    totalMedicines?: true
+    remainingMedicines?: true
+    scheme?: true
   }
 
   export type PurchaseItemSumAggregateInputType = {
@@ -3832,6 +3833,9 @@ export namespace Prisma {
     profit?: true
     tax?: true
     total?: true
+    totalMedicines?: true
+    remainingMedicines?: true
+    scheme?: true
   }
 
   export type PurchaseItemMinAggregateInputType = {
@@ -3846,6 +3850,9 @@ export namespace Prisma {
     profit?: true
     tax?: true
     total?: true
+    totalMedicines?: true
+    remainingMedicines?: true
+    scheme?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3862,6 +3869,9 @@ export namespace Prisma {
     profit?: true
     tax?: true
     total?: true
+    totalMedicines?: true
+    remainingMedicines?: true
+    scheme?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3878,6 +3888,9 @@ export namespace Prisma {
     profit?: true
     tax?: true
     total?: true
+    totalMedicines?: true
+    remainingMedicines?: true
+    scheme?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3981,6 +3994,9 @@ export namespace Prisma {
     profit: number
     tax: number
     total: number
+    totalMedicines: number
+    remainingMedicines: number
+    scheme: number
     createdAt: Date
     updatedAt: Date
     _count: PurchaseItemCountAggregateOutputType | null
@@ -4016,6 +4032,9 @@ export namespace Prisma {
     profit?: boolean
     tax?: boolean
     total?: boolean
+    totalMedicines?: boolean
+    remainingMedicines?: boolean
+    scheme?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
@@ -4034,6 +4053,9 @@ export namespace Prisma {
     profit?: boolean
     tax?: boolean
     total?: boolean
+    totalMedicines?: boolean
+    remainingMedicines?: boolean
+    scheme?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
@@ -4052,6 +4074,9 @@ export namespace Prisma {
     profit?: boolean
     tax?: boolean
     total?: boolean
+    totalMedicines?: boolean
+    remainingMedicines?: boolean
+    scheme?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
@@ -4070,11 +4095,14 @@ export namespace Prisma {
     profit?: boolean
     tax?: boolean
     total?: boolean
+    totalMedicines?: boolean
+    remainingMedicines?: boolean
+    scheme?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "sellingPrice" | "quantity" | "profit" | "tax" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["purchaseItem"]>
+  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "sellingPrice" | "quantity" | "profit" | "tax" | "total" | "totalMedicines" | "remainingMedicines" | "scheme" | "createdAt" | "updatedAt", ExtArgs["result"]["purchaseItem"]>
   export type PurchaseItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
     medicine?: boolean | medicineDefaultArgs<ExtArgs>
@@ -4106,6 +4134,9 @@ export namespace Prisma {
       profit: number
       tax: number
       total: number
+      totalMedicines: number
+      remainingMedicines: number
+      scheme: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["purchaseItem"]>
@@ -4544,6 +4575,9 @@ export namespace Prisma {
     readonly profit: FieldRef<"PurchaseItem", 'Float'>
     readonly tax: FieldRef<"PurchaseItem", 'Float'>
     readonly total: FieldRef<"PurchaseItem", 'Float'>
+    readonly totalMedicines: FieldRef<"PurchaseItem", 'Float'>
+    readonly remainingMedicines: FieldRef<"PurchaseItem", 'Float'>
+    readonly scheme: FieldRef<"PurchaseItem", 'Float'>
     readonly createdAt: FieldRef<"PurchaseItem", 'DateTime'>
     readonly updatedAt: FieldRef<"PurchaseItem", 'DateTime'>
   }
@@ -7088,7 +7122,6 @@ export namespace Prisma {
     discountType: 'discountType',
     discount: 'discount',
     subTotal: 'subTotal',
-    totalTax: 'totalTax',
     netTotal: 'netTotal',
     tax: 'tax',
     total: 'total',
@@ -7111,6 +7144,9 @@ export namespace Prisma {
     profit: 'profit',
     tax: 'tax',
     total: 'total',
+    totalMedicines: 'totalMedicines',
+    remainingMedicines: 'remainingMedicines',
+    scheme: 'scheme',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -7298,7 +7334,6 @@ export namespace Prisma {
     discountType?: StringFilter<"Purchase"> | string
     discount?: FloatFilter<"Purchase"> | number
     subTotal?: FloatFilter<"Purchase"> | number
-    totalTax?: FloatFilter<"Purchase"> | number
     netTotal?: FloatFilter<"Purchase"> | number
     tax?: FloatFilter<"Purchase"> | number
     total?: FloatFilter<"Purchase"> | number
@@ -7315,7 +7350,6 @@ export namespace Prisma {
     discountType?: SortOrder
     discount?: SortOrder
     subTotal?: SortOrder
-    totalTax?: SortOrder
     netTotal?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -7335,7 +7369,6 @@ export namespace Prisma {
     discountType?: StringFilter<"Purchase"> | string
     discount?: FloatFilter<"Purchase"> | number
     subTotal?: FloatFilter<"Purchase"> | number
-    totalTax?: FloatFilter<"Purchase"> | number
     netTotal?: FloatFilter<"Purchase"> | number
     tax?: FloatFilter<"Purchase"> | number
     total?: FloatFilter<"Purchase"> | number
@@ -7352,7 +7385,6 @@ export namespace Prisma {
     discountType?: SortOrder
     discount?: SortOrder
     subTotal?: SortOrder
-    totalTax?: SortOrder
     netTotal?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -7376,7 +7408,6 @@ export namespace Prisma {
     discountType?: StringWithAggregatesFilter<"Purchase"> | string
     discount?: FloatWithAggregatesFilter<"Purchase"> | number
     subTotal?: FloatWithAggregatesFilter<"Purchase"> | number
-    totalTax?: FloatWithAggregatesFilter<"Purchase"> | number
     netTotal?: FloatWithAggregatesFilter<"Purchase"> | number
     tax?: FloatWithAggregatesFilter<"Purchase"> | number
     total?: FloatWithAggregatesFilter<"Purchase"> | number
@@ -7399,6 +7430,9 @@ export namespace Prisma {
     profit?: FloatFilter<"PurchaseItem"> | number
     tax?: FloatFilter<"PurchaseItem"> | number
     total?: FloatFilter<"PurchaseItem"> | number
+    totalMedicines?: FloatFilter<"PurchaseItem"> | number
+    remainingMedicines?: FloatFilter<"PurchaseItem"> | number
+    scheme?: FloatFilter<"PurchaseItem"> | number
     createdAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     purchase?: XOR<PurchaseScalarRelationFilter, PurchaseWhereInput>
@@ -7417,6 +7451,9 @@ export namespace Prisma {
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
+    totalMedicines?: SortOrder
+    remainingMedicines?: SortOrder
+    scheme?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     purchase?: PurchaseOrderByWithRelationInput
@@ -7438,6 +7475,9 @@ export namespace Prisma {
     profit?: FloatFilter<"PurchaseItem"> | number
     tax?: FloatFilter<"PurchaseItem"> | number
     total?: FloatFilter<"PurchaseItem"> | number
+    totalMedicines?: FloatFilter<"PurchaseItem"> | number
+    remainingMedicines?: FloatFilter<"PurchaseItem"> | number
+    scheme?: FloatFilter<"PurchaseItem"> | number
     createdAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     purchase?: XOR<PurchaseScalarRelationFilter, PurchaseWhereInput>
@@ -7456,6 +7496,9 @@ export namespace Prisma {
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
+    totalMedicines?: SortOrder
+    remainingMedicines?: SortOrder
+    scheme?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PurchaseItemCountOrderByAggregateInput
@@ -7480,6 +7523,9 @@ export namespace Prisma {
     profit?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     tax?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     total?: FloatWithAggregatesFilter<"PurchaseItem"> | number
+    totalMedicines?: FloatWithAggregatesFilter<"PurchaseItem"> | number
+    remainingMedicines?: FloatWithAggregatesFilter<"PurchaseItem"> | number
+    scheme?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     createdAt?: DateTimeWithAggregatesFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"PurchaseItem"> | Date | string
   }
@@ -7720,7 +7766,6 @@ export namespace Prisma {
     discountType?: string
     discount?: number
     subTotal?: number
-    totalTax?: number
     netTotal?: number
     tax?: number
     total?: number
@@ -7737,7 +7782,6 @@ export namespace Prisma {
     discountType?: string
     discount?: number
     subTotal?: number
-    totalTax?: number
     netTotal?: number
     tax?: number
     total?: number
@@ -7753,7 +7797,6 @@ export namespace Prisma {
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
     subTotal?: FloatFieldUpdateOperationsInput | number
-    totalTax?: FloatFieldUpdateOperationsInput | number
     netTotal?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -7770,7 +7813,6 @@ export namespace Prisma {
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
     subTotal?: FloatFieldUpdateOperationsInput | number
-    totalTax?: FloatFieldUpdateOperationsInput | number
     netTotal?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -7787,7 +7829,6 @@ export namespace Prisma {
     discountType?: string
     discount?: number
     subTotal?: number
-    totalTax?: number
     netTotal?: number
     tax?: number
     total?: number
@@ -7802,7 +7843,6 @@ export namespace Prisma {
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
     subTotal?: FloatFieldUpdateOperationsInput | number
-    totalTax?: FloatFieldUpdateOperationsInput | number
     netTotal?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -7818,7 +7858,6 @@ export namespace Prisma {
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
     subTotal?: FloatFieldUpdateOperationsInput | number
-    totalTax?: FloatFieldUpdateOperationsInput | number
     netTotal?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -7835,6 +7874,9 @@ export namespace Prisma {
     profit: number
     tax: number
     total: number
+    totalMedicines: number
+    remainingMedicines: number
+    scheme: number
     createdAt?: Date | string
     updatedAt?: Date | string
     purchase: PurchaseCreateNestedOneWithoutPurchasedItemsInput
@@ -7853,6 +7895,9 @@ export namespace Prisma {
     profit: number
     tax: number
     total: number
+    totalMedicines: number
+    remainingMedicines: number
+    scheme: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7866,6 +7911,9 @@ export namespace Prisma {
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    totalMedicines?: FloatFieldUpdateOperationsInput | number
+    remainingMedicines?: FloatFieldUpdateOperationsInput | number
+    scheme?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     purchase?: PurchaseUpdateOneRequiredWithoutPurchasedItemsNestedInput
@@ -7884,6 +7932,9 @@ export namespace Prisma {
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    totalMedicines?: FloatFieldUpdateOperationsInput | number
+    remainingMedicines?: FloatFieldUpdateOperationsInput | number
+    scheme?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7900,6 +7951,9 @@ export namespace Prisma {
     profit: number
     tax: number
     total: number
+    totalMedicines: number
+    remainingMedicines: number
+    scheme: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7913,6 +7967,9 @@ export namespace Prisma {
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    totalMedicines?: FloatFieldUpdateOperationsInput | number
+    remainingMedicines?: FloatFieldUpdateOperationsInput | number
+    scheme?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7929,6 +7986,9 @@ export namespace Prisma {
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    totalMedicines?: FloatFieldUpdateOperationsInput | number
+    remainingMedicines?: FloatFieldUpdateOperationsInput | number
+    scheme?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8294,7 +8354,6 @@ export namespace Prisma {
     discountType?: SortOrder
     discount?: SortOrder
     subTotal?: SortOrder
-    totalTax?: SortOrder
     netTotal?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -8307,7 +8366,6 @@ export namespace Prisma {
     supplierId?: SortOrder
     discount?: SortOrder
     subTotal?: SortOrder
-    totalTax?: SortOrder
     netTotal?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -8321,7 +8379,6 @@ export namespace Prisma {
     discountType?: SortOrder
     discount?: SortOrder
     subTotal?: SortOrder
-    totalTax?: SortOrder
     netTotal?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -8337,7 +8394,6 @@ export namespace Prisma {
     discountType?: SortOrder
     discount?: SortOrder
     subTotal?: SortOrder
-    totalTax?: SortOrder
     netTotal?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -8350,7 +8406,6 @@ export namespace Prisma {
     supplierId?: SortOrder
     discount?: SortOrder
     subTotal?: SortOrder
-    totalTax?: SortOrder
     netTotal?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -8394,6 +8449,9 @@ export namespace Prisma {
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
+    totalMedicines?: SortOrder
+    remainingMedicines?: SortOrder
+    scheme?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8408,6 +8466,9 @@ export namespace Prisma {
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
+    totalMedicines?: SortOrder
+    remainingMedicines?: SortOrder
+    scheme?: SortOrder
   }
 
   export type PurchaseItemMaxOrderByAggregateInput = {
@@ -8422,6 +8483,9 @@ export namespace Prisma {
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
+    totalMedicines?: SortOrder
+    remainingMedicines?: SortOrder
+    scheme?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8438,6 +8502,9 @@ export namespace Prisma {
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
+    totalMedicines?: SortOrder
+    remainingMedicines?: SortOrder
+    scheme?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8452,6 +8519,9 @@ export namespace Prisma {
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
+    totalMedicines?: SortOrder
+    remainingMedicines?: SortOrder
+    scheme?: SortOrder
   }
 
   export type SupplierCountOrderByAggregateInput = {
@@ -8863,6 +8933,9 @@ export namespace Prisma {
     profit: number
     tax: number
     total: number
+    totalMedicines: number
+    remainingMedicines: number
+    scheme: number
     createdAt?: Date | string
     updatedAt?: Date | string
     purchase: PurchaseCreateNestedOneWithoutPurchasedItemsInput
@@ -8879,6 +8952,9 @@ export namespace Prisma {
     profit: number
     tax: number
     total: number
+    totalMedicines: number
+    remainingMedicines: number
+    scheme: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8923,6 +8999,9 @@ export namespace Prisma {
     profit?: FloatFilter<"PurchaseItem"> | number
     tax?: FloatFilter<"PurchaseItem"> | number
     total?: FloatFilter<"PurchaseItem"> | number
+    totalMedicines?: FloatFilter<"PurchaseItem"> | number
+    remainingMedicines?: FloatFilter<"PurchaseItem"> | number
+    scheme?: FloatFilter<"PurchaseItem"> | number
     createdAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeFilter<"PurchaseItem"> | Date | string
   }
@@ -8936,6 +9015,9 @@ export namespace Prisma {
     profit: number
     tax: number
     total: number
+    totalMedicines: number
+    remainingMedicines: number
+    scheme: number
     createdAt?: Date | string
     updatedAt?: Date | string
     medicine: medicineCreateNestedOneWithoutPurchaseItemsInput
@@ -8952,6 +9034,9 @@ export namespace Prisma {
     profit: number
     tax: number
     total: number
+    totalMedicines: number
+    remainingMedicines: number
+    scheme: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8988,7 +9073,6 @@ export namespace Prisma {
     discountType?: string
     discount?: number
     subTotal?: number
-    totalTax?: number
     netTotal?: number
     tax?: number
     total?: number
@@ -9004,7 +9088,6 @@ export namespace Prisma {
     discountType?: string
     discount?: number
     subTotal?: number
-    totalTax?: number
     netTotal?: number
     tax?: number
     total?: number
@@ -9069,7 +9152,6 @@ export namespace Prisma {
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
     subTotal?: FloatFieldUpdateOperationsInput | number
-    totalTax?: FloatFieldUpdateOperationsInput | number
     netTotal?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -9085,7 +9167,6 @@ export namespace Prisma {
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
     subTotal?: FloatFieldUpdateOperationsInput | number
-    totalTax?: FloatFieldUpdateOperationsInput | number
     netTotal?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -9144,6 +9225,9 @@ export namespace Prisma {
     profit: number
     tax: number
     total: number
+    totalMedicines: number
+    remainingMedicines: number
+    scheme: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9157,6 +9241,9 @@ export namespace Prisma {
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    totalMedicines?: FloatFieldUpdateOperationsInput | number
+    remainingMedicines?: FloatFieldUpdateOperationsInput | number
+    scheme?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     purchase?: PurchaseUpdateOneRequiredWithoutPurchasedItemsNestedInput
@@ -9173,6 +9260,9 @@ export namespace Prisma {
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    totalMedicines?: FloatFieldUpdateOperationsInput | number
+    remainingMedicines?: FloatFieldUpdateOperationsInput | number
+    scheme?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9188,6 +9278,9 @@ export namespace Prisma {
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    totalMedicines?: FloatFieldUpdateOperationsInput | number
+    remainingMedicines?: FloatFieldUpdateOperationsInput | number
+    scheme?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9203,6 +9296,9 @@ export namespace Prisma {
     profit: number
     tax: number
     total: number
+    totalMedicines: number
+    remainingMedicines: number
+    scheme: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9216,6 +9312,9 @@ export namespace Prisma {
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    totalMedicines?: FloatFieldUpdateOperationsInput | number
+    remainingMedicines?: FloatFieldUpdateOperationsInput | number
+    scheme?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     medicine?: medicineUpdateOneRequiredWithoutPurchaseItemsNestedInput
@@ -9232,6 +9331,9 @@ export namespace Prisma {
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    totalMedicines?: FloatFieldUpdateOperationsInput | number
+    remainingMedicines?: FloatFieldUpdateOperationsInput | number
+    scheme?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9247,6 +9349,9 @@ export namespace Prisma {
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    totalMedicines?: FloatFieldUpdateOperationsInput | number
+    remainingMedicines?: FloatFieldUpdateOperationsInput | number
+    scheme?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

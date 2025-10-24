@@ -8,7 +8,7 @@ const Purchase = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedItems, setSelectedItems] = useState([]);
     const [discount, setDiscount] = useState(0);
-    const [selectedTax, setSelectedTax] = useState('');
+    const [selectedTax, setSelectedTax] = useState(0);
     const [searchSupplier, setSearchSupplier] = useState("");
     const [selectedSupplier, setSelectedSupplier] = useState(null);
     const [discountType, setDiscountType] = useState("percentage"); // 'percentage' | 'fixed'
@@ -77,17 +77,21 @@ const Purchase = () => {
 
     // profit (excluding tax)
     const getItemProfit = (item) => {
-        const qty = Number(item.quantity) || 0;   
-        const scheme = Number(item.scheme) || 0;  // free strips
+
+       
+        const qty = Number(item.quantity) || 0;
+        const scheme = Number(item.scheme) || 0;  
         const purchasePrice = Number(item.purchasePrice) || 0;
+        const itemTotalPrice = Number(getItemTotal(item))
+        console.log(itemTotalPrice)
         const sellingPrice = Number(item.sellingPrice) || 0;
 
-        const totalStrips = qty + scheme; 
-        const totalPurchaseCost =  purchasePrice; 
-        const effectivePurchasePrice = totalPurchaseCost / totalStrips; 
+        const totalStrips = qty + scheme;
+        const totalPurchaseCost = itemTotalPrice;
+        const effectivePurchasePrice = totalPurchaseCost / totalStrips;
 
         const profitPerStrip = sellingPrice - effectivePurchasePrice;
-        const totalProfit = profitPerStrip * totalStrips; 
+        const totalProfit = profitPerStrip * totalStrips;
 
         return totalProfit;
     };
@@ -167,7 +171,7 @@ const Purchase = () => {
             discount,
             tax: parseFloat(selectedTax),
             subTotal,
-            totalTax: overallTaxAmount,
+            // totalTax: overallTaxAmount,
             netTotal,
             medicines: selectedItems.map((item) => ({
                 medicineId: item.id,
@@ -176,11 +180,12 @@ const Purchase = () => {
                 purchasePrice: item.purchasePrice,
                 sellingPrice: item.sellingPrice,
                 quantity: item.quantity,
-                tax: item.tax,
+                tax: parseFloat(item.tax),
                 total: getItemTotal(item),
                 profit: getItemProfit(item),
                 mrp: item.mrp,
-                scheme: item.scheme
+                scheme: item.scheme || 0,
+                packageQuantity: item.packageQuantity
             })),
         };
 
@@ -517,7 +522,7 @@ const Purchase = () => {
                                             </td>
                                             <td className="py-2 px-3 text-center">
                                                 <select
-                                                    value={item.selectedTax}
+                                                    value={item.tax}
                                                     onChange={(e) =>
                                                         handleInputChange(
                                                             item.id,
@@ -527,7 +532,7 @@ const Purchase = () => {
                                                     }
                                                     className="border border-gray-300 p-1 rounded-md w-32 text-right"
                                                 >
-                                                    <option value="0">0%</option>
+                                                    <option value={0}>0%</option>
                                                     {taxes.map((tax) => (
                                                         <option key={tax.id} value={parseFloat(tax.percentage)}>
                                                             {tax.taxName} ({tax.percentage}%)

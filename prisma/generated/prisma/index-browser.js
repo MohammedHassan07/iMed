@@ -140,7 +140,6 @@ exports.Prisma.PurchaseScalarFieldEnum = {
   discountType: 'discountType',
   discount: 'discount',
   subTotal: 'subTotal',
-  totalTax: 'totalTax',
   netTotal: 'netTotal',
   tax: 'tax',
   total: 'total',
@@ -160,6 +159,9 @@ exports.Prisma.PurchaseItemScalarFieldEnum = {
   profit: 'profit',
   tax: 'tax',
   total: 'total',
+  totalMedicines: 'totalMedicines',
+  remainingMedicines: 'remainingMedicines',
+  scheme: 'scheme',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

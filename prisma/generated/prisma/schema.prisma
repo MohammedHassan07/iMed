@@ -38,7 +38,7 @@ model Purchase {
   discountType String   @default("percentage")
   discount     Float    @default(0)
   subTotal     Float    @default(0)
-  totalTax     Float    @default(0)
+  // totalTax     Float    @default(0)
   netTotal     Float    @default(0)
   tax          Float    @default(0)
   total        Float    @default(0)
@@ -54,14 +54,17 @@ model PurchaseItem {
   purchaseId Int
   medicineId Int
 
-  batchNumber   String
-  expiryDate    DateTime
-  purchasePrice Float
-  sellingPrice  Float
-  quantity      Int
-  profit        Float
-  tax           Float
-  total         Float
+  batchNumber        String
+  expiryDate         DateTime
+  purchasePrice      Float
+  sellingPrice       Float
+  quantity           Int
+  profit             Float
+  tax                Float
+  total              Float
+  totalMedicines     Float
+  remainingMedicines Float
+  scheme             Float
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
