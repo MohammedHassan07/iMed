@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Trash } from "lucide-react";
 import MedicineSearch from "../../components/MedicineSearch";
 import { Search } from "lucide-react";
+import showToast from "../../utils/Toast";
 
 const AddSales = () => {
 
@@ -33,44 +34,6 @@ const AddSales = () => {
 
 
     const [selectedItems, setSelectedItems] = useState([]);
-    const [medicines] = useState([
-        {
-            id: 1,
-            saltName: "Paracetamol",
-            brandName: "Calpol 500",
-            productForm: "tablet",
-            availableQty: 50,
-            purchasePrice: 12,
-            sellingPrice: 20,
-            packageQuantity: 10,
-            batchNumber: 'BTC-97452',
-            quantity: 20
-        },
-        {
-            id: 2,
-            saltName: "Amoxicillin",
-            brandName: "Amoxil 250",
-            productForm: "capsule",
-            availableQty: 30,
-            purchasePrice: 18,
-            sellingPrice: 28,
-            packageQuantity: 50,
-            batchNumber: 'BTC-12452',
-            quantity: 210
-        },
-        {
-            id: 3,
-            saltName: "Cetirizine",
-            brandName: "Cetzine",
-            productForm: "tablet",
-            availableQty: 40,
-            purchasePrice: 8,
-            sellingPrice: 15,
-            packageQuantity: 20,
-            batchNumber: 'BTC-1287',
-            quantity: 26
-        },
-    ]);
 
     const handlePatientChange = (e) => {
         setPatient({ ...patient, [e.target.name]: e.target.value });
@@ -78,18 +41,38 @@ const AddSales = () => {
 
     const handleAddMedicine = (med) => {
         setSelectedItems((prev) => {
-            const exists = prev.find((i) => i.id === med.id);
+            // Extract the purchase details (first batch)
+            const purchase = med.purchaseItems?.[0] || {};
+
+            // Check if the same medicine + batch already exists
+            const exists = prev.find(
+                (i) => i.id === med.id && i.batchNumber === purchase.batchNumber
+            );
+
             if (exists) {
                 return prev.map((item) =>
-                    item.id === med.id
+                    item.id === med.id && item.batchNumber === purchase.batchNumber
                         ? { ...item, quantity: item.quantity + 1 }
                         : item
                 );
             } else {
-                return [...prev, { ...med, quantity: 1 }];
+                return [
+                    ...prev,
+                    {
+                        ...med,
+                        quantity: 1,
+                        batchNumber: purchase.batchNumber || "N/A",
+                        expiryDate: purchase.expiryDate || "N/A",
+                        sellingPrice: purchase.sellingPricePerMedicine || 0,
+                        purchasePrice: purchase.purchasePrice || 0,
+                        remainingMedicines: purchase.remainingMedicines || 0,
+                        scheme: purchase.scheme || "",
+                    },
+                ];
             }
         });
     };
+
 
     const handleInputChange = (id, field, value) => {
         setSelectedItems((prev) =>
@@ -102,18 +85,78 @@ const AddSales = () => {
     };
 
     // Billing Calculations
-    let subTotal = selectedItems.reduce(
-        (acc, cur) => acc + cur.sellingPrice * cur.quantity,
-        0
-    );
+    const { subTotal, discountAmount, netTotal } = useMemo(() => {
+        const subTotal = selectedItems.reduce(
+            (acc, cur) => acc + cur.sellingPrice * cur.quantity,
+            0
+        );
+        const discountValue = Number(discount) || 0;
+        const discountAmount =
+            discountType === "percentage"
+                ? (subTotal * discountValue) / 100
+                : discountValue;
 
-    const discountValue = Number(discount) || 0;
-    const discountAmount =
-        discountType === "percentage"
-            ? (subTotal * discountValue) / 100
-            : discountValue;
+        const netTotal = subTotal + Number(deliveryCharge) - discountAmount;
 
-    const netTotal = subTotal + Number(deliveryCharge) - discountAmount;
+        return { subTotal, discountAmount, netTotal };
+    }, [selectedItems, discount, discountType, deliveryCharge]);
+
+
+    const handleAddSales = async () => {
+
+
+        if (selectedItems.length === 0) {
+            showToast("Please add at least one medicine.", "error");
+            return;
+        }
+
+        // Prepare items array
+        const items = selectedItems.map((item) => ({
+            purchaseItemsId: item.purchaseItems?.[0]?.id || null, // from your medicine structure
+            itemId: item.id,
+            batchNumber: item.batchNumber,
+            totalAmount: item.sellingPrice * item.quantity,
+            quantity: item.quantity,
+            sellingPrice: item.sellingPrice,
+        }));
+
+        // Prepare final payload
+        const saleData = {
+            items,
+            subTotal,
+            netTotal,
+            discount,
+            discountType,
+            deliveryCharge,
+            patientDetails: {
+                id: selectedPatient.id,
+                name: selectedPatient.name,
+                contact: selectedPatient.contact,
+                address: selectedPatient.address,
+            },
+        };
+
+        console.log("Sale Data:", saleData);
+
+        try {
+            // const response = await axios.post("http://localhost:5000/api/sales", saleData);
+
+            // showToast("Sale completed successfully!", "success");
+            // console.log("Server Response:", response.data);
+
+            // Optionally reset after success
+            // setSelectedItems([]);
+            // setSelectedPatient(null);
+            // setDeliveryCharge(0);
+            // setDiscount(0);
+            // setDiscountType("percentage");
+
+        } catch (error) {
+            console.error("Sale submission failed:", error);
+            showToast("Failed to complete sale. Please try again.", "error");
+        }
+    };
+
 
     return (
         <>
@@ -199,7 +242,7 @@ const AddSales = () => {
             </div>
 
 
-            <div className="grid grid-cols-[8fr_4fr] p-3 gap-3">
+            <div className="grid grid-cols-[7.5fr_4.5fr] p-3 gap-3">
 
                 {/* Left Side: Sales Details */}
                 <div className="min-w-0 w-full bg-gray-50 rounded-xl p-4 border border-gray-300 overflow-x-auto">
@@ -251,7 +294,7 @@ const AddSales = () => {
                                                 <td className="py-2 px-3 text-center">
                                                     <input
                                                         type="number"
-                                                        min="0"
+
                                                         value={item.sellingPrice}
                                                         onChange={(e) =>
                                                             handleInputChange(
@@ -326,16 +369,16 @@ const AddSales = () => {
                                 <span>Net Total</span>
                                 <span>₹{netTotal.toFixed(2)}</span>
                             </div>
-                            <button className="w-full py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                            <button onClick={handleAddSales} className="w-full py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
                                 Complete Sale
                             </button>
                         </div>
                     )}
                 </div>
 
-                {/* Right Side: Search Medicines */}
+                {/* Search Medicines */}
                 <MedicineSearch
-                    medicines={medicines}
+
                     onSelectMedicine={handleAddMedicine}
                 />
             </div>

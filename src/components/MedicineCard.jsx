@@ -1,4 +1,3 @@
-import React from 'react'
 import tablet from '../assets/tablet.png'
 import syrup from '../assets/syrup.jpg'
 import ointment from '../assets/ointment.png'
@@ -13,6 +12,11 @@ const MedicineCard = ({ med, handleAddMedicine }) => {
         }
         return imageSrc[imageType] || tablet
     }
+    const totalRemaining =
+        med.purchaseItems?.reduce(
+            (acc, item) => acc + (item.remainingMedicines || 0),
+            0
+        ) || 0;
 
     return (
         <button
@@ -22,7 +26,7 @@ const MedicineCard = ({ med, handleAddMedicine }) => {
         >
             {/* Quantity */}
             <span className="bg-blue-950 text-white border-b border-r border-gray-200 rounded-lg text-xs px-2 py-1 absolute top-0 left-0">
-                230
+              {totalRemaining}
             </span>
 
             {/* Image Section */}

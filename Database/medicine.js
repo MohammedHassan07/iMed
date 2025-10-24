@@ -82,7 +82,7 @@ export async function getMedicine({ page = 1, limit = 5, search = "" }) {
 }
 
 // get medicine on typing 
-export async function getMedicineOnTyping({ search }) {
+export async function getSaleMedicineOnTyping({ search }) {
     const medicines = await prisma.medicine.findMany({
         where: {
             OR: [
@@ -90,16 +90,59 @@ export async function getMedicineOnTyping({ search }) {
                 { brandName: { contains: search } },
                 { productForm: { contains: search } },
             ],
-        }
-    })
+        },
+        include: {
+            purchaseItems: {
+                select: {
+                    id: true,
+                    batchNumber: true,
+                    expiryDate: true,
+                    purchasePrice: true,
+                    sellingPrice: true,
+                    quantity: true,
+                    remainingMedicines: true,
+                    scheme: true,
+                    totalMedicines: true,
+                    profit: true,
+                    tax: true,
+                    sellingPricePerMedicine: true,
+                },
+            },
+        },
+    });
 
     if (!medicines || medicines.length < 1) {
         return { status: "failed", message: "No medicines found" };
     }
 
+    const mergedMedicines = medicines.map((med) => {
+        const batchMap = new Map();
+
+        med.purchaseItems.forEach((item) => {
+            if (batchMap.has(item.batchNumber)) {
+                const existing = batchMap.get(item.batchNumber);
+                batchMap.set(item.batchNumber, {
+                    ...existing,
+                    quantity: existing.quantity + item.quantity,
+                    remainingMedicines:
+                        existing.remainingMedicines + item.remainingMedicines,
+                    totalMedicines:
+                        existing.totalMedicines + item.totalMedicines,
+                });
+            } else {
+                batchMap.set(item.batchNumber, { ...item });
+            }
+        });
+
+        return {
+            ...med,
+            purchaseItems: Array.from(batchMap.values()),
+        };
+    });
+
     return {
         status: "success",
         message: "Medicines found",
-        data: medicines,
+        data: mergedMedicines,
     };
 }

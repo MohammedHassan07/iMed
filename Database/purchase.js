@@ -41,6 +41,7 @@ export async function addPurchase(data) {
                         total: parseFloat(item.total),
                         totalMedicines: parseInt(item.quantity * item.packageQuantity),
                         remainingMedicines: parseInt(item.quantity * item.packageQuantity),
+                        sellingPricePerMedicine: parseFloat(item.sellingPrice / item.quantity),
                         scheme: item.scheme
                     }))
                 }

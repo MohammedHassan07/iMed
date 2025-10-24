@@ -155,6 +155,7 @@ exports.Prisma.PurchaseItemScalarFieldEnum = {
   expiryDate: 'expiryDate',
   purchasePrice: 'purchasePrice',
   sellingPrice: 'sellingPrice',
+  sellingPricePerMedicine: 'sellingPricePerMedicine',
   quantity: 'quantity',
   profit: 'profit',
   tax: 'tax',
@@ -185,6 +186,32 @@ exports.Prisma.TaxScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SalesScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  patientId: 'patientId',
+  patientName: 'patientName',
+  patientContact: 'patientContact',
+  patientAddress: 'patientAddress',
+  subTotal: 'subTotal',
+  netTotal: 'netTotal',
+  discount: 'discount',
+  discountType: 'discountType',
+  deliveryCharge: 'deliveryCharge'
+};
+
+exports.Prisma.SalesItemScalarFieldEnum = {
+  id: 'id',
+  saleId: 'saleId',
+  purchaseId: 'purchaseId',
+  itemId: 'itemId',
+  batchNumber: 'batchNumber',
+  quantity: 'quantity',
+  sellingPrice: 'sellingPrice',
+  totalAmount: 'totalAmount'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -201,7 +228,9 @@ exports.Prisma.ModelName = {
   Purchase: 'Purchase',
   PurchaseItem: 'PurchaseItem',
   Supplier: 'Supplier',
-  Tax: 'Tax'
+  Tax: 'Tax',
+  Sales: 'Sales',
+  SalesItem: 'SalesItem'
 };
 
 /**

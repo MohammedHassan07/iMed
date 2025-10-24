@@ -4,6 +4,7 @@ import DynamicForm from "../../components/DynamicForm";
 import DeleteModal from "../../components/DeleteMoodal";
 import Pagination from "../../components/Pagination";
 import showToast from "../../utils/Toast";
+import debounce from "../../utils/debounce";
 
 const GetItems = () => {
   const [items, setItems] = useState([]);
@@ -94,17 +95,7 @@ const GetItems = () => {
       showToast(error.message, "oklch(57.7% 0.245 27.325)");
     }
   };
-
-
-  // ---- Debounced API call ----
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      fetchItems();
-    }, 400); // wait 400ms after user stops typing
-    return () => clearTimeout(delayDebounce);
-  }, [search, currentPage]);
-
-
+  debounce(fetchItems, search, currentPage)
 
   return (
     <div className="p-6">

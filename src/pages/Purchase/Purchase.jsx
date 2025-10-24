@@ -78,12 +78,12 @@ const Purchase = () => {
     // profit (excluding tax)
     const getItemProfit = (item) => {
 
-       
+
         const qty = Number(item.quantity) || 0;
-        const scheme = Number(item.scheme) || 0;  
+        const scheme = Number(item.scheme) || 0;
         const purchasePrice = Number(item.purchasePrice) || 0;
         const itemTotalPrice = Number(getItemTotal(item))
-        console.log(itemTotalPrice)
+    
         const sellingPrice = Number(item.sellingPrice) || 0;
 
         const totalStrips = qty + scheme;

@@ -1,17 +1,35 @@
 import React, { useState } from "react";
 import { Search } from "lucide-react";
 import MedicineCard from "./MedicineCard";
+import debounce from "../utils/debounce";
 
-const MedicineSearch = ({ medicines, onSelectMedicine }) => {
+const MedicineSearch = ({  onSelectMedicine }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [medicines, setMedicines] = useState([])
 
-  // Filter medicines based on search
-  const filteredMedicines = medicines.filter(
-    (med) =>
-      med.saltName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      med.brandName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const fetchItems = async () => {
 
+    try {
+
+      const response = await window.electronAPI.getMedicineOnTyping({
+        search: searchTerm.trim(),
+      });
+
+      console.log("Medicine Response:", response);
+
+      if (response.status !== "success") {
+        showToast(response.message, "oklch(57.7% 0.245 27.325)");
+        setMedicines([]);
+        return;
+      }
+
+      setMedicines(response.data || []);
+    } catch (error) {
+      showToast(error.message, "oklch(57.7% 0.245 27.325)");
+    }
+  }
+  debounce(fetchItems, searchTerm)
+  
   return (
     <div className="w-full bg-gray-50 shadow-md rounded-xl p-4 border border-gray-300 overflow-auto h-[80vh]">
       {/* Search Box */}
@@ -28,8 +46,8 @@ const MedicineSearch = ({ medicines, onSelectMedicine }) => {
 
       {/* Medicine List */}
       <div className="flex flex-wrap justify-start items-start gap-3 max-h-[450px] overflow-y-auto">
-        {filteredMedicines.length > 0 ? (
-          filteredMedicines.map((med) => (
+        {medicines.length > 0 ? (
+          medicines.map((med) => (
             <MedicineCard
               key={med.id}
               med={med}

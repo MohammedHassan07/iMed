@@ -54,17 +54,18 @@ model PurchaseItem {
   purchaseId Int
   medicineId Int
 
-  batchNumber        String
-  expiryDate         DateTime
-  purchasePrice      Float
-  sellingPrice       Float
-  quantity           Int
-  profit             Float
-  tax                Float
-  total              Float
-  totalMedicines     Float
-  remainingMedicines Float
-  scheme             Float
+  batchNumber             String
+  expiryDate              DateTime
+  purchasePrice           Float
+  sellingPrice            Float
+  sellingPricePerMedicine Float
+  quantity                Int
+  profit                  Float
+  tax                     Float
+  total                   Float
+  totalMedicines          Float
+  remainingMedicines      Float
+  scheme                  Float
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -92,4 +93,36 @@ model Tax {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Sales {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patientId      Int?
+  patientName    String
+  patientContact String?
+  patientAddress String?
+
+  subTotal       Float  @default(0)
+  netTotal       Float  @default(0)
+  discount       Float  @default(0)
+  discountType   String @default("percentage")
+  deliveryCharge Float  @default(0)
+
+  items SalesItem[]
+}
+
+model SalesItem {
+  id           Int    @id @default(autoincrement())
+  saleId       Int
+  purchaseId   Int?
+  itemId       Int
+  batchNumber  String
+  quantity     Int
+  sellingPrice Float
+  totalAmount  Float
+
+  sale Sales @relation(fields: [saleId], references: [id], onDelete: Cascade)
 }
