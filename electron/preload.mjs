@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // purchase
   addPurchase: (data) => ipcRenderer.invoke('add-purchase', data),
+  getPurchase: (data) => ipcRenderer.invoke('getPurchase', data),
 
 
   // suppliers

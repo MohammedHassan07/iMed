@@ -59,14 +59,65 @@ export async function addPurchase(data) {
 
 
 // get purchase
-export async function getPurchase(data) {
+export async function getPurchase({ page = 1, limit = 10, search = "" }) {
+    try {
+        const skip = (page - 1) * limit;
 
-    const purchase = await prisma.purchase.findMany({
-        include: {
-            purchasedItems: {
-                include: { medicine: true },
-            },
-        },
-    });
-    return {}
+        const whereCondition = search
+            ? {
+                OR: [
+
+                    // Search in invoice number 
+                    // { invoiceNumber: { contains: search } },
+                    {
+                        purchasedItems: {
+                            some: {
+                                medicine: {
+                                    OR: [
+                                        { brandName: { contains: search } },
+                                        { saltName: { contains: search } },
+                                    ],
+                                },
+                            },
+                        },
+                    },
+                ],
+            }
+            : {};
+
+        const [totalCount, purchases] = await Promise.all([
+            prisma.purchase.count({ where: whereCondition }),
+
+            prisma.purchase.findMany({
+                skip,
+                take: limit,
+                where: whereCondition,
+                orderBy: { createdAt: "desc" },
+                include: {
+                    purchasedItems: {
+                        include: {
+                            medicine: true,
+                        },
+                    },
+                },
+            }),
+        ]);
+
+        const totalPages = Math.ceil(totalCount / limit);
+
+        return {
+            status: "success",
+            message: "Purchases found successfully",
+            data: purchases,
+            totalPages,
+            currentPage: page,
+        };
+    } catch (error) {
+        console.error("Error fetching purchases:", error);
+        return {
+            status: "error",
+            message: "Failed to fetch purchases",
+        };
+    }
 }
+

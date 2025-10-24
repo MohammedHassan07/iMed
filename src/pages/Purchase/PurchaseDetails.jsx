@@ -1,134 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ExportPDF from "../../components/ExportPDF";
 import { useLocation, useNavigate } from "react-router-dom";
-import BackButton from '../../components/BackButton'
+import BackButton from "../../components/BackButton";
 
 const PurchaseDetails = () => {
-    const [purchaseData, setPurchaseData] = useState(null);
-    const navigate = useNavigate()
-    const location = useLocation()
-    const purchase = location.state
+    const navigate = useNavigate();
+    const { state: purchase } = useLocation();
 
-    // Dummy Data Simulation
-    useEffect(() => {
-
-        // Simulate fetching detailed purchase data
-        setPurchaseData({
-            id: purchase.id,
-            invoiceNumber: 'INV-90385',
-            supplier: purchase.supplier,
-            purchaseDate: "selectedPurchase.purchaseDate",
-            entryDate: "2025-02-16",
-            paymentMode: "Cash",
-            addedBy: "Admin",
-            remarks: "Regular stock refill",
-            taxPercent: 5,
-            items: [
-                {
-                    id: 1,
-                    saltName: "Paracetamol",
-                    brandName: "Calpol 500mg",
-                    batchNumber: "BCH-001",
-                    quantity: 50,
-                    purchasePrice: 12,
-                    sellingPrice: 18,
-                    expiryDate: "2026-02-10",
-                },
-
-                {
-                    id: 2,
-                    saltName: "Cetrizine",
-                    brandName: "Okacet",
-                    batchNumber: "BCH-002",
-                    quantity: 30,
-                    purchasePrice: 8,
-                    sellingPrice: 12,
-                    expiryDate: "2026-01-15",
-                },
-
-                {
-                    id: 3,
-                    saltName: "Cetrizine",
-                    brandName: "Okacet",
-                    batchNumber: "BCH-002",
-                    quantity: 30,
-                    purchasePrice: 8,
-                    sellingPrice: 12,
-                    expiryDate: "2026-01-15",
-                },
-
-                {
-                    id: 4,
-                    saltName: "Cetrizine",
-                    brandName: "Okacet",
-                    batchNumber: "BCH-002",
-                    quantity: 30,
-                    purchasePrice: 8,
-                    sellingPrice: 12,
-                    expiryDate: "2026-01-15",
-                },
-                {
-                    id: 5,
-                    saltName: "Paracetamol",
-                    brandName: "Calpol 500mg",
-                    batchNumber: "BCH-001",
-                    quantity: 50,
-                    purchasePrice: 12,
-                    sellingPrice: 18,
-                    expiryDate: "2026-02-10",
-                },
-                {
-                    id: 6,
-                    saltName: "Paracetamol",
-                    brandName: "Calpol 500mg",
-                    batchNumber: "BCH-001",
-                    quantity: 50,
-                    purchasePrice: 12,
-                    sellingPrice: 18,
-                    expiryDate: "2026-02-10",
-                },
-                {
-                    id: 7,
-                    saltName: "Paracetamol",
-                    brandName: "Calpol 500mg",
-                    batchNumber: "BCH-001",
-                    quantity: 50,
-                    purchasePrice: 12,
-                    sellingPrice: 18,
-                    expiryDate: "2026-02-10",
-                },
-            ],
-        });
-    }, []);
-
-    if (!purchaseData) {
+    if (!purchase) {
         return (
             <div className="p-6 text-center text-gray-600">
-                Loading purchase details...
+                No purchase details found.
             </div>
         );
     }
 
-    // Summary Calculations
-    const subTotal = purchaseData.items.reduce(
+ 
+    const subTotal = purchase.purchasedItems?.reduce(
         (sum, item) => sum + item.purchasePrice * item.quantity,
         0
     );
-    const taxAmount = (subTotal * purchaseData.taxPercent) / 100;
-    const netTotal = subTotal + taxAmount;
+
+    const totalTax = purchase.purchasedItems?.reduce(
+            (sum, item) => sum + (item.purchasePrice * item.quantity * item.tax) / 100,
+            0
+        ) || 0;
+
+    const netTotal = subTotal + totalTax;
 
     return (
         <div className="p-6">
             {/* Header */}
             <div className="flex justify-between items-center mb-6 gap-6">
-
                 <h2 className="text-2xl font-semibold text-gray-800">
                     Purchase Details
                 </h2>
 
                 <div className="flex items-center justify-center gap-5">
-
-                    <BackButton url={'/purchase/'} />
+                    <BackButton url={"/purchase/"} />
                     <ExportPDF />
                 </div>
             </div>
@@ -136,16 +45,18 @@ const PurchaseDetails = () => {
             {/* Purchase Info */}
             <div className="grid md:grid-cols-2 gap-4 bg-white shadow-md rounded-lg p-5 border border-gray-200 mb-6">
                 <div>
-                    <p><strong>Invoice Number:</strong> {purchaseData.invoiceNumber}</p>
-                    <p><strong>Supplier:</strong> {purchaseData.supplier}</p>
-                    <p><strong>Purchase Date:</strong> {purchaseData.purchaseDate}</p>
-                    <p><strong>Entry Date:</strong> {purchaseData.entryDate}</p>
+                    <p><strong>Purchase ID:</strong> #{purchase.id}</p>
+                    <p><strong>Supplier ID:</strong> {purchase.supplierId}</p>
+                    <p>
+                        <strong>Purchase Date:</strong>{" "}
+                        {new Date(purchase.purchaseDate).toLocaleDateString("en-IN")}
+                    </p>
+                    <p><strong>Notes:</strong> {purchase.notes || "—"}</p>
                 </div>
                 <div>
-                    <p><strong>Payment Mode:</strong> {purchaseData.paymentMode}</p>
-                    <p><strong>Added By:</strong> {purchaseData.addedBy}</p>
-                    <p><strong>Remarks:</strong> {purchaseData.remarks}</p>
-                    <p><strong>Tax:</strong> {purchaseData.taxPercent}%</p>
+                    <p><strong>Discount:</strong> {purchase.discount} ({purchase.discountType})</p>
+                    <p><strong>Tax:</strong> {purchase.tax}%</p>
+                    <p><strong>Net Total:</strong> ₹{purchase.netTotal.toFixed(2)}</p>
                 </div>
             </div>
 
@@ -158,24 +69,30 @@ const PurchaseDetails = () => {
                             <th className="p-3 text-left">Brand Name</th>
                             <th className="p-3 text-left">Batch No</th>
                             <th className="p-3 text-center">Quantity</th>
+                            <th className="p-3 text-center">Scheme</th>
                             <th className="p-3 text-center">Purchase Price</th>
                             <th className="p-3 text-center">Selling Price</th>
+                            <th className="p-3 text-center">Tax (%)</th>
+                            <th className="p-3 text-center">Total</th>
+                            <th className="p-3 text-center">Profit</th>
                             <th className="p-3 text-left">Expiry Date</th>
-                            <th className="p-3 text-left">Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {purchaseData.items.map((item) => (
+                        {purchase.purchasedItems?.map((item) => (
                             <tr key={item.id} className="border-t hover:bg-gray-50">
-                                <td className="p-3">{item.saltName}</td>
-                                <td className="p-3">{item.brandName}</td>
+                                <td className="p-3">{item.medicine?.saltName || "—"}</td>
+                                <td className="p-3">{item.medicine?.brandName || "—"}</td>
                                 <td className="p-3">{item.batchNumber}</td>
                                 <td className="p-3 text-center">{item.quantity}</td>
-                                <td className="p-3 text-center">₹{item.purchasePrice}</td>
-                                <td className="p-3 text-center">₹{item.sellingPrice}</td>
-                                <td className="p-3">{item.expiryDate}</td>
-                                <td className="p-3 text-center">
-                                    ₹{item.purchasePrice * item.quantity}
+                                <td className="p-3 text-center">{item.scheme || 0}</td>
+                                <td className="p-3 text-center">₹{item.purchasePrice.toFixed(2)}</td>
+                                <td className="p-3 text-center">₹{item.sellingPrice.toFixed(2)}</td>
+                                <td className="p-3 text-center">{item.tax}%</td>
+                                <td className="p-3 text-center">₹{item.total.toFixed(2)}</td>
+                                <td className="p-3 text-center">₹{item.profit.toFixed(2)}</td>
+                                <td className="p-3">
+                                    {new Date(item.expiryDate).toLocaleDateString("en-IN")}
                                 </td>
                             </tr>
                         ))}
@@ -191,8 +108,8 @@ const PurchaseDetails = () => {
                         <span>₹{subTotal.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between mb-2">
-                        <span>Tax ({purchaseData.taxPercent}%):</span>
-                        <span>₹{taxAmount.toFixed(2)}</span>
+                        <span>Total Tax:</span>
+                        <span>₹{totalTax.toFixed(2)}</span>
                     </div>
                     <hr className="my-2" />
                     <div className="flex justify-between font-semibold text-lg">

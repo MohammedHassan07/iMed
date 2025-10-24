@@ -5,6 +5,9 @@ import DeleteModal from "../../components/DeleteMoodal";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 import ViewDetailsButton from "../../components/ViewDetailsButton";
+import debounce from "../../utils/debounce";
+import showToast from "../../utils/Toast";
+
 
 const GetPurchase = () => {
     const [purchases, setPurchases] = useState([]);
@@ -14,47 +17,11 @@ const GetPurchase = () => {
     const [formData, setFormData] = useState({});
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const itemsPerPage = 20;
 
     const modalRef = useRef(null);
     const navigate = useNavigate()
-
-    const itemsPerPage = 5;
-
-    // Dummy data
-    useEffect(() => {
-        setPurchases([
-            {
-                id: 1,
-                saltName: "Paracetamol",
-                brandName: "Calpol",
-                supplier: "MedPlus Distributors",
-                purchaseDate: "2025-02-15",
-                expiryDate: "2026-02-15",
-                netTotal: 23894,
-                totalItems: 23
-            },
-            {
-                id: 2,
-                saltName: "Amoxicillin",
-                brandName: "Mox",
-                supplier: "Apollo Pharma",
-                purchaseDate: "2025-03-10",
-                expiryDate: "2026-03-10",
-                netTotal: 23894,
-                totalItems: 26
-            },
-            {
-                id: 3,
-                saltName: "Cetrizine",
-                brandName: "Okacet",
-                supplier: "HealthMart Traders",
-                purchaseDate: "2025-04-05",
-                expiryDate: "2026-04-05",
-                netTotal: 23894,
-                totalItems: 89
-            },
-        ]);
-    }, []);
 
     // Define dynamic form fields
     const fields = [
@@ -105,25 +72,36 @@ const GetPurchase = () => {
         handleCloseModal();
     };
 
-    // Pagination
-    const totalPages = Math.ceil(purchases.length / itemsPerPage);
-    const paginatedPurchases = purchases.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
-
-    // Filter search
-    const filteredPurchases = paginatedPurchases.filter(
-        (p) =>
-            p.saltName.toLowerCase().includes(search.toLowerCase()) ||
-            p.brandName.toLowerCase().includes(search.toLowerCase()) ||
-            p.supplier.toLowerCase().includes(search.toLowerCase())
-    );
-
     const handlePurchaseDetails = (purchaseData) => {
 
         navigate('/purchase/purchase-details/', { state: purchaseData })
     }
+
+    const fetchPurchase = async () => {
+
+        try {
+
+            const response = await window.electronAPI.getPurchase({
+                page: currentPage,
+                limit: itemsPerPage,
+                search: search.trim(),
+            });
+
+            console.log("purchase Response:", response);
+
+            if (response.status !== "success") {
+                showToast(response.message, "oklch(57.7% 0.245 27.325)");
+                setPurchases([]);
+                return;
+            }
+
+            setPurchases(response.data || []);
+        } catch (error) {
+            console.log(error)
+            showToast(error.message, "oklch(57.7% 0.245 27.325)");
+        }
+    }
+    debounce(fetchPurchase, currentPage, search)
 
     return (
         <div className="p-6">
@@ -157,15 +135,17 @@ const GetPurchase = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredPurchases.map((purchase) => (
+                        {purchases.map((purchase) => (
                             <tr
                                 key={purchase.id}
                                 className="hover:bg-gray-50 border-t border-gray-200 transition"
                             >
-                                <td className="p-3">{purchase.supplier}</td>
-                                <td className="p-3">{purchase.purchaseDate}</td>
-                                <td className="p-3">{purchase.totalItems}</td>
-                                <td className="p-3">{purchase.netTotal}</td>
+                                <td className="p-3">Supplier #{purchase.supplierId}</td>
+                                <td className="p-3">
+                                    {new Date(purchase.purchaseDate).toLocaleDateString("en-IN")}
+                                </td>
+                                <td className="p-3">{purchase.purchasedItems?.length || 0}</td>
+                                <td className="p-3">₹{purchase.netTotal.toFixed(2)}</td>
                                 <td className="p-3 text-center flex justify-center items-center gap-5">
                                     <EditDelete
                                         handleOpenModal={handleOpenModal}
@@ -173,8 +153,10 @@ const GetPurchase = () => {
                                         isDelete={false}
                                     />
 
-                                    <ViewDetailsButton hadnleDetailClick={handlePurchaseDetails} data={purchase} />
-
+                                    <ViewDetailsButton
+                                        hadnleDetailClick={handlePurchaseDetails}
+                                        data={purchase}
+                                    />
                                 </td>
                             </tr>
                         ))}

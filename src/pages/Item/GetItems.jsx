@@ -18,30 +18,6 @@ const GetItems = () => {
 
   const modalRef = useRef(null);
 
-  // Dummy data
-  useEffect(() => {
-    setItems([
-      {
-        id: 1,
-        saltName: "Paracetamol",
-        brandName: "Calpol",
-        manufacturer: "GSK",
-        packageQuantity: 10,
-        productForm: "Tablet",
-        expiryDate: "2026-01-15",
-      },
-      {
-        id: 2,
-        saltName: "Amoxicillin",
-        brandName: "Mox",
-        manufacturer: "Sun Pharma",
-        packageQuantity: 20,
-        productForm: "Capsule",
-        expiryDate: "2025-08-20",
-      },
-    ]);
-  }, []);
-
   // Define form fields (dynamic form)
   const fields = [
     { name: "saltName", label: "Salt Name", type: "text", placeholder: "Enter salt name" },
@@ -95,21 +71,6 @@ const GetItems = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  // Pagination logic
-  // const totalPages = Math.ceil(items.length / itemsPerPage);
-  // const paginatedItems = items.slice(
-  //   (currentPage - 1) * itemsPerPage,
-  //   currentPage * itemsPerPage
-  // );
-
-  // Filter search results
-  // const filteredItems = paginatedItems.filter(
-  //   (item) =>
-  //     item.saltName.toLowerCase().includes(search.toLowerCase()) ||
-  //     item.brandName.toLowerCase().includes(search.toLowerCase()) ||
-  //     item.productForm.toLowerCase().includes(search.toLowerCase())
-  // );
 
   const fetchItems = async () => {
     try {
