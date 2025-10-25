@@ -21,6 +21,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // tax
   addTax: (data) => ipcRenderer.invoke('addTax', data),
   getTaxes: (data) => ipcRenderer.invoke('getTaxes', data),
-  getAllTaxes: () => ipcRenderer.invoke('getAllTaxes')
+  getAllTaxes: () => ipcRenderer.invoke('getAllTaxes'),
+
+  // add sales
+  addSales: (data) => ipcRenderer.invoke('addSales', data),
 
 });

@@ -66,6 +66,7 @@ model PurchaseItem {
   totalMedicines          Float
   remainingMedicines      Float
   scheme                  Float
+  isSold                  Boolean  @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -101,7 +102,7 @@ model Sales {
   updatedAt DateTime @updatedAt
 
   patientId      Int?
-  patientName    String
+  patientName    String?
   patientContact String?
   patientAddress String?
 
@@ -115,14 +116,14 @@ model Sales {
 }
 
 model SalesItem {
-  id           Int    @id @default(autoincrement())
-  saleId       Int
-  purchaseId   Int?
-  itemId       Int
-  batchNumber  String
-  quantity     Int
-  sellingPrice Float
-  totalAmount  Float
+  id             Int    @id @default(autoincrement())
+  saleId         Int
+  purchaseItemId Int?
+  itemId         Int
+  batchNumber    String
+  quantity       Int
+  sellingPrice   Float
+  totalAmount    Float
 
   sale Sales @relation(fields: [saleId], references: [id], onDelete: Cascade)
 }

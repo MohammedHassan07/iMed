@@ -163,6 +163,7 @@ exports.Prisma.PurchaseItemScalarFieldEnum = {
   totalMedicines: 'totalMedicines',
   remainingMedicines: 'remainingMedicines',
   scheme: 'scheme',
+  isSold: 'isSold',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -204,7 +205,7 @@ exports.Prisma.SalesScalarFieldEnum = {
 exports.Prisma.SalesItemScalarFieldEnum = {
   id: 'id',
   saleId: 'saleId',
-  purchaseId: 'purchaseId',
+  purchaseItemId: 'purchaseItemId',
   itemId: 'itemId',
   batchNumber: 'batchNumber',
   quantity: 'quantity',

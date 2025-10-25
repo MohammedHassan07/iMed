@@ -121,6 +121,13 @@ const AddSales = () => {
         }));
 
         // Prepare final payload
+        const patientData = selectedPatient ? {
+            patientId: selectedPatient.id || null,
+            patientName: selectedPatient.name || null,
+            patientContact: selectedPatient.contact || null,
+            patientAddress: selectedPatient.address || null,
+        } : {};
+
         const saleData = {
             items,
             subTotal,
@@ -128,21 +135,13 @@ const AddSales = () => {
             discount,
             discountType,
             deliveryCharge,
-            patientDetails: {
-                id: selectedPatient.id,
-                name: selectedPatient.name,
-                contact: selectedPatient.contact,
-                address: selectedPatient.address,
-            },
+            patientData,
         };
 
         console.log("Sale Data:", saleData);
 
         try {
-            // const response = await axios.post("http://localhost:5000/api/sales", saleData);
-
-            // showToast("Sale completed successfully!", "success");
-            // console.log("Server Response:", response.data);
+        
 
             // Optionally reset after success
             // setSelectedItems([]);
@@ -150,6 +149,14 @@ const AddSales = () => {
             // setDeliveryCharge(0);
             // setDiscount(0);
             // setDiscountType("percentage");
+            const response = await window.electronAPI.addSales(saleData)
+            console.log(response)
+            if (response.status === "success") {
+
+                return showToast(' Sales recorded successfully!', 'oklch(62.7% 0.194 149.214)');
+            } else {
+                showToast(` ${response.message || "Failed to record purchase"}`, "oklch(57.7% 0.245 27.325)");
+            }
 
         } catch (error) {
             console.error("Sale submission failed:", error);

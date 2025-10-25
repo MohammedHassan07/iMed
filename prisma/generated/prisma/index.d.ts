@@ -3980,6 +3980,7 @@ export namespace Prisma {
     totalMedicines: number | null
     remainingMedicines: number | null
     scheme: number | null
+    isSold: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4000,6 +4001,7 @@ export namespace Prisma {
     totalMedicines: number | null
     remainingMedicines: number | null
     scheme: number | null
+    isSold: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4020,6 +4022,7 @@ export namespace Prisma {
     totalMedicines: number
     remainingMedicines: number
     scheme: number
+    isSold: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4074,6 +4077,7 @@ export namespace Prisma {
     totalMedicines?: true
     remainingMedicines?: true
     scheme?: true
+    isSold?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4094,6 +4098,7 @@ export namespace Prisma {
     totalMedicines?: true
     remainingMedicines?: true
     scheme?: true
+    isSold?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4114,6 +4119,7 @@ export namespace Prisma {
     totalMedicines?: true
     remainingMedicines?: true
     scheme?: true
+    isSold?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4221,6 +4227,7 @@ export namespace Prisma {
     totalMedicines: number
     remainingMedicines: number
     scheme: number
+    isSold: boolean
     createdAt: Date
     updatedAt: Date
     _count: PurchaseItemCountAggregateOutputType | null
@@ -4260,6 +4267,7 @@ export namespace Prisma {
     totalMedicines?: boolean
     remainingMedicines?: boolean
     scheme?: boolean
+    isSold?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
@@ -4282,6 +4290,7 @@ export namespace Prisma {
     totalMedicines?: boolean
     remainingMedicines?: boolean
     scheme?: boolean
+    isSold?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
@@ -4304,6 +4313,7 @@ export namespace Prisma {
     totalMedicines?: boolean
     remainingMedicines?: boolean
     scheme?: boolean
+    isSold?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
@@ -4326,11 +4336,12 @@ export namespace Prisma {
     totalMedicines?: boolean
     remainingMedicines?: boolean
     scheme?: boolean
+    isSold?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "sellingPrice" | "sellingPricePerMedicine" | "quantity" | "profit" | "tax" | "total" | "totalMedicines" | "remainingMedicines" | "scheme" | "createdAt" | "updatedAt", ExtArgs["result"]["purchaseItem"]>
+  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "sellingPrice" | "sellingPricePerMedicine" | "quantity" | "profit" | "tax" | "total" | "totalMedicines" | "remainingMedicines" | "scheme" | "isSold" | "createdAt" | "updatedAt", ExtArgs["result"]["purchaseItem"]>
   export type PurchaseItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
     medicine?: boolean | medicineDefaultArgs<ExtArgs>
@@ -4366,6 +4377,7 @@ export namespace Prisma {
       totalMedicines: number
       remainingMedicines: number
       scheme: number
+      isSold: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["purchaseItem"]>
@@ -4808,6 +4820,7 @@ export namespace Prisma {
     readonly totalMedicines: FieldRef<"PurchaseItem", 'Float'>
     readonly remainingMedicines: FieldRef<"PurchaseItem", 'Float'>
     readonly scheme: FieldRef<"PurchaseItem", 'Float'>
+    readonly isSold: FieldRef<"PurchaseItem", 'Boolean'>
     readonly createdAt: FieldRef<"PurchaseItem", 'DateTime'>
     readonly updatedAt: FieldRef<"PurchaseItem", 'DateTime'>
   }
@@ -7547,7 +7560,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     patientId: number | null
-    patientName: string
+    patientName: string | null
     patientContact: string | null
     patientAddress: string | null
     subTotal: number
@@ -7656,7 +7669,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       patientId: number | null
-      patientName: string
+      patientName: string | null
       patientContact: string | null
       patientAddress: string | null
       subTotal: number
@@ -8543,7 +8556,7 @@ export namespace Prisma {
   export type SalesItemAvgAggregateOutputType = {
     id: number | null
     saleId: number | null
-    purchaseId: number | null
+    purchaseItemId: number | null
     itemId: number | null
     quantity: number | null
     sellingPrice: number | null
@@ -8553,7 +8566,7 @@ export namespace Prisma {
   export type SalesItemSumAggregateOutputType = {
     id: number | null
     saleId: number | null
-    purchaseId: number | null
+    purchaseItemId: number | null
     itemId: number | null
     quantity: number | null
     sellingPrice: number | null
@@ -8563,7 +8576,7 @@ export namespace Prisma {
   export type SalesItemMinAggregateOutputType = {
     id: number | null
     saleId: number | null
-    purchaseId: number | null
+    purchaseItemId: number | null
     itemId: number | null
     batchNumber: string | null
     quantity: number | null
@@ -8574,7 +8587,7 @@ export namespace Prisma {
   export type SalesItemMaxAggregateOutputType = {
     id: number | null
     saleId: number | null
-    purchaseId: number | null
+    purchaseItemId: number | null
     itemId: number | null
     batchNumber: string | null
     quantity: number | null
@@ -8585,7 +8598,7 @@ export namespace Prisma {
   export type SalesItemCountAggregateOutputType = {
     id: number
     saleId: number
-    purchaseId: number
+    purchaseItemId: number
     itemId: number
     batchNumber: number
     quantity: number
@@ -8598,7 +8611,7 @@ export namespace Prisma {
   export type SalesItemAvgAggregateInputType = {
     id?: true
     saleId?: true
-    purchaseId?: true
+    purchaseItemId?: true
     itemId?: true
     quantity?: true
     sellingPrice?: true
@@ -8608,7 +8621,7 @@ export namespace Prisma {
   export type SalesItemSumAggregateInputType = {
     id?: true
     saleId?: true
-    purchaseId?: true
+    purchaseItemId?: true
     itemId?: true
     quantity?: true
     sellingPrice?: true
@@ -8618,7 +8631,7 @@ export namespace Prisma {
   export type SalesItemMinAggregateInputType = {
     id?: true
     saleId?: true
-    purchaseId?: true
+    purchaseItemId?: true
     itemId?: true
     batchNumber?: true
     quantity?: true
@@ -8629,7 +8642,7 @@ export namespace Prisma {
   export type SalesItemMaxAggregateInputType = {
     id?: true
     saleId?: true
-    purchaseId?: true
+    purchaseItemId?: true
     itemId?: true
     batchNumber?: true
     quantity?: true
@@ -8640,7 +8653,7 @@ export namespace Prisma {
   export type SalesItemCountAggregateInputType = {
     id?: true
     saleId?: true
-    purchaseId?: true
+    purchaseItemId?: true
     itemId?: true
     batchNumber?: true
     quantity?: true
@@ -8738,7 +8751,7 @@ export namespace Prisma {
   export type SalesItemGroupByOutputType = {
     id: number
     saleId: number
-    purchaseId: number | null
+    purchaseItemId: number | null
     itemId: number
     batchNumber: string
     quantity: number
@@ -8768,7 +8781,7 @@ export namespace Prisma {
   export type SalesItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     saleId?: boolean
-    purchaseId?: boolean
+    purchaseItemId?: boolean
     itemId?: boolean
     batchNumber?: boolean
     quantity?: boolean
@@ -8780,7 +8793,7 @@ export namespace Prisma {
   export type SalesItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     saleId?: boolean
-    purchaseId?: boolean
+    purchaseItemId?: boolean
     itemId?: boolean
     batchNumber?: boolean
     quantity?: boolean
@@ -8792,7 +8805,7 @@ export namespace Prisma {
   export type SalesItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     saleId?: boolean
-    purchaseId?: boolean
+    purchaseItemId?: boolean
     itemId?: boolean
     batchNumber?: boolean
     quantity?: boolean
@@ -8804,7 +8817,7 @@ export namespace Prisma {
   export type SalesItemSelectScalar = {
     id?: boolean
     saleId?: boolean
-    purchaseId?: boolean
+    purchaseItemId?: boolean
     itemId?: boolean
     batchNumber?: boolean
     quantity?: boolean
@@ -8812,7 +8825,7 @@ export namespace Prisma {
     totalAmount?: boolean
   }
 
-  export type SalesItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "saleId" | "purchaseId" | "itemId" | "batchNumber" | "quantity" | "sellingPrice" | "totalAmount", ExtArgs["result"]["salesItem"]>
+  export type SalesItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "saleId" | "purchaseItemId" | "itemId" | "batchNumber" | "quantity" | "sellingPrice" | "totalAmount", ExtArgs["result"]["salesItem"]>
   export type SalesItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sale?: boolean | SalesDefaultArgs<ExtArgs>
   }
@@ -8831,7 +8844,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       saleId: number
-      purchaseId: number | null
+      purchaseItemId: number | null
       itemId: number
       batchNumber: string
       quantity: number
@@ -9263,7 +9276,7 @@ export namespace Prisma {
   interface SalesItemFieldRefs {
     readonly id: FieldRef<"SalesItem", 'Int'>
     readonly saleId: FieldRef<"SalesItem", 'Int'>
-    readonly purchaseId: FieldRef<"SalesItem", 'Int'>
+    readonly purchaseItemId: FieldRef<"SalesItem", 'Int'>
     readonly itemId: FieldRef<"SalesItem", 'Int'>
     readonly batchNumber: FieldRef<"SalesItem", 'String'>
     readonly quantity: FieldRef<"SalesItem", 'Int'>
@@ -9744,6 +9757,7 @@ export namespace Prisma {
     totalMedicines: 'totalMedicines',
     remainingMedicines: 'remainingMedicines',
     scheme: 'scheme',
+    isSold: 'isSold',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9797,7 +9811,7 @@ export namespace Prisma {
   export const SalesItemScalarFieldEnum: {
     id: 'id',
     saleId: 'saleId',
-    purchaseId: 'purchaseId',
+    purchaseItemId: 'purchaseItemId',
     itemId: 'itemId',
     batchNumber: 'batchNumber',
     quantity: 'quantity',
@@ -9854,6 +9868,13 @@ export namespace Prisma {
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
   /**
    * Deep Input Types
@@ -10063,6 +10084,7 @@ export namespace Prisma {
     totalMedicines?: FloatFilter<"PurchaseItem"> | number
     remainingMedicines?: FloatFilter<"PurchaseItem"> | number
     scheme?: FloatFilter<"PurchaseItem"> | number
+    isSold?: BoolFilter<"PurchaseItem"> | boolean
     createdAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     purchase?: XOR<PurchaseScalarRelationFilter, PurchaseWhereInput>
@@ -10085,6 +10107,7 @@ export namespace Prisma {
     totalMedicines?: SortOrder
     remainingMedicines?: SortOrder
     scheme?: SortOrder
+    isSold?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     purchase?: PurchaseOrderByWithRelationInput
@@ -10110,6 +10133,7 @@ export namespace Prisma {
     totalMedicines?: FloatFilter<"PurchaseItem"> | number
     remainingMedicines?: FloatFilter<"PurchaseItem"> | number
     scheme?: FloatFilter<"PurchaseItem"> | number
+    isSold?: BoolFilter<"PurchaseItem"> | boolean
     createdAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     purchase?: XOR<PurchaseScalarRelationFilter, PurchaseWhereInput>
@@ -10132,6 +10156,7 @@ export namespace Prisma {
     totalMedicines?: SortOrder
     remainingMedicines?: SortOrder
     scheme?: SortOrder
+    isSold?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PurchaseItemCountOrderByAggregateInput
@@ -10160,6 +10185,7 @@ export namespace Prisma {
     totalMedicines?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     remainingMedicines?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     scheme?: FloatWithAggregatesFilter<"PurchaseItem"> | number
+    isSold?: BoolWithAggregatesFilter<"PurchaseItem"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"PurchaseItem"> | Date | string
   }
@@ -10295,7 +10321,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Sales"> | Date | string
     updatedAt?: DateTimeFilter<"Sales"> | Date | string
     patientId?: IntNullableFilter<"Sales"> | number | null
-    patientName?: StringFilter<"Sales"> | string
+    patientName?: StringNullableFilter<"Sales"> | string | null
     patientContact?: StringNullableFilter<"Sales"> | string | null
     patientAddress?: StringNullableFilter<"Sales"> | string | null
     subTotal?: FloatFilter<"Sales"> | number
@@ -10311,7 +10337,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patientId?: SortOrderInput | SortOrder
-    patientName?: SortOrder
+    patientName?: SortOrderInput | SortOrder
     patientContact?: SortOrderInput | SortOrder
     patientAddress?: SortOrderInput | SortOrder
     subTotal?: SortOrder
@@ -10330,7 +10356,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Sales"> | Date | string
     updatedAt?: DateTimeFilter<"Sales"> | Date | string
     patientId?: IntNullableFilter<"Sales"> | number | null
-    patientName?: StringFilter<"Sales"> | string
+    patientName?: StringNullableFilter<"Sales"> | string | null
     patientContact?: StringNullableFilter<"Sales"> | string | null
     patientAddress?: StringNullableFilter<"Sales"> | string | null
     subTotal?: FloatFilter<"Sales"> | number
@@ -10346,7 +10372,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patientId?: SortOrderInput | SortOrder
-    patientName?: SortOrder
+    patientName?: SortOrderInput | SortOrder
     patientContact?: SortOrderInput | SortOrder
     patientAddress?: SortOrderInput | SortOrder
     subTotal?: SortOrder
@@ -10369,7 +10395,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Sales"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Sales"> | Date | string
     patientId?: IntNullableWithAggregatesFilter<"Sales"> | number | null
-    patientName?: StringWithAggregatesFilter<"Sales"> | string
+    patientName?: StringNullableWithAggregatesFilter<"Sales"> | string | null
     patientContact?: StringNullableWithAggregatesFilter<"Sales"> | string | null
     patientAddress?: StringNullableWithAggregatesFilter<"Sales"> | string | null
     subTotal?: FloatWithAggregatesFilter<"Sales"> | number
@@ -10385,7 +10411,7 @@ export namespace Prisma {
     NOT?: SalesItemWhereInput | SalesItemWhereInput[]
     id?: IntFilter<"SalesItem"> | number
     saleId?: IntFilter<"SalesItem"> | number
-    purchaseId?: IntNullableFilter<"SalesItem"> | number | null
+    purchaseItemId?: IntNullableFilter<"SalesItem"> | number | null
     itemId?: IntFilter<"SalesItem"> | number
     batchNumber?: StringFilter<"SalesItem"> | string
     quantity?: IntFilter<"SalesItem"> | number
@@ -10397,7 +10423,7 @@ export namespace Prisma {
   export type SalesItemOrderByWithRelationInput = {
     id?: SortOrder
     saleId?: SortOrder
-    purchaseId?: SortOrderInput | SortOrder
+    purchaseItemId?: SortOrderInput | SortOrder
     itemId?: SortOrder
     batchNumber?: SortOrder
     quantity?: SortOrder
@@ -10412,7 +10438,7 @@ export namespace Prisma {
     OR?: SalesItemWhereInput[]
     NOT?: SalesItemWhereInput | SalesItemWhereInput[]
     saleId?: IntFilter<"SalesItem"> | number
-    purchaseId?: IntNullableFilter<"SalesItem"> | number | null
+    purchaseItemId?: IntNullableFilter<"SalesItem"> | number | null
     itemId?: IntFilter<"SalesItem"> | number
     batchNumber?: StringFilter<"SalesItem"> | string
     quantity?: IntFilter<"SalesItem"> | number
@@ -10424,7 +10450,7 @@ export namespace Prisma {
   export type SalesItemOrderByWithAggregationInput = {
     id?: SortOrder
     saleId?: SortOrder
-    purchaseId?: SortOrderInput | SortOrder
+    purchaseItemId?: SortOrderInput | SortOrder
     itemId?: SortOrder
     batchNumber?: SortOrder
     quantity?: SortOrder
@@ -10443,7 +10469,7 @@ export namespace Prisma {
     NOT?: SalesItemScalarWhereWithAggregatesInput | SalesItemScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"SalesItem"> | number
     saleId?: IntWithAggregatesFilter<"SalesItem"> | number
-    purchaseId?: IntNullableWithAggregatesFilter<"SalesItem"> | number | null
+    purchaseItemId?: IntNullableWithAggregatesFilter<"SalesItem"> | number | null
     itemId?: IntWithAggregatesFilter<"SalesItem"> | number
     batchNumber?: StringWithAggregatesFilter<"SalesItem"> | string
     quantity?: IntWithAggregatesFilter<"SalesItem"> | number
@@ -10676,6 +10702,7 @@ export namespace Prisma {
     totalMedicines: number
     remainingMedicines: number
     scheme: number
+    isSold?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     purchase: PurchaseCreateNestedOneWithoutPurchasedItemsInput
@@ -10698,6 +10725,7 @@ export namespace Prisma {
     totalMedicines: number
     remainingMedicines: number
     scheme: number
+    isSold?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10715,6 +10743,7 @@ export namespace Prisma {
     totalMedicines?: FloatFieldUpdateOperationsInput | number
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
+    isSold?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     purchase?: PurchaseUpdateOneRequiredWithoutPurchasedItemsNestedInput
@@ -10737,6 +10766,7 @@ export namespace Prisma {
     totalMedicines?: FloatFieldUpdateOperationsInput | number
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
+    isSold?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10757,6 +10787,7 @@ export namespace Prisma {
     totalMedicines: number
     remainingMedicines: number
     scheme: number
+    isSold?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10774,6 +10805,7 @@ export namespace Prisma {
     totalMedicines?: FloatFieldUpdateOperationsInput | number
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
+    isSold?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10794,6 +10826,7 @@ export namespace Prisma {
     totalMedicines?: FloatFieldUpdateOperationsInput | number
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
+    isSold?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10929,7 +10962,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     patientId?: number | null
-    patientName: string
+    patientName?: string | null
     patientContact?: string | null
     patientAddress?: string | null
     subTotal?: number
@@ -10945,7 +10978,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     patientId?: number | null
-    patientName: string
+    patientName?: string | null
     patientContact?: string | null
     patientAddress?: string | null
     subTotal?: number
@@ -10960,7 +10993,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
-    patientName?: StringFieldUpdateOperationsInput | string
+    patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null
     patientAddress?: NullableStringFieldUpdateOperationsInput | string | null
     subTotal?: FloatFieldUpdateOperationsInput | number
@@ -10976,7 +11009,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
-    patientName?: StringFieldUpdateOperationsInput | string
+    patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null
     patientAddress?: NullableStringFieldUpdateOperationsInput | string | null
     subTotal?: FloatFieldUpdateOperationsInput | number
@@ -10992,7 +11025,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     patientId?: number | null
-    patientName: string
+    patientName?: string | null
     patientContact?: string | null
     patientAddress?: string | null
     subTotal?: number
@@ -11006,7 +11039,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
-    patientName?: StringFieldUpdateOperationsInput | string
+    patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null
     patientAddress?: NullableStringFieldUpdateOperationsInput | string | null
     subTotal?: FloatFieldUpdateOperationsInput | number
@@ -11021,7 +11054,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
-    patientName?: StringFieldUpdateOperationsInput | string
+    patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null
     patientAddress?: NullableStringFieldUpdateOperationsInput | string | null
     subTotal?: FloatFieldUpdateOperationsInput | number
@@ -11032,7 +11065,7 @@ export namespace Prisma {
   }
 
   export type SalesItemCreateInput = {
-    purchaseId?: number | null
+    purchaseItemId?: number | null
     itemId: number
     batchNumber: string
     quantity: number
@@ -11044,7 +11077,7 @@ export namespace Prisma {
   export type SalesItemUncheckedCreateInput = {
     id?: number
     saleId: number
-    purchaseId?: number | null
+    purchaseItemId?: number | null
     itemId: number
     batchNumber: string
     quantity: number
@@ -11053,7 +11086,7 @@ export namespace Prisma {
   }
 
   export type SalesItemUpdateInput = {
-    purchaseId?: NullableIntFieldUpdateOperationsInput | number | null
+    purchaseItemId?: NullableIntFieldUpdateOperationsInput | number | null
     itemId?: IntFieldUpdateOperationsInput | number
     batchNumber?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -11065,7 +11098,7 @@ export namespace Prisma {
   export type SalesItemUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     saleId?: IntFieldUpdateOperationsInput | number
-    purchaseId?: NullableIntFieldUpdateOperationsInput | number | null
+    purchaseItemId?: NullableIntFieldUpdateOperationsInput | number | null
     itemId?: IntFieldUpdateOperationsInput | number
     batchNumber?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -11076,7 +11109,7 @@ export namespace Prisma {
   export type SalesItemCreateManyInput = {
     id?: number
     saleId: number
-    purchaseId?: number | null
+    purchaseItemId?: number | null
     itemId: number
     batchNumber: string
     quantity: number
@@ -11085,7 +11118,7 @@ export namespace Prisma {
   }
 
   export type SalesItemUpdateManyMutationInput = {
-    purchaseId?: NullableIntFieldUpdateOperationsInput | number | null
+    purchaseItemId?: NullableIntFieldUpdateOperationsInput | number | null
     itemId?: IntFieldUpdateOperationsInput | number
     batchNumber?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -11096,7 +11129,7 @@ export namespace Prisma {
   export type SalesItemUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     saleId?: IntFieldUpdateOperationsInput | number
-    purchaseId?: NullableIntFieldUpdateOperationsInput | number | null
+    purchaseItemId?: NullableIntFieldUpdateOperationsInput | number | null
     itemId?: IntFieldUpdateOperationsInput | number
     batchNumber?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -11411,6 +11444,11 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type PurchaseScalarRelationFilter = {
     is?: PurchaseWhereInput
     isNot?: PurchaseWhereInput
@@ -11437,6 +11475,7 @@ export namespace Prisma {
     totalMedicines?: SortOrder
     remainingMedicines?: SortOrder
     scheme?: SortOrder
+    isSold?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11473,6 +11512,7 @@ export namespace Prisma {
     totalMedicines?: SortOrder
     remainingMedicines?: SortOrder
     scheme?: SortOrder
+    isSold?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11493,6 +11533,7 @@ export namespace Prisma {
     totalMedicines?: SortOrder
     remainingMedicines?: SortOrder
     scheme?: SortOrder
+    isSold?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11511,6 +11552,14 @@ export namespace Prisma {
     totalMedicines?: SortOrder
     remainingMedicines?: SortOrder
     scheme?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type SupplierCountOrderByAggregateInput = {
@@ -11667,7 +11716,7 @@ export namespace Prisma {
   export type SalesItemCountOrderByAggregateInput = {
     id?: SortOrder
     saleId?: SortOrder
-    purchaseId?: SortOrder
+    purchaseItemId?: SortOrder
     itemId?: SortOrder
     batchNumber?: SortOrder
     quantity?: SortOrder
@@ -11678,7 +11727,7 @@ export namespace Prisma {
   export type SalesItemAvgOrderByAggregateInput = {
     id?: SortOrder
     saleId?: SortOrder
-    purchaseId?: SortOrder
+    purchaseItemId?: SortOrder
     itemId?: SortOrder
     quantity?: SortOrder
     sellingPrice?: SortOrder
@@ -11688,7 +11737,7 @@ export namespace Prisma {
   export type SalesItemMaxOrderByAggregateInput = {
     id?: SortOrder
     saleId?: SortOrder
-    purchaseId?: SortOrder
+    purchaseItemId?: SortOrder
     itemId?: SortOrder
     batchNumber?: SortOrder
     quantity?: SortOrder
@@ -11699,7 +11748,7 @@ export namespace Prisma {
   export type SalesItemMinOrderByAggregateInput = {
     id?: SortOrder
     saleId?: SortOrder
-    purchaseId?: SortOrder
+    purchaseItemId?: SortOrder
     itemId?: SortOrder
     batchNumber?: SortOrder
     quantity?: SortOrder
@@ -11710,7 +11759,7 @@ export namespace Prisma {
   export type SalesItemSumOrderByAggregateInput = {
     id?: SortOrder
     saleId?: SortOrder
-    purchaseId?: SortOrder
+    purchaseItemId?: SortOrder
     itemId?: SortOrder
     quantity?: SortOrder
     sellingPrice?: SortOrder
@@ -11847,6 +11896,10 @@ export namespace Prisma {
     create?: XOR<medicineCreateWithoutPurchaseItemsInput, medicineUncheckedCreateWithoutPurchaseItemsInput>
     connectOrCreate?: medicineCreateOrConnectWithoutPurchaseItemsInput
     connect?: medicineWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type PurchaseUpdateOneRequiredWithoutPurchasedItemsNestedInput = {
@@ -12100,6 +12153,19 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type PurchaseItemCreateWithoutMedicineInput = {
     batchNumber: string
     expiryDate: Date | string
@@ -12113,6 +12179,7 @@ export namespace Prisma {
     totalMedicines: number
     remainingMedicines: number
     scheme: number
+    isSold?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     purchase: PurchaseCreateNestedOneWithoutPurchasedItemsInput
@@ -12133,6 +12200,7 @@ export namespace Prisma {
     totalMedicines: number
     remainingMedicines: number
     scheme: number
+    isSold?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12181,6 +12249,7 @@ export namespace Prisma {
     totalMedicines?: FloatFilter<"PurchaseItem"> | number
     remainingMedicines?: FloatFilter<"PurchaseItem"> | number
     scheme?: FloatFilter<"PurchaseItem"> | number
+    isSold?: BoolFilter<"PurchaseItem"> | boolean
     createdAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeFilter<"PurchaseItem"> | Date | string
   }
@@ -12198,6 +12267,7 @@ export namespace Prisma {
     totalMedicines: number
     remainingMedicines: number
     scheme: number
+    isSold?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     medicine: medicineCreateNestedOneWithoutPurchaseItemsInput
@@ -12218,6 +12288,7 @@ export namespace Prisma {
     totalMedicines: number
     remainingMedicines: number
     scheme: number
+    isSold?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12396,7 +12467,7 @@ export namespace Prisma {
   }
 
   export type SalesItemCreateWithoutSaleInput = {
-    purchaseId?: number | null
+    purchaseItemId?: number | null
     itemId: number
     batchNumber: string
     quantity: number
@@ -12406,7 +12477,7 @@ export namespace Prisma {
 
   export type SalesItemUncheckedCreateWithoutSaleInput = {
     id?: number
-    purchaseId?: number | null
+    purchaseItemId?: number | null
     itemId: number
     batchNumber: string
     quantity: number
@@ -12445,7 +12516,7 @@ export namespace Prisma {
     NOT?: SalesItemScalarWhereInput | SalesItemScalarWhereInput[]
     id?: IntFilter<"SalesItem"> | number
     saleId?: IntFilter<"SalesItem"> | number
-    purchaseId?: IntNullableFilter<"SalesItem"> | number | null
+    purchaseItemId?: IntNullableFilter<"SalesItem"> | number | null
     itemId?: IntFilter<"SalesItem"> | number
     batchNumber?: StringFilter<"SalesItem"> | string
     quantity?: IntFilter<"SalesItem"> | number
@@ -12457,7 +12528,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     patientId?: number | null
-    patientName: string
+    patientName?: string | null
     patientContact?: string | null
     patientAddress?: string | null
     subTotal?: number
@@ -12472,7 +12543,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     patientId?: number | null
-    patientName: string
+    patientName?: string | null
     patientContact?: string | null
     patientAddress?: string | null
     subTotal?: number
@@ -12502,7 +12573,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
-    patientName?: StringFieldUpdateOperationsInput | string
+    patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null
     patientAddress?: NullableStringFieldUpdateOperationsInput | string | null
     subTotal?: FloatFieldUpdateOperationsInput | number
@@ -12517,7 +12588,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
-    patientName?: StringFieldUpdateOperationsInput | string
+    patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null
     patientAddress?: NullableStringFieldUpdateOperationsInput | string | null
     subTotal?: FloatFieldUpdateOperationsInput | number
@@ -12542,6 +12613,7 @@ export namespace Prisma {
     totalMedicines: number
     remainingMedicines: number
     scheme: number
+    isSold?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12559,6 +12631,7 @@ export namespace Prisma {
     totalMedicines?: FloatFieldUpdateOperationsInput | number
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
+    isSold?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     purchase?: PurchaseUpdateOneRequiredWithoutPurchasedItemsNestedInput
@@ -12579,6 +12652,7 @@ export namespace Prisma {
     totalMedicines?: FloatFieldUpdateOperationsInput | number
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
+    isSold?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12598,6 +12672,7 @@ export namespace Prisma {
     totalMedicines?: FloatFieldUpdateOperationsInput | number
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
+    isSold?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12617,6 +12692,7 @@ export namespace Prisma {
     totalMedicines: number
     remainingMedicines: number
     scheme: number
+    isSold?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12634,6 +12710,7 @@ export namespace Prisma {
     totalMedicines?: FloatFieldUpdateOperationsInput | number
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
+    isSold?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     medicine?: medicineUpdateOneRequiredWithoutPurchaseItemsNestedInput
@@ -12654,6 +12731,7 @@ export namespace Prisma {
     totalMedicines?: FloatFieldUpdateOperationsInput | number
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
+    isSold?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12673,13 +12751,14 @@ export namespace Prisma {
     totalMedicines?: FloatFieldUpdateOperationsInput | number
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
+    isSold?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SalesItemCreateManySaleInput = {
     id?: number
-    purchaseId?: number | null
+    purchaseItemId?: number | null
     itemId: number
     batchNumber: string
     quantity: number
@@ -12688,7 +12767,7 @@ export namespace Prisma {
   }
 
   export type SalesItemUpdateWithoutSaleInput = {
-    purchaseId?: NullableIntFieldUpdateOperationsInput | number | null
+    purchaseItemId?: NullableIntFieldUpdateOperationsInput | number | null
     itemId?: IntFieldUpdateOperationsInput | number
     batchNumber?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -12698,7 +12777,7 @@ export namespace Prisma {
 
   export type SalesItemUncheckedUpdateWithoutSaleInput = {
     id?: IntFieldUpdateOperationsInput | number
-    purchaseId?: NullableIntFieldUpdateOperationsInput | number | null
+    purchaseItemId?: NullableIntFieldUpdateOperationsInput | number | null
     itemId?: IntFieldUpdateOperationsInput | number
     batchNumber?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -12708,7 +12787,7 @@ export namespace Prisma {
 
   export type SalesItemUncheckedUpdateManyWithoutSaleInput = {
     id?: IntFieldUpdateOperationsInput | number
-    purchaseId?: NullableIntFieldUpdateOperationsInput | number | null
+    purchaseItemId?: NullableIntFieldUpdateOperationsInput | number | null
     itemId?: IntFieldUpdateOperationsInput | number
     batchNumber?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
