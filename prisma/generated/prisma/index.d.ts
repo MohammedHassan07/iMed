@@ -3940,6 +3940,7 @@ export namespace Prisma {
     sellingPrice: number | null
     sellingPricePerMedicine: number | null
     quantity: number | null
+    packageQuantity: number | null
     profit: number | null
     tax: number | null
     total: number | null
@@ -3956,6 +3957,7 @@ export namespace Prisma {
     sellingPrice: number | null
     sellingPricePerMedicine: number | null
     quantity: number | null
+    packageQuantity: number | null
     profit: number | null
     tax: number | null
     total: number | null
@@ -3974,6 +3976,7 @@ export namespace Prisma {
     sellingPrice: number | null
     sellingPricePerMedicine: number | null
     quantity: number | null
+    packageQuantity: number | null
     profit: number | null
     tax: number | null
     total: number | null
@@ -3995,6 +3998,7 @@ export namespace Prisma {
     sellingPrice: number | null
     sellingPricePerMedicine: number | null
     quantity: number | null
+    packageQuantity: number | null
     profit: number | null
     tax: number | null
     total: number | null
@@ -4016,6 +4020,7 @@ export namespace Prisma {
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
+    packageQuantity: number
     profit: number
     tax: number
     total: number
@@ -4037,6 +4042,7 @@ export namespace Prisma {
     sellingPrice?: true
     sellingPricePerMedicine?: true
     quantity?: true
+    packageQuantity?: true
     profit?: true
     tax?: true
     total?: true
@@ -4053,6 +4059,7 @@ export namespace Prisma {
     sellingPrice?: true
     sellingPricePerMedicine?: true
     quantity?: true
+    packageQuantity?: true
     profit?: true
     tax?: true
     total?: true
@@ -4071,6 +4078,7 @@ export namespace Prisma {
     sellingPrice?: true
     sellingPricePerMedicine?: true
     quantity?: true
+    packageQuantity?: true
     profit?: true
     tax?: true
     total?: true
@@ -4092,6 +4100,7 @@ export namespace Prisma {
     sellingPrice?: true
     sellingPricePerMedicine?: true
     quantity?: true
+    packageQuantity?: true
     profit?: true
     tax?: true
     total?: true
@@ -4113,6 +4122,7 @@ export namespace Prisma {
     sellingPrice?: true
     sellingPricePerMedicine?: true
     quantity?: true
+    packageQuantity?: true
     profit?: true
     tax?: true
     total?: true
@@ -4221,6 +4231,7 @@ export namespace Prisma {
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
+    packageQuantity: number
     profit: number
     tax: number
     total: number
@@ -4261,6 +4272,7 @@ export namespace Prisma {
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
+    packageQuantity?: boolean
     profit?: boolean
     tax?: boolean
     total?: boolean
@@ -4284,6 +4296,7 @@ export namespace Prisma {
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
+    packageQuantity?: boolean
     profit?: boolean
     tax?: boolean
     total?: boolean
@@ -4307,6 +4320,7 @@ export namespace Prisma {
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
+    packageQuantity?: boolean
     profit?: boolean
     tax?: boolean
     total?: boolean
@@ -4330,6 +4344,7 @@ export namespace Prisma {
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
+    packageQuantity?: boolean
     profit?: boolean
     tax?: boolean
     total?: boolean
@@ -4341,7 +4356,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "sellingPrice" | "sellingPricePerMedicine" | "quantity" | "profit" | "tax" | "total" | "totalMedicines" | "remainingMedicines" | "scheme" | "isSold" | "createdAt" | "updatedAt", ExtArgs["result"]["purchaseItem"]>
+  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "sellingPrice" | "sellingPricePerMedicine" | "quantity" | "packageQuantity" | "profit" | "tax" | "total" | "totalMedicines" | "remainingMedicines" | "scheme" | "isSold" | "createdAt" | "updatedAt", ExtArgs["result"]["purchaseItem"]>
   export type PurchaseItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
     medicine?: boolean | medicineDefaultArgs<ExtArgs>
@@ -4371,6 +4386,7 @@ export namespace Prisma {
       sellingPrice: number
       sellingPricePerMedicine: number
       quantity: number
+      packageQuantity: number
       profit: number
       tax: number
       total: number
@@ -4814,6 +4830,7 @@ export namespace Prisma {
     readonly sellingPrice: FieldRef<"PurchaseItem", 'Float'>
     readonly sellingPricePerMedicine: FieldRef<"PurchaseItem", 'Float'>
     readonly quantity: FieldRef<"PurchaseItem", 'Int'>
+    readonly packageQuantity: FieldRef<"PurchaseItem", 'Float'>
     readonly profit: FieldRef<"PurchaseItem", 'Float'>
     readonly tax: FieldRef<"PurchaseItem", 'Float'>
     readonly total: FieldRef<"PurchaseItem", 'Float'>
@@ -9751,6 +9768,7 @@ export namespace Prisma {
     sellingPrice: 'sellingPrice',
     sellingPricePerMedicine: 'sellingPricePerMedicine',
     quantity: 'quantity',
+    packageQuantity: 'packageQuantity',
     profit: 'profit',
     tax: 'tax',
     total: 'total',
@@ -10078,6 +10096,7 @@ export namespace Prisma {
     sellingPrice?: FloatFilter<"PurchaseItem"> | number
     sellingPricePerMedicine?: FloatFilter<"PurchaseItem"> | number
     quantity?: IntFilter<"PurchaseItem"> | number
+    packageQuantity?: FloatFilter<"PurchaseItem"> | number
     profit?: FloatFilter<"PurchaseItem"> | number
     tax?: FloatFilter<"PurchaseItem"> | number
     total?: FloatFilter<"PurchaseItem"> | number
@@ -10101,6 +10120,7 @@ export namespace Prisma {
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
+    packageQuantity?: SortOrder
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -10127,6 +10147,7 @@ export namespace Prisma {
     sellingPrice?: FloatFilter<"PurchaseItem"> | number
     sellingPricePerMedicine?: FloatFilter<"PurchaseItem"> | number
     quantity?: IntFilter<"PurchaseItem"> | number
+    packageQuantity?: FloatFilter<"PurchaseItem"> | number
     profit?: FloatFilter<"PurchaseItem"> | number
     tax?: FloatFilter<"PurchaseItem"> | number
     total?: FloatFilter<"PurchaseItem"> | number
@@ -10150,6 +10171,7 @@ export namespace Prisma {
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
+    packageQuantity?: SortOrder
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -10179,6 +10201,7 @@ export namespace Prisma {
     sellingPrice?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     sellingPricePerMedicine?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     quantity?: IntWithAggregatesFilter<"PurchaseItem"> | number
+    packageQuantity?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     profit?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     tax?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     total?: FloatWithAggregatesFilter<"PurchaseItem"> | number
@@ -10696,6 +10719,7 @@ export namespace Prisma {
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
+    packageQuantity: number
     profit: number
     tax: number
     total: number
@@ -10719,6 +10743,7 @@ export namespace Prisma {
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
+    packageQuantity: number
     profit: number
     tax: number
     total: number
@@ -10737,6 +10762,7 @@ export namespace Prisma {
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    packageQuantity?: FloatFieldUpdateOperationsInput | number
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -10760,6 +10786,7 @@ export namespace Prisma {
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    packageQuantity?: FloatFieldUpdateOperationsInput | number
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -10781,6 +10808,7 @@ export namespace Prisma {
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
+    packageQuantity: number
     profit: number
     tax: number
     total: number
@@ -10799,6 +10827,7 @@ export namespace Prisma {
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    packageQuantity?: FloatFieldUpdateOperationsInput | number
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -10820,6 +10849,7 @@ export namespace Prisma {
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    packageQuantity?: FloatFieldUpdateOperationsInput | number
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -11469,6 +11499,7 @@ export namespace Prisma {
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
+    packageQuantity?: SortOrder
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -11488,6 +11519,7 @@ export namespace Prisma {
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
+    packageQuantity?: SortOrder
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -11506,6 +11538,7 @@ export namespace Prisma {
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
+    packageQuantity?: SortOrder
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -11527,6 +11560,7 @@ export namespace Prisma {
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
+    packageQuantity?: SortOrder
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -11546,6 +11580,7 @@ export namespace Prisma {
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
+    packageQuantity?: SortOrder
     profit?: SortOrder
     tax?: SortOrder
     total?: SortOrder
@@ -12173,6 +12208,7 @@ export namespace Prisma {
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
+    packageQuantity: number
     profit: number
     tax: number
     total: number
@@ -12194,6 +12230,7 @@ export namespace Prisma {
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
+    packageQuantity: number
     profit: number
     tax: number
     total: number
@@ -12243,6 +12280,7 @@ export namespace Prisma {
     sellingPrice?: FloatFilter<"PurchaseItem"> | number
     sellingPricePerMedicine?: FloatFilter<"PurchaseItem"> | number
     quantity?: IntFilter<"PurchaseItem"> | number
+    packageQuantity?: FloatFilter<"PurchaseItem"> | number
     profit?: FloatFilter<"PurchaseItem"> | number
     tax?: FloatFilter<"PurchaseItem"> | number
     total?: FloatFilter<"PurchaseItem"> | number
@@ -12261,6 +12299,7 @@ export namespace Prisma {
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
+    packageQuantity: number
     profit: number
     tax: number
     total: number
@@ -12282,6 +12321,7 @@ export namespace Prisma {
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
+    packageQuantity: number
     profit: number
     tax: number
     total: number
@@ -12607,6 +12647,7 @@ export namespace Prisma {
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
+    packageQuantity: number
     profit: number
     tax: number
     total: number
@@ -12625,6 +12666,7 @@ export namespace Prisma {
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    packageQuantity?: FloatFieldUpdateOperationsInput | number
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -12646,6 +12688,7 @@ export namespace Prisma {
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    packageQuantity?: FloatFieldUpdateOperationsInput | number
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -12666,6 +12709,7 @@ export namespace Prisma {
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    packageQuantity?: FloatFieldUpdateOperationsInput | number
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -12686,6 +12730,7 @@ export namespace Prisma {
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
+    packageQuantity: number
     profit: number
     tax: number
     total: number
@@ -12704,6 +12749,7 @@ export namespace Prisma {
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    packageQuantity?: FloatFieldUpdateOperationsInput | number
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -12725,6 +12771,7 @@ export namespace Prisma {
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    packageQuantity?: FloatFieldUpdateOperationsInput | number
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -12745,6 +12792,7 @@ export namespace Prisma {
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    packageQuantity?: FloatFieldUpdateOperationsInput | number
     profit?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number

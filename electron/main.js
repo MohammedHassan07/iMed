@@ -2,8 +2,8 @@ import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import chokidar from 'chokidar';
-import { createMedicine, getMedicine, getSaleMedicineOnTyping } from '../Database/medicine.js';
-import { addPurchase, getPurchase } from '../Database/purchase.js';
+import { createMedicine, getMedicine, getMedicineOnTyping } from '../Database/medicine.js';
+import { addPurchase, getPurchase, getStocksOnTyping } from '../Database/purchase.js';
 import { addSupplier, getSupplierOnTyping, getSuppliers } from '../Database/supplier.js';
 import { addTax, getAllTaxes, getTaxes } from '../Database/tax.js';
 import { addSales } from '../Database/sales.js';
@@ -68,7 +68,7 @@ ipcMain.handle('add-medicine', async (event, data) => {
   return await createMedicine(data);
 })
 ipcMain.handle('getMedicineOnTyping', async (event, search) => {
-  return await getSaleMedicineOnTyping(search)
+  return await getMedicineOnTyping(search)
 })
 
 
@@ -78,6 +78,10 @@ ipcMain.handle('add-purchase', async (event, data) => {
 })
 ipcMain.handle('getPurchase', async (event, data) => {
   return await getPurchase(data)
+})
+ipcMain.handle('getStocksOnTyping', async (event, data) => {
+
+  return await getStocksOnTyping(data)
 })
 
 // ------------supplier------------------------

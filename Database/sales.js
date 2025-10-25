@@ -100,11 +100,14 @@ export const addSales = async (data) => {
             if (purchaseItem.remainingMedicines < item.quantity) {
                 throw new Error(`Not enough stock available for ${item.itemId} (Batch: ${item.batchNumber}).`);
             }
+            
+            const updatedRemainingMedicines = purchaseItem.remainingMedicines - item.quantity;
 
             await prisma.purchaseItem.update({
                 where: { id: item.purchaseItemsId },
                 data: {
                     remainingMedicines: Number(purchaseItem.remainingMedicines - item.quantity),
+                    isSold: updatedRemainingMedicines === 0 ? true : purchaseItem.isSold,
                 },
             });
         }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Search } from "lucide-react";
 import MedicineCard from "./MedicineCard";
 import debounce from "../utils/debounce";
-
+import showToast from "../utils/Toast";
 const MedicineSearch = ({  onSelectMedicine }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [medicines, setMedicines] = useState([])
@@ -11,7 +11,7 @@ const MedicineSearch = ({  onSelectMedicine }) => {
 
     try {
 
-      const response = await window.electronAPI.getMedicineOnTyping({
+      const response = await window.electronAPI.getStocksOnTyping({
         search: searchTerm.trim(),
       });
 

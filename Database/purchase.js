@@ -42,7 +42,8 @@ export async function addPurchase(data) {
                         totalMedicines: parseInt(item.quantity * item.packageQuantity),
                         remainingMedicines: parseInt(item.quantity * item.packageQuantity),
                         sellingPricePerMedicine: parseFloat(item.sellingPrice / item.quantity),
-                        scheme: item.scheme
+                        scheme: item.scheme,
+                        packageQuantity: item.packageQuantity
                     }))
                 }
             },
@@ -120,5 +121,81 @@ export async function getPurchase({ page = 1, limit = 10, search = "" }) {
             message: "Failed to fetch purchases",
         };
     }
+}
+
+// get purchase items on typing
+export async function getStocksOnTyping({ search }) {
+    const medicines = await prisma.medicine.findMany({
+        where: {
+            OR: [
+                { saltName: { contains: search } },
+                { brandName: { contains: search } },
+                { productForm: { contains: search } },
+            ],
+        },
+        include: {
+            purchaseItems: {
+                where: {
+                    isSold: false,  // Only fetch unsold purchase items
+                },
+                select: {
+                    id: true,
+                    batchNumber: true,
+                    expiryDate: true,
+                    purchasePrice: true,
+                    sellingPrice: true,
+                    quantity: true,
+                    remainingMedicines: true,
+                    scheme: true,
+                    totalMedicines: true,
+                    profit: true,
+                    tax: true,
+                    sellingPricePerMedicine: true,
+                },
+            },
+        },
+    });
+
+    if (!medicines || medicines.length < 1) {
+        return { status: "failed", message: "No medicines found" };
+    }
+
+    // Filter out medicines that have no unsold purchase items
+    const filteredMedicines = medicines.filter((med) => med.purchaseItems.length > 0);
+
+    if (filteredMedicines.length === 0) {
+        return { status: "failed", message: "No unsold medicines found" };
+    }
+
+    const mergedMedicines = filteredMedicines.map((med) => {
+        const batchMap = new Map();
+
+        med.purchaseItems.forEach((item) => {
+            if (batchMap.has(item.batchNumber)) {
+                const existing = batchMap.get(item.batchNumber);
+                batchMap.set(item.batchNumber, {
+                    ...existing,
+                    quantity: existing.quantity + item.quantity,
+                    remainingMedicines:
+                        existing.remainingMedicines + item.remainingMedicines,
+                    totalMedicines:
+                        existing.totalMedicines + item.totalMedicines,
+                });
+            } else {
+                batchMap.set(item.batchNumber, { ...item });
+            }
+        });
+
+        return {
+            ...med,
+            purchaseItems: Array.from(batchMap.values()),
+        };
+    });
+
+    return {
+        status: "success",
+        message: "Medicines found",
+        data: mergedMedicines,
+    };
 }
 

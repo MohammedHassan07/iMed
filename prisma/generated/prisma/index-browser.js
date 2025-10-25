@@ -157,6 +157,7 @@ exports.Prisma.PurchaseItemScalarFieldEnum = {
   sellingPrice: 'sellingPrice',
   sellingPricePerMedicine: 'sellingPricePerMedicine',
   quantity: 'quantity',
+  packageQuantity: 'packageQuantity',
   profit: 'profit',
   tax: 'tax',
   total: 'total',

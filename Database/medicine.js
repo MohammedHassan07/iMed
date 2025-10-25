@@ -82,7 +82,7 @@ export async function getMedicine({ page = 1, limit = 5, search = "" }) {
 }
 
 // get medicine on typing 
-export async function getSaleMedicineOnTyping({ search }) {
+export async function getMedicineOnTyping({ search }) {
     const medicines = await prisma.medicine.findMany({
         where: {
             OR: [
@@ -146,3 +146,4 @@ export async function getSaleMedicineOnTyping({ search }) {
         data: mergedMedicines,
     };
 }
+
