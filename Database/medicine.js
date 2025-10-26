@@ -1,6 +1,6 @@
 import prisma from './index.js'
-import xlsx from 'xlsx'
-import fs from 'fs'
+import { data } from 'react-router-dom'
+import generateNumber from './utils/generateNumber.js'
 
 // add medicine
 export async function createMedicine(data) {
@@ -13,6 +13,13 @@ export async function createMedicine(data) {
             return { status: 'failed', message: `Medicine ${existingMedicine.saltName} already exists`, saltName: data.saltName }
         }
 
+        const lastItem = await prisma.medicine.findFirst({
+            orderBy: {
+                createdAt: 'desc',
+            }
+        })
+
+        const itemCode = generateNumber(lastItem, 'item')
         const medicine = {
 
             saltName: data.saltName,
@@ -23,7 +30,8 @@ export async function createMedicine(data) {
             minQuantityAlert: Number(data.minQuantityAlert),
             storageCondition: data.storageCondition,
             boxNumber: Number(data.boxNumber),
-            description: data.description
+            description: data.description,
+            itemCode: itemCode
         }
         const result = await prisma.medicine.create({ data: medicine })
 
@@ -151,13 +159,69 @@ export async function getMedicineOnTyping({ search }) {
 
 // bulk upload
 export async function bulkUpload(fileContent) {
+    const jsonData = fileContent;
 
-    console.log('here')
-    const workbook = xlsx.read(fileContent, { type: 'array' });  
-    const sheetName = workbook.SheetNames[0]; 
-    const worksheet = workbook.Sheets[sheetName];
-    const jsonData = xlsx.utils.sheet_to_json(worksheet); 
-    
+    const uniqueItems = [];
+    const seen = new Set();
 
-    return jsonData;
+    for (const item of jsonData) {
+        const { saltName } = item;
+
+        if (!seen.has(saltName)) {
+            uniqueItems.push(item);
+            seen.add(saltName);
+        }
+    }
+
+    const lastItem = await prisma.medicine.findFirst({
+        orderBy: {
+            createdAt: 'desc',
+        }
+    });
+
+    let itemCode = generateNumber(lastItem, 'item');
+
+    const duplicateItems = [];
+    const newItems = [];
+
+    for (const item of uniqueItems) {
+        const { saltName, brandName, manufacturer, packageQuantity, productForm,
+            minQuantityAlert, storageCondition, boxNumber, description } = item;
+
+        const existingItem = await prisma.medicine.findUnique({ where: { saltName: saltName } });
+
+        if (existingItem) {
+
+            duplicateItems.push(existingItem);
+            continue;
+        }
+
+        const medicine = {
+            saltName: saltName,
+            brandName: brandName,
+            manufacturer: manufacturer,
+            packageQuantity: Number(packageQuantity),
+            productForm: productForm,
+            minQuantityAlert: Number(minQuantityAlert),
+            storageCondition: storageCondition,
+            boxNumber: Number(boxNumber),
+            description: description,
+            itemCode: itemCode,
+        };
+
+        newItems.push(medicine);
+
+        let numericPart = medicine.itemCode.replace('iM-', '');
+        let nextNumber = parseInt(numericPart) + 1;
+        itemCode = `iM-${String(nextNumber).padStart(6, '0')}`;
+    }
+
+    const createdMedicines = await prisma.medicine.createMany({ data: newItems });
+
+    return {
+        newItems: newItems,
+        duplicates: duplicateItems,
+        status: 'success',
+        message: `${newItems.length} items added successfully, ${duplicateItems.length} duplicates found.`,
+    };
 }

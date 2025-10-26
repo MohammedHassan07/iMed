@@ -4,10 +4,15 @@ import AddButton from "../../components/AddButton";
 import showToast from "../../utils/Toast";
 import { ArrowLeft, FileDown } from "lucide-react";
 import CreateExcelTemplate from "../../utils/createExcelTemplate";
+import * as XLSX from "xlsx";
+
 
 const AddItem = () => {
   const [activeTab, setActiveTab] = useState("single");
   const [file, setFile] = useState(null);
+  const [newItems, setNewItems] = useState([]);
+  const [duplicateItems, setDuplicateItems] = useState([]);
+
 
   const [formData, setFormData] = useState({
     saltName: "",
@@ -67,8 +72,29 @@ const AddItem = () => {
     console.log('File selected:', selectedFile);
   };
 
-  const handleBulkUpload = async () => {
+  // const handleBulkUpload = async () => {
 
+  //   if (!file) {
+  //     console.log('Please select a file to upload');
+  //     return;
+  //   }
+
+  //   try {
+  //     const fileReader = new FileReader();
+  //     fileReader.onloadend = async () => {
+
+  //       const fileContent = fileReader.result;
+  //       console.log(fileContent)
+  //       const response = await window.electronAPI.bulkUpload(fileContent);
+
+  //       console.log('Response from Electron:', response);
+  //     }
+  //     fileReader.readAsArrayBuffer(file);
+  //   } catch (error) {
+  //     console.log('Error during bulk upload: ' + error.message);
+  //   }
+  // };
+  const handleBulkUpload = async () => {
     if (!file) {
       console.log('Please select a file to upload');
       return;
@@ -76,14 +102,28 @@ const AddItem = () => {
 
     try {
       const fileReader = new FileReader();
+
       fileReader.onloadend = async () => {
-
         const fileContent = fileReader.result;
-        console.log(fileContent)
-        const response = await window.electronAPI.bulkUpload(fileContent);
 
+        const binaryString = new Uint8Array(fileContent).reduce((data, byte) => data + String.fromCharCode(byte), "");
+
+        const workbook = XLSX.read(binaryString, { type: "binary" });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
+        console.log('Excel Data in JSON format:', jsonData);
+
+        const response = await window.electronAPI.bulkUpload(jsonData);
         console.log('Response from Electron:', response);
-      }
+
+        if (response.status === 'failed') {
+          return showToast(response.message, 'oklch(57.7% 0.245 27.325)')
+        }
+        setNewItems(response.newItems);
+        setDuplicateItems(response.duplicates);
+        return showToast('Medicine Addedd', 'oklch(62.7% 0.194 149.214)');
+      };
+
       fileReader.readAsArrayBuffer(file);
     } catch (error) {
       console.log('Error during bulk upload: ' + error.message);
@@ -109,9 +149,9 @@ const AddItem = () => {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        <button 
-        onClick={handleTemplateClick}
-        className="cursor-pointer text-sm flex items-center gap-2 px-4 py-2 bg-blue-950 text-white rounded hover:bg-blue-900">
+        <button
+          onClick={handleTemplateClick}
+          className="cursor-pointer text-sm flex items-center gap-2 px-4 py-2 bg-blue-950 text-white rounded hover:bg-blue-900">
           <FileDown size={18} />
           Download Template
         </button>
@@ -204,25 +244,88 @@ const AddItem = () => {
 
       {/* Upload Excel File */}
       {activeTab === "excel" && (
-        <div className="bg-white p-6 rounded-lg flex items-center justify-start gap-5 shadow-sm">
-          <p className="text-gray-700">
-            Upload an Excel (.xlsx or .csv) file containing your item data.
-          </p>
-          <input
-            type="file"
-            accept=".xlsx,.csv, .xls"
-            onChange={handleFileUpload}
-            className="border rounded-md py-1 px-2 focus:ring-1 focus:ring-blue-950 transition-all duration-100"
-          />
-          <button
-            onClick={handleBulkUpload}
-            type="button"
-            className="bg-blue-950 text-sm text-white px-6 py-2 rounded-md hover:bg-blue-900 cursor-pointer"
-          >
-            Upload
-          </button>
+        <div>
+          <div className="bg-white p-6 rounded-lg flex items-center justify-start gap-5 shadow-sm">
+            <p className="text-gray-700">
+              Upload an Excel (.xlsx or .csv) file containing your item data.
+            </p>
+            <input
+              type="file"
+              accept=".xlsx,.csv, .xls"
+              onChange={handleFileUpload}
+              className="border rounded-md py-1 px-2 focus:ring-1 focus:ring-blue-950 transition-all duration-100"
+            />
+            <button
+              onClick={handleBulkUpload}
+              type="button"
+              className="bg-blue-950 text-sm text-white px-6 py-2 rounded-md hover:bg-blue-900 cursor-pointer"
+            >
+              Upload
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 mt-6">
+            {/* New Items Table */}
+            {newItems.length > 0 && (
+              <div className="bg-white p-4 rounded-lg shadow-sm">
+                <h3 className="text-lg font-semibold mb-2">New Items</h3>
+                <table className="min-w-full border-collapse table-auto">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left px-4 py-2">Salt Name</th>
+                      <th className="text-left px-4 py-2">Brand Name</th>
+                      <th className="text-left px-4 py-2">Manufacturer</th>
+                      <th className="text-left px-4 py-2">Product Form</th>
+                      <th className="text-left px-4 py-2">Package Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {newItems.map((item, index) => (
+                      <tr key={index} className="border-b">
+                        <td className="px-4 py-2">{item.saltName}</td>
+                        <td className="px-4 py-2">{item.brandName}</td>
+                        <td className="px-4 py-2">{item.manufacturer}</td>
+                        <td className="px-4 py-2">{item.productForm}</td>
+                        <td className="px-4 py-2">{item.packageQuantity}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            {/* Duplicate Items Table */}
+            {duplicateItems.length > 0 && (
+              <div className="bg-white p-4 rounded-lg shadow-sm">
+                <h3 className="text-lg font-semibold mb-2">Duplicate Items</h3>
+                <table className="min-w-full border-collapse table-auto">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left px-4 py-2">Salt Name</th>
+                      <th className="text-left px-4 py-2">Brand Name</th>
+                      <th className="text-left px-4 py-2">Manufacturer</th>
+                      <th className="text-left px-4 py-2">Product Form</th>
+                      <th className="text-left px-4 py-2">Package Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {duplicateItems.map((item, index) => (
+                      <tr key={index} className="border-b">
+                        <td className="px-4 py-2">{item.saltName}</td>
+                        <td className="px-4 py-2">{item.brandName}</td>
+                        <td className="px-4 py-2">{item.manufacturer}</td>
+                        <td className="px-4 py-2">{item.productForm}</td>
+                        <td className="px-4 py-2">{item.packageQuantity}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
       )}
+
     </div>
   );
 };

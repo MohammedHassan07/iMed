@@ -116,6 +116,7 @@ const GetItems = () => {
         <table className="min-w-full border border-gray-300 text-sm table-fixed">
           <thead className="bg-gray-100 text-left text-gray-700">
             <tr>
+              <th className="p-3 text-left">Item Code</th>
               <th className="p-3 text-left">Salt Name</th>
               <th className="p-3 text-left">Brand</th>
               <th className="p-3 text-left">Manufacturer</th>
@@ -129,6 +130,7 @@ const GetItems = () => {
             {items.map((item) => (
               <tr key={item.id}
                 className="hover:bg-gray-50 border-t border-gray-200 transition">
+                <td className="p-3">{item.itemCode}</td>
                 <td className="p-3">{item.saltName}</td>
                 <td className="p-3">{item.brandName}</td>
                 <td className="p-3">{item.manufacturer}</td>
