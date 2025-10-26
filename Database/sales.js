@@ -64,13 +64,26 @@ export const addSales = async (data) => {
         patientAddress: patientData.patientAddress || null,
     } : {};
 
-    const lastItem = await prisma.sales.findFirst({
-        orderBy: { createdAt: 'desc' }
-    })
+    const [lastItem, lastPayment] = await Promise.all([
+
+        prisma.sales.findFirst({ orderBy: { createdAt: 'desc' } }),
+        prisma.payment.findFirst({ orderBy: { createdAt: "desc" } })
+
+    ])
 
     const salesNumber = generateNumber(lastItem, 'sales', 'salesNumber')
+    const paymentNumber = generateNumber(lastPayment, "payment", "paymentNumber");
+
 
     const transaction = await prisma.$transaction(async (prisma) => {
+
+        const payment = await prisma.payment.create({
+            data: {
+                paymentType: "SALE",
+                paymentNumber: paymentNumber,
+                amount: netTotal,
+            },
+        });
 
         const sale = await prisma.sales.create({
             data: {
@@ -82,6 +95,7 @@ export const addSales = async (data) => {
                 deliveryCharge: Number(deliveryCharge) || 0,
                 salesNumber: salesNumber,
                 salesType: 'SALE',
+                paymentId: payment.id,
                 items: {
                     create: items.map((item) => ({
                         purchaseItemId: item.purchaseItemsId || null,
@@ -193,14 +207,27 @@ export const returnSales = async (data) => {
         patientAddress: patientData.patientAddress || null,
     } : {};
 
-    const lastItem = await prisma.sales.findFirst({
-        orderBy: { createdAt: 'desc' }
-    });
 
-    // Generate a new sales number for the refund.
+
+    const [lastItem, lastPayment] = await Promise.all([
+
+        prisma.sales.findFirst({ orderBy: { createdAt: 'desc' } }),
+        prisma.payment.findFirst({ orderBy: { createdAt: "desc" } })
+
+    ])
+
     const salesNumber = generateNumber(lastItem, 'sales', 'salesNumber');
+    const paymentNumber = generateNumber(lastPayment, "payment", "paymentNumber");
 
     const transaction = await prisma.$transaction(async (prisma) => {
+
+        const payment = await prisma.payment.create({
+            data: {
+                paymentType: "REFUND",
+                paymentNumber: paymentNumber,
+                amount: netTotal,
+            },
+        });
 
         const refundSale = await prisma.sales.create({
             data: {
@@ -212,6 +239,7 @@ export const returnSales = async (data) => {
                 deliveryCharge: Number(deliveryCharge) || 0,
                 salesNumber,
                 salesType: "REFUND",
+                paymentId: payment.id,
                 items: {
                     create: items.map((item) => ({
                         purchaseItemId: item.purchaseItemsId || null,

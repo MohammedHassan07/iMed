@@ -101,18 +101,70 @@ const AddSales = () => {
         return { subTotal, discountAmount, netTotal };
     }, [selectedItems, discount, discountType, deliveryCharge]);
 
+    const handleBatchChange = (id, selectedBatchNumber) => {
+        setSelectedItems((prevItems) =>
+            prevItems.map((item) => {
+                if (item.id === id) {
+                    const selectedBatch = item.purchaseItems.find(
+                        (b) => b.batchNumber === selectedBatchNumber
+                    );
+                    if (!selectedBatch) return item;
+
+                    return {
+                        ...item,
+                        batchNumber: selectedBatch.batchNumber,
+                        expiryDate: selectedBatch.expiryDate,
+                        sellingPrice: selectedBatch.sellingPricePerMedicine || selectedBatch.sellingPrice,
+                        purchasePrice: selectedBatch.purchasePrice,
+                        remainingMedicines: selectedBatch.remainingMedicines,
+                        scheme: selectedBatch.scheme,
+                        selectedBatchId: selectedBatch.id, // 👈 use this in payload
+                    };
+                }
+                return item;
+            })
+        );
+    };
+
 
     const handleAddSales = async () => {
 
-
         if (selectedItems.length === 0) {
-            showToast("Please add at least one medicine.", "error");
+            showToast("Please add at least one medicine.", "oklch(57.7% 0.245 27.325)");
             return;
         }
 
+        for (const item of selectedItems) {
+            const selectedBatch = item.purchaseItems?.find(
+                (batch) => batch.batchNumber === item.batchNumber
+            );
+            const available = selectedBatch?.remainingMedicines ?? 0;
+
+            if (!selectedBatch) {
+                showToast(`Batch not selected for ${item.brandName}.`, "oklch(57.7% 0.245 27.325)");
+                return;
+            }
+            if (available <= 0) {
+                showToast(
+                    `${item.brandName} (${item.batchNumber}) is out of stock.`,
+                    "oklch(57.7% 0.245 27.325)"
+                );
+                return;
+            }
+
+            if (item.quantity > available) {
+                showToast(
+                    `Only ${available} left in stock for ${item.brandName} (${item.batchNumber}).`,
+                    "oklch(57.7% 0.245 27.325)"
+                );
+                return;
+            }
+        }
+
+
         // Prepare items array
         const items = selectedItems.map((item) => ({
-            purchaseItemsId: item.purchaseItems?.[0]?.id || null, // from your medicine structure
+            purchaseItemsId: item.selectedBatchId || item.purchaseItems?.[0]?.id || null,
             itemId: item.id,
             batchNumber: item.batchNumber,
             totalAmount: item.sellingPrice * item.quantity,
@@ -141,7 +193,7 @@ const AddSales = () => {
         console.log("Sale Data:", saleData);
 
         try {
-        
+
 
             // Optionally reset after success
             // setSelectedItems([]);
@@ -265,68 +317,94 @@ const AddSales = () => {
                                         <tr>
                                             <th className="py-2 px-3 text-left font-semibold">Brand Name</th>
                                             <th className="py-2 px-3 text-left font-semibold whitespace-nowrap">Salt Name</th>
+                                            <th className="py-2 px-3 text-center font-semibold whitespace-nowrap">Batch / Expiry</th>
                                             <th className="py-2 px-3 text-center font-semibold">Quantity</th>
-                                            <th className="py-2 px-3 text-center font-semibold">Selling Price</th>
-                                            <th className="py-2 px-3 text-center font-semibold">Total</th>
+                                            <th className="py-2 px-3 text-center font-semibold whitespace-nowrap">Selling Price (₹)</th>
+                                            <th className="py-2 px-3 text-center font-semibold">Total (₹)</th>
                                             <th className="py-2 px-3 text-center font-semibold">Actions</th>
                                         </tr>
                                     </thead>
+
                                     <tbody>
                                         {selectedItems.map((item) => (
-                                            <tr key={item.id} className="hover:bg-gray-100">
-                                                <td className="py-2 px-3">{item.brandName}</td>
-                                                <td className="py-2 px-3 truncate w-32 flex flex-col justify-center ">
-                                                    <span className="">
-                                                        {item.saltName}
-                                                    </span>
-                                                    <span className="text-xs ">
-                                                        ({item.packageQuantity})
-                                                    </span>
+                                            <tr key={item.id} className="hover:bg-gray-100 border-b border-gray-200">
+                                                {/* Brand Name */}
+                                                <td className="py-2 px-3 text-gray-800 font-medium">{item.brandName}</td>
+
+                                                {/* Salt Name */}
+                                                <td className="py-2 px-3 truncate w-32">
+                                                    <div className="flex flex-col justify-center">
+                                                        <span>{item.saltName}</span>
+                                                        <span className="text-xs text-gray-500">({item.packageQuantity})</span>
+                                                    </div>
                                                 </td>
+
+                                                {/* Batch + Expiry */}
+                                                <td className="py-2 px-3 text-center">
+                                                    <div className="flex flex-col items-center">
+                                                        <select
+                                                            value={item.batchNumber}
+                                                            onChange={(e) => handleBatchChange(item.id, e.target.value)}
+                                                            className="border border-gray-300 p-1 rounded-md w-32 bg-white text-sm"
+                                                        >
+                                                            {item.purchaseItems?.map((batch) => (
+                                                                <option key={batch.id} value={batch.batchNumber}>
+                                                                    {batch.batchNumber} (₹{batch.sellingPricePerMedicine})
+                                                                </option>
+                                                            ))}
+                                                        </select>
+
+                                                        {item.expiryDate && (
+                                                            <span className="text-xs text-gray-500 mt-1">
+                                                                Exp: {new Date(item.expiryDate).toLocaleDateString()}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </td>
+
+                                                {/* Quantity */}
                                                 <td className="py-2 px-3 text-center">
                                                     <input
                                                         type="number"
                                                         min="1"
                                                         value={item.quantity}
                                                         onChange={(e) =>
-                                                            handleInputChange(
-                                                                item.id,
-                                                                "quantity",
-                                                                parseInt(e.target.value) || 1
-                                                            )
+                                                            handleInputChange(item.id, "quantity", parseInt(e.target.value) || 1)
                                                         }
                                                         className="border border-gray-300 p-1 rounded-md w-16 text-center bg-white"
                                                     />
                                                 </td>
+
+                                                {/* Selling Price */}
                                                 <td className="py-2 px-3 text-center">
                                                     <input
                                                         type="number"
-
                                                         value={item.sellingPrice}
                                                         onChange={(e) =>
-                                                            handleInputChange(
-                                                                item.id,
-                                                                "sellingPrice",
-                                                                parseFloat(e.target.value) || 0
-                                                            )
+                                                            handleInputChange(item.id, "sellingPrice", parseFloat(e.target.value) || 0)
                                                         }
                                                         className="border border-gray-300 p-1 rounded-md w-24 text-center bg-white"
                                                     />
                                                 </td>
-                                                <td className="py-2 px-3 text-center">
+
+                                                {/* Total */}
+                                                <td className="py-2 px-3 text-center font-semibold text-gray-800">
                                                     ₹{(item.quantity * item.sellingPrice).toFixed(2)}
                                                 </td>
-                                                <td className="py-2 px-3 text-center cursor-pointer">
-                                                    <div
-                                                        className="flex items-center justify-center"
+
+                                                {/* Actions */}
+                                                <td className="py-2 px-3 text-center">
+                                                    <button
                                                         onClick={() => handleRemoveItem(item.id)}
+                                                        className="text-red-600 hover:text-red-800"
                                                     >
-                                                        <Trash size={20} className="text-red-600 hover:text-red-800" />
-                                                    </div>
+                                                        <Trash size={18} />
+                                                    </button>
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>

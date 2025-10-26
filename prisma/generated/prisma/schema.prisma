@@ -40,6 +40,8 @@ model Purchase {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   purchasedItems PurchaseItem[]
+  paymentId      Int
+  payment        payment        @relation(fields: [paymentId], references: [id])
 }
 
 model PurchaseItem {
@@ -106,6 +108,8 @@ model Sales {
   deliveryCharge Float       @default(0)
   salesType      SalesType
   items          SalesItem[]
+  paymentId      Int
+  payment        payment     @relation(fields: [paymentId], references: [id])
 }
 
 model SalesItem {
@@ -118,4 +122,21 @@ model SalesItem {
   sellingPrice   Float
   totalAmount    Float
   sale           Sales  @relation(fields: [saleId], references: [id], onDelete: Cascade)
+}
+
+enum paymentType {
+  SALE
+  REFUND
+  PURCHASE
+  RETURN
+}
+
+model payment {
+  id            Int         @id @default(autoincrement())
+  paymentType   paymentType
+  paymentNumber String
+  createdAt     DateTime    @default(now())
+  amount        Float
+  sales         Sales[]
+  purchases     Purchase[]
 }

@@ -16,8 +16,9 @@ function getPrefix(itemType) {
     const prefixes = {
         sales: 'SO-',
         inventory: 'IN-',
-        purchase: 'PO-',
-        item: 'iM-'
+        purchase: 'PU-',
+        item: 'iM-',
+        payment: 'PY',
     }
     return prefixes[itemType]
 }

@@ -17,49 +17,66 @@ export async function addPurchase(data) {
             medicines
         } = data;
 
-        const lastItem = await prisma.purchase.findFirst({
-            orderBy: { createdAt: 'desc' }
-        })
-
+        const [lastItem, lastPayment] = await Promise.all([
+            prisma.purchase.findFirst({ orderBy: { createdAt: 'desc' } }),
+            prisma.payment.findFirst({ orderBy: { createdAt: "desc" } })
+        ])
         const purchaseNumber = generateNumber(lastItem, 'purchase', 'purchaseNumber')
-        const purchase = await prisma.purchase.create({
-            data: {
-                supplierId,
-                purchaseDate: new Date(purchaseDate),
-                notes,
-                discountType,
-                discount,
-                tax,
-                subTotal,
-                // totalTax,
-                netTotal,
-                purchaseNumber,
-                total: netTotal,
-                purchasedItems: {
-                    create: medicines.map((item) => ({
-                        medicineId: item.medicineId,
-                        batchNumber: item.batchNumber,
-                        expiryDate: new Date(item.expiryDate),
-                        purchasePrice: parseFloat(item.purchasePrice),
-                        sellingPrice: parseFloat(item.sellingPrice),
-                        quantity: parseInt(item.quantity),
-                        profit: parseFloat(item.profit),
-                        tax: parseFloat(item.tax),
-                        total: parseFloat(item.total),
-                        totalMedicines: parseInt(item.quantity * item.packageQuantity),
-                        remainingMedicines: parseInt(item.quantity * item.packageQuantity),
-                        sellingPricePerMedicine: parseFloat(item.sellingPrice / item.quantity),
-                        scheme: item.scheme,
-                        packageQuantity: item.packageQuantity
-                    }))
+        const paymentNumber = generateNumber(lastPayment, "payment", "paymentNumber");
+
+
+        const transactionResult = await prisma.$transaction(async (prisma) => {
+
+            const payment = await prisma.payment.create({
+                data: {
+                    paymentType: "PURCHASE",
+                    paymentNumber: paymentNumber,
+                    amount: netTotal,
+                },
+            });
+
+            const purchase = await prisma.purchase.create({
+                data: {
+                    supplierId,
+                    purchaseDate: new Date(purchaseDate),
+                    notes,
+                    discountType,
+                    discount,
+                    tax,
+                    subTotal,
+                    netTotal,
+                    purchaseNumber,
+                    total: netTotal,
+                    paymentId: payment.id,
+                    purchasedItems: {
+                        create: medicines.map((item) => ({
+                            medicineId: item.medicineId,
+                            batchNumber: item.batchNumber,
+                            expiryDate: new Date(item.expiryDate),
+                            purchasePrice: parseFloat(item.purchasePrice),
+                            sellingPrice: parseFloat(item.sellingPrice),
+                            quantity: parseInt(item.quantity),
+                            profit: parseFloat(item.profit),
+                            tax: parseFloat(item.tax),
+                            total: parseFloat(item.total),
+                            totalMedicines: parseInt(item.quantity * item.packageQuantity),
+                            remainingMedicines: parseInt(item.quantity * item.packageQuantity),
+                            sellingPricePerMedicine: parseFloat(item.sellingPrice / item.quantity),
+                            scheme: item.scheme,
+                            packageQuantity: item.packageQuantity
+                        }))
+                    }
+                },
+                include: {
+                    purchasedItems: true,
                 }
-            },
-            include: {
-                purchasedItems: true,
-            }
+            });
+
+            return { payment, purchase };
         });
 
-        return { status: 'success', message: 'Purchase Added', data: purchase };
+        return { status: 'success', message: 'Purchase Added', data: transactionResult };
+
     } catch (error) {
         console.error('Error creating purchase:', error);
         return { status: 'failed', message: error.message };

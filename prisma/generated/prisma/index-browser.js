@@ -146,7 +146,8 @@ exports.Prisma.PurchaseScalarFieldEnum = {
   tax: 'tax',
   total: 'total',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  paymentId: 'paymentId'
 };
 
 exports.Prisma.PurchaseItemScalarFieldEnum = {
@@ -204,7 +205,8 @@ exports.Prisma.SalesScalarFieldEnum = {
   discount: 'discount',
   discountType: 'discountType',
   deliveryCharge: 'deliveryCharge',
-  salesType: 'salesType'
+  salesType: 'salesType',
+  paymentId: 'paymentId'
 };
 
 exports.Prisma.SalesItemScalarFieldEnum = {
@@ -216,6 +218,14 @@ exports.Prisma.SalesItemScalarFieldEnum = {
   quantity: 'quantity',
   sellingPrice: 'sellingPrice',
   totalAmount: 'totalAmount'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  paymentType: 'paymentType',
+  paymentNumber: 'paymentNumber',
+  createdAt: 'createdAt',
+  amount: 'amount'
 };
 
 exports.Prisma.SortOrder = {
@@ -232,6 +242,13 @@ exports.SalesType = exports.$Enums.SalesType = {
   REFUND: 'REFUND'
 };
 
+exports.paymentType = exports.$Enums.paymentType = {
+  SALE: 'SALE',
+  REFUND: 'REFUND',
+  PURCHASE: 'PURCHASE',
+  RETURN: 'RETURN'
+};
+
 exports.Prisma.ModelName = {
   medicine: 'medicine',
   Purchase: 'Purchase',
@@ -239,7 +256,8 @@ exports.Prisma.ModelName = {
   Supplier: 'Supplier',
   Tax: 'Tax',
   Sales: 'Sales',
-  SalesItem: 'SalesItem'
+  SalesItem: 'SalesItem',
+  payment: 'payment'
 };
 
 /**
