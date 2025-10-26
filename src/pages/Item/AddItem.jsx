@@ -2,9 +2,12 @@ import { useState } from "react";
 import TabButton from "../../components/TabButton";
 import AddButton from "../../components/AddButton";
 import showToast from "../../utils/Toast";
+import { ArrowLeft, FileDown } from "lucide-react";
+import CreateExcelTemplate from "../../utils/createExcelTemplate";
 
 const AddItem = () => {
   const [activeTab, setActiveTab] = useState("single");
+  const [file, setFile] = useState(null);
 
   const [formData, setFormData] = useState({
     saltName: "",
@@ -56,22 +59,65 @@ const AddItem = () => {
     return showToast('Medicine Addedd', 'oklch(62.7% 0.194 149.214)');
   };
 
+
   const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    console.log("Excel file uploaded:", file);
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+
+    console.log('File selected:', selectedFile);
   };
+
+  const handleBulkUpload = async () => {
+
+    if (!file) {
+      console.log('Please select a file to upload');
+      return;
+    }
+
+    try {
+      const fileReader = new FileReader();
+      fileReader.onloadend = async () => {
+
+        const fileContent = fileReader.result;
+        console.log(fileContent)
+        const response = await window.electronAPI.bulkUpload(fileContent);
+
+        console.log('Response from Electron:', response);
+      }
+      fileReader.readAsArrayBuffer(file);
+    } catch (error) {
+      console.log('Error during bulk upload: ' + error.message);
+    }
+  };
+
+  // handle template click
+  const handleTemplateClick = () => {
+    CreateExcelTemplate()
+  }
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      {/* Tabs */}
-      <TabButton
-        tabs={[
-          { label: "Add Single Item", value: "single" },
-          { label: "Upload Excel File", value: "excel" },
-        ]}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
+
+      <div className="flex justify-between items-center">
+
+        {/* Tabs */}
+        <TabButton
+          tabs={[
+            { label: "Add Single Item", value: "single" },
+            { label: "Upload Excel File", value: "excel" },
+          ]}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
+        <button 
+        onClick={handleTemplateClick}
+        className="cursor-pointer text-sm flex items-center gap-2 px-4 py-2 bg-blue-950 text-white rounded hover:bg-blue-900">
+          <FileDown size={18} />
+          Download Template
+        </button>
+
+
+      </div>
 
       {/* Add Single Item Form */}
       {activeTab === "single" && (
@@ -164,11 +210,12 @@ const AddItem = () => {
           </p>
           <input
             type="file"
-            accept=".xlsx,.csv"
+            accept=".xlsx,.csv, .xls"
             onChange={handleFileUpload}
             className="border rounded-md py-1 px-2 focus:ring-1 focus:ring-blue-950 transition-all duration-100"
           />
           <button
+            onClick={handleBulkUpload}
             type="button"
             className="bg-blue-950 text-sm text-white px-6 py-2 rounded-md hover:bg-blue-900 cursor-pointer"
           >

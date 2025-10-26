@@ -1526,6 +1526,7 @@ export namespace Prisma {
 
   export type MedicineMinAggregateOutputType = {
     id: number | null
+    itemCode: string | null
     saltName: string | null
     brandName: string | null
     manufacturer: string | null
@@ -1541,6 +1542,7 @@ export namespace Prisma {
 
   export type MedicineMaxAggregateOutputType = {
     id: number | null
+    itemCode: string | null
     saltName: string | null
     brandName: string | null
     manufacturer: string | null
@@ -1556,6 +1558,7 @@ export namespace Prisma {
 
   export type MedicineCountAggregateOutputType = {
     id: number
+    itemCode: number
     saltName: number
     brandName: number
     manufacturer: number
@@ -1587,6 +1590,7 @@ export namespace Prisma {
 
   export type MedicineMinAggregateInputType = {
     id?: true
+    itemCode?: true
     saltName?: true
     brandName?: true
     manufacturer?: true
@@ -1602,6 +1606,7 @@ export namespace Prisma {
 
   export type MedicineMaxAggregateInputType = {
     id?: true
+    itemCode?: true
     saltName?: true
     brandName?: true
     manufacturer?: true
@@ -1617,6 +1622,7 @@ export namespace Prisma {
 
   export type MedicineCountAggregateInputType = {
     id?: true
+    itemCode?: true
     saltName?: true
     brandName?: true
     manufacturer?: true
@@ -1719,6 +1725,7 @@ export namespace Prisma {
 
   export type MedicineGroupByOutputType = {
     id: number
+    itemCode: string
     saltName: string
     brandName: string
     manufacturer: string
@@ -1753,6 +1760,7 @@ export namespace Prisma {
 
   export type medicineSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    itemCode?: boolean
     saltName?: boolean
     brandName?: boolean
     manufacturer?: boolean
@@ -1770,6 +1778,7 @@ export namespace Prisma {
 
   export type medicineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    itemCode?: boolean
     saltName?: boolean
     brandName?: boolean
     manufacturer?: boolean
@@ -1785,6 +1794,7 @@ export namespace Prisma {
 
   export type medicineSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    itemCode?: boolean
     saltName?: boolean
     brandName?: boolean
     manufacturer?: boolean
@@ -1800,6 +1810,7 @@ export namespace Prisma {
 
   export type medicineSelectScalar = {
     id?: boolean
+    itemCode?: boolean
     saltName?: boolean
     brandName?: boolean
     manufacturer?: boolean
@@ -1813,7 +1824,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type medicineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "saltName" | "brandName" | "manufacturer" | "packageQuantity" | "productForm" | "minQuantityAlert" | "storageCondition" | "boxNumber" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["medicine"]>
+  export type medicineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "itemCode" | "saltName" | "brandName" | "manufacturer" | "packageQuantity" | "productForm" | "minQuantityAlert" | "storageCondition" | "boxNumber" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["medicine"]>
   export type medicineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchaseItems?: boolean | medicine$purchaseItemsArgs<ExtArgs>
     _count?: boolean | MedicineCountOutputTypeDefaultArgs<ExtArgs>
@@ -1828,6 +1839,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      itemCode: string
       saltName: string
       brandName: string
       manufacturer: string
@@ -2264,6 +2276,7 @@ export namespace Prisma {
    */
   interface medicineFieldRefs {
     readonly id: FieldRef<"medicine", 'Int'>
+    readonly itemCode: FieldRef<"medicine", 'String'>
     readonly saltName: FieldRef<"medicine", 'String'>
     readonly brandName: FieldRef<"medicine", 'String'>
     readonly manufacturer: FieldRef<"medicine", 'String'>
@@ -2739,6 +2752,7 @@ export namespace Prisma {
     id: number | null
     supplierId: number | null
     purchaseDate: Date | null
+    purchaseNumber: string | null
     notes: string | null
     discountType: string | null
     discount: number | null
@@ -2754,6 +2768,7 @@ export namespace Prisma {
     id: number | null
     supplierId: number | null
     purchaseDate: Date | null
+    purchaseNumber: string | null
     notes: string | null
     discountType: string | null
     discount: number | null
@@ -2769,6 +2784,7 @@ export namespace Prisma {
     id: number
     supplierId: number
     purchaseDate: number
+    purchaseNumber: number
     notes: number
     discountType: number
     discount: number
@@ -2806,6 +2822,7 @@ export namespace Prisma {
     id?: true
     supplierId?: true
     purchaseDate?: true
+    purchaseNumber?: true
     notes?: true
     discountType?: true
     discount?: true
@@ -2821,6 +2838,7 @@ export namespace Prisma {
     id?: true
     supplierId?: true
     purchaseDate?: true
+    purchaseNumber?: true
     notes?: true
     discountType?: true
     discount?: true
@@ -2836,6 +2854,7 @@ export namespace Prisma {
     id?: true
     supplierId?: true
     purchaseDate?: true
+    purchaseNumber?: true
     notes?: true
     discountType?: true
     discount?: true
@@ -2938,6 +2957,7 @@ export namespace Prisma {
     id: number
     supplierId: number
     purchaseDate: Date
+    purchaseNumber: string
     notes: string | null
     discountType: string
     discount: number
@@ -2972,6 +2992,7 @@ export namespace Prisma {
     id?: boolean
     supplierId?: boolean
     purchaseDate?: boolean
+    purchaseNumber?: boolean
     notes?: boolean
     discountType?: boolean
     discount?: boolean
@@ -2989,6 +3010,7 @@ export namespace Prisma {
     id?: boolean
     supplierId?: boolean
     purchaseDate?: boolean
+    purchaseNumber?: boolean
     notes?: boolean
     discountType?: boolean
     discount?: boolean
@@ -3004,6 +3026,7 @@ export namespace Prisma {
     id?: boolean
     supplierId?: boolean
     purchaseDate?: boolean
+    purchaseNumber?: boolean
     notes?: boolean
     discountType?: boolean
     discount?: boolean
@@ -3019,6 +3042,7 @@ export namespace Prisma {
     id?: boolean
     supplierId?: boolean
     purchaseDate?: boolean
+    purchaseNumber?: boolean
     notes?: boolean
     discountType?: boolean
     discount?: boolean
@@ -3030,7 +3054,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PurchaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "supplierId" | "purchaseDate" | "notes" | "discountType" | "discount" | "subTotal" | "netTotal" | "tax" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["purchase"]>
+  export type PurchaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "supplierId" | "purchaseDate" | "purchaseNumber" | "notes" | "discountType" | "discount" | "subTotal" | "netTotal" | "tax" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["purchase"]>
   export type PurchaseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchasedItems?: boolean | Purchase$purchasedItemsArgs<ExtArgs>
     _count?: boolean | PurchaseCountOutputTypeDefaultArgs<ExtArgs>
@@ -3047,6 +3071,7 @@ export namespace Prisma {
       id: number
       supplierId: number
       purchaseDate: Date
+      purchaseNumber: string
       notes: string | null
       discountType: string
       discount: number
@@ -3483,6 +3508,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Purchase", 'Int'>
     readonly supplierId: FieldRef<"Purchase", 'Int'>
     readonly purchaseDate: FieldRef<"Purchase", 'DateTime'>
+    readonly purchaseNumber: FieldRef<"Purchase", 'String'>
     readonly notes: FieldRef<"Purchase", 'String'>
     readonly discountType: FieldRef<"Purchase", 'String'>
     readonly discount: FieldRef<"Purchase", 'Float'>
@@ -7379,6 +7405,7 @@ export namespace Prisma {
     id: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    salesNumber: string | null
     patientId: number | null
     patientName: string | null
     patientContact: string | null
@@ -7394,6 +7421,7 @@ export namespace Prisma {
     id: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    salesNumber: string | null
     patientId: number | null
     patientName: string | null
     patientContact: string | null
@@ -7409,6 +7437,7 @@ export namespace Prisma {
     id: number
     createdAt: number
     updatedAt: number
+    salesNumber: number
     patientId: number
     patientName: number
     patientContact: number
@@ -7444,6 +7473,7 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    salesNumber?: true
     patientId?: true
     patientName?: true
     patientContact?: true
@@ -7459,6 +7489,7 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    salesNumber?: true
     patientId?: true
     patientName?: true
     patientContact?: true
@@ -7474,6 +7505,7 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    salesNumber?: true
     patientId?: true
     patientName?: true
     patientContact?: true
@@ -7576,6 +7608,7 @@ export namespace Prisma {
     id: number
     createdAt: Date
     updatedAt: Date
+    salesNumber: string
     patientId: number | null
     patientName: string | null
     patientContact: string | null
@@ -7610,6 +7643,7 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    salesNumber?: boolean
     patientId?: boolean
     patientName?: boolean
     patientContact?: boolean
@@ -7627,6 +7661,7 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    salesNumber?: boolean
     patientId?: boolean
     patientName?: boolean
     patientContact?: boolean
@@ -7642,6 +7677,7 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    salesNumber?: boolean
     patientId?: boolean
     patientName?: boolean
     patientContact?: boolean
@@ -7657,6 +7693,7 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    salesNumber?: boolean
     patientId?: boolean
     patientName?: boolean
     patientContact?: boolean
@@ -7668,7 +7705,7 @@ export namespace Prisma {
     deliveryCharge?: boolean
   }
 
-  export type SalesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "patientId" | "patientName" | "patientContact" | "patientAddress" | "subTotal" | "netTotal" | "discount" | "discountType" | "deliveryCharge", ExtArgs["result"]["sales"]>
+  export type SalesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "salesNumber" | "patientId" | "patientName" | "patientContact" | "patientAddress" | "subTotal" | "netTotal" | "discount" | "discountType" | "deliveryCharge", ExtArgs["result"]["sales"]>
   export type SalesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | Sales$itemsArgs<ExtArgs>
     _count?: boolean | SalesCountOutputTypeDefaultArgs<ExtArgs>
@@ -7685,6 +7722,7 @@ export namespace Prisma {
       id: number
       createdAt: Date
       updatedAt: Date
+      salesNumber: string
       patientId: number | null
       patientName: string | null
       patientContact: string | null
@@ -8121,6 +8159,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Sales", 'Int'>
     readonly createdAt: FieldRef<"Sales", 'DateTime'>
     readonly updatedAt: FieldRef<"Sales", 'DateTime'>
+    readonly salesNumber: FieldRef<"Sales", 'String'>
     readonly patientId: FieldRef<"Sales", 'Int'>
     readonly patientName: FieldRef<"Sales", 'String'>
     readonly patientContact: FieldRef<"Sales", 'String'>
@@ -9724,6 +9763,7 @@ export namespace Prisma {
 
   export const MedicineScalarFieldEnum: {
     id: 'id',
+    itemCode: 'itemCode',
     saltName: 'saltName',
     brandName: 'brandName',
     manufacturer: 'manufacturer',
@@ -9744,6 +9784,7 @@ export namespace Prisma {
     id: 'id',
     supplierId: 'supplierId',
     purchaseDate: 'purchaseDate',
+    purchaseNumber: 'purchaseNumber',
     notes: 'notes',
     discountType: 'discountType',
     discount: 'discount',
@@ -9812,6 +9853,7 @@ export namespace Prisma {
     id: 'id',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    salesNumber: 'salesNumber',
     patientId: 'patientId',
     patientName: 'patientName',
     patientContact: 'patientContact',
@@ -9904,6 +9946,7 @@ export namespace Prisma {
     OR?: medicineWhereInput[]
     NOT?: medicineWhereInput | medicineWhereInput[]
     id?: IntFilter<"medicine"> | number
+    itemCode?: StringFilter<"medicine"> | string
     saltName?: StringFilter<"medicine"> | string
     brandName?: StringFilter<"medicine"> | string
     manufacturer?: StringFilter<"medicine"> | string
@@ -9920,6 +9963,7 @@ export namespace Prisma {
 
   export type medicineOrderByWithRelationInput = {
     id?: SortOrder
+    itemCode?: SortOrder
     saltName?: SortOrder
     brandName?: SortOrder
     manufacturer?: SortOrder
@@ -9940,6 +9984,7 @@ export namespace Prisma {
     AND?: medicineWhereInput | medicineWhereInput[]
     OR?: medicineWhereInput[]
     NOT?: medicineWhereInput | medicineWhereInput[]
+    itemCode?: StringFilter<"medicine"> | string
     brandName?: StringFilter<"medicine"> | string
     manufacturer?: StringFilter<"medicine"> | string
     packageQuantity?: IntFilter<"medicine"> | number
@@ -9955,6 +10000,7 @@ export namespace Prisma {
 
   export type medicineOrderByWithAggregationInput = {
     id?: SortOrder
+    itemCode?: SortOrder
     saltName?: SortOrder
     brandName?: SortOrder
     manufacturer?: SortOrder
@@ -9978,6 +10024,7 @@ export namespace Prisma {
     OR?: medicineScalarWhereWithAggregatesInput[]
     NOT?: medicineScalarWhereWithAggregatesInput | medicineScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"medicine"> | number
+    itemCode?: StringWithAggregatesFilter<"medicine"> | string
     saltName?: StringWithAggregatesFilter<"medicine"> | string
     brandName?: StringWithAggregatesFilter<"medicine"> | string
     manufacturer?: StringWithAggregatesFilter<"medicine"> | string
@@ -9998,6 +10045,7 @@ export namespace Prisma {
     id?: IntFilter<"Purchase"> | number
     supplierId?: IntFilter<"Purchase"> | number
     purchaseDate?: DateTimeFilter<"Purchase"> | Date | string
+    purchaseNumber?: StringFilter<"Purchase"> | string
     notes?: StringNullableFilter<"Purchase"> | string | null
     discountType?: StringFilter<"Purchase"> | string
     discount?: FloatFilter<"Purchase"> | number
@@ -10014,6 +10062,7 @@ export namespace Prisma {
     id?: SortOrder
     supplierId?: SortOrder
     purchaseDate?: SortOrder
+    purchaseNumber?: SortOrder
     notes?: SortOrderInput | SortOrder
     discountType?: SortOrder
     discount?: SortOrder
@@ -10033,6 +10082,7 @@ export namespace Prisma {
     NOT?: PurchaseWhereInput | PurchaseWhereInput[]
     supplierId?: IntFilter<"Purchase"> | number
     purchaseDate?: DateTimeFilter<"Purchase"> | Date | string
+    purchaseNumber?: StringFilter<"Purchase"> | string
     notes?: StringNullableFilter<"Purchase"> | string | null
     discountType?: StringFilter<"Purchase"> | string
     discount?: FloatFilter<"Purchase"> | number
@@ -10049,6 +10099,7 @@ export namespace Prisma {
     id?: SortOrder
     supplierId?: SortOrder
     purchaseDate?: SortOrder
+    purchaseNumber?: SortOrder
     notes?: SortOrderInput | SortOrder
     discountType?: SortOrder
     discount?: SortOrder
@@ -10072,6 +10123,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Purchase"> | number
     supplierId?: IntWithAggregatesFilter<"Purchase"> | number
     purchaseDate?: DateTimeWithAggregatesFilter<"Purchase"> | Date | string
+    purchaseNumber?: StringWithAggregatesFilter<"Purchase"> | string
     notes?: StringNullableWithAggregatesFilter<"Purchase"> | string | null
     discountType?: StringWithAggregatesFilter<"Purchase"> | string
     discount?: FloatWithAggregatesFilter<"Purchase"> | number
@@ -10343,6 +10395,7 @@ export namespace Prisma {
     id?: IntFilter<"Sales"> | number
     createdAt?: DateTimeFilter<"Sales"> | Date | string
     updatedAt?: DateTimeFilter<"Sales"> | Date | string
+    salesNumber?: StringFilter<"Sales"> | string
     patientId?: IntNullableFilter<"Sales"> | number | null
     patientName?: StringNullableFilter<"Sales"> | string | null
     patientContact?: StringNullableFilter<"Sales"> | string | null
@@ -10359,6 +10412,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    salesNumber?: SortOrder
     patientId?: SortOrderInput | SortOrder
     patientName?: SortOrderInput | SortOrder
     patientContact?: SortOrderInput | SortOrder
@@ -10378,6 +10432,7 @@ export namespace Prisma {
     NOT?: SalesWhereInput | SalesWhereInput[]
     createdAt?: DateTimeFilter<"Sales"> | Date | string
     updatedAt?: DateTimeFilter<"Sales"> | Date | string
+    salesNumber?: StringFilter<"Sales"> | string
     patientId?: IntNullableFilter<"Sales"> | number | null
     patientName?: StringNullableFilter<"Sales"> | string | null
     patientContact?: StringNullableFilter<"Sales"> | string | null
@@ -10394,6 +10449,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    salesNumber?: SortOrder
     patientId?: SortOrderInput | SortOrder
     patientName?: SortOrderInput | SortOrder
     patientContact?: SortOrderInput | SortOrder
@@ -10417,6 +10473,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Sales"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Sales"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Sales"> | Date | string
+    salesNumber?: StringWithAggregatesFilter<"Sales"> | string
     patientId?: IntNullableWithAggregatesFilter<"Sales"> | number | null
     patientName?: StringNullableWithAggregatesFilter<"Sales"> | string | null
     patientContact?: StringNullableWithAggregatesFilter<"Sales"> | string | null
@@ -10501,6 +10558,7 @@ export namespace Prisma {
   }
 
   export type medicineCreateInput = {
+    itemCode: string
     saltName: string
     brandName: string
     manufacturer: string
@@ -10517,6 +10575,7 @@ export namespace Prisma {
 
   export type medicineUncheckedCreateInput = {
     id?: number
+    itemCode: string
     saltName: string
     brandName: string
     manufacturer: string
@@ -10532,6 +10591,7 @@ export namespace Prisma {
   }
 
   export type medicineUpdateInput = {
+    itemCode?: StringFieldUpdateOperationsInput | string
     saltName?: StringFieldUpdateOperationsInput | string
     brandName?: StringFieldUpdateOperationsInput | string
     manufacturer?: StringFieldUpdateOperationsInput | string
@@ -10548,6 +10608,7 @@ export namespace Prisma {
 
   export type medicineUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    itemCode?: StringFieldUpdateOperationsInput | string
     saltName?: StringFieldUpdateOperationsInput | string
     brandName?: StringFieldUpdateOperationsInput | string
     manufacturer?: StringFieldUpdateOperationsInput | string
@@ -10564,6 +10625,7 @@ export namespace Prisma {
 
   export type medicineCreateManyInput = {
     id?: number
+    itemCode: string
     saltName: string
     brandName: string
     manufacturer: string
@@ -10578,6 +10640,7 @@ export namespace Prisma {
   }
 
   export type medicineUpdateManyMutationInput = {
+    itemCode?: StringFieldUpdateOperationsInput | string
     saltName?: StringFieldUpdateOperationsInput | string
     brandName?: StringFieldUpdateOperationsInput | string
     manufacturer?: StringFieldUpdateOperationsInput | string
@@ -10593,6 +10656,7 @@ export namespace Prisma {
 
   export type medicineUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    itemCode?: StringFieldUpdateOperationsInput | string
     saltName?: StringFieldUpdateOperationsInput | string
     brandName?: StringFieldUpdateOperationsInput | string
     manufacturer?: StringFieldUpdateOperationsInput | string
@@ -10609,6 +10673,7 @@ export namespace Prisma {
   export type PurchaseCreateInput = {
     supplierId: number
     purchaseDate: Date | string
+    purchaseNumber: string
     notes?: string | null
     discountType?: string
     discount?: number
@@ -10625,6 +10690,7 @@ export namespace Prisma {
     id?: number
     supplierId: number
     purchaseDate: Date | string
+    purchaseNumber: string
     notes?: string | null
     discountType?: string
     discount?: number
@@ -10640,6 +10706,7 @@ export namespace Prisma {
   export type PurchaseUpdateInput = {
     supplierId?: IntFieldUpdateOperationsInput | number
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseNumber?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
@@ -10656,6 +10723,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     supplierId?: IntFieldUpdateOperationsInput | number
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseNumber?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
@@ -10672,6 +10740,7 @@ export namespace Prisma {
     id?: number
     supplierId: number
     purchaseDate: Date | string
+    purchaseNumber: string
     notes?: string | null
     discountType?: string
     discount?: number
@@ -10686,6 +10755,7 @@ export namespace Prisma {
   export type PurchaseUpdateManyMutationInput = {
     supplierId?: IntFieldUpdateOperationsInput | number
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseNumber?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
@@ -10701,6 +10771,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     supplierId?: IntFieldUpdateOperationsInput | number
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseNumber?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
@@ -10991,6 +11062,7 @@ export namespace Prisma {
   export type SalesCreateInput = {
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesNumber: string
     patientId?: number | null
     patientName?: string | null
     patientContact?: string | null
@@ -11007,6 +11079,7 @@ export namespace Prisma {
     id?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesNumber: string
     patientId?: number | null
     patientName?: string | null
     patientContact?: string | null
@@ -11022,6 +11095,7 @@ export namespace Prisma {
   export type SalesUpdateInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesNumber?: StringFieldUpdateOperationsInput | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
     patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11038,6 +11112,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesNumber?: StringFieldUpdateOperationsInput | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
     patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11054,6 +11129,7 @@ export namespace Prisma {
     id?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesNumber: string
     patientId?: number | null
     patientName?: string | null
     patientContact?: string | null
@@ -11068,6 +11144,7 @@ export namespace Prisma {
   export type SalesUpdateManyMutationInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesNumber?: StringFieldUpdateOperationsInput | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
     patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11083,6 +11160,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesNumber?: StringFieldUpdateOperationsInput | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
     patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11245,6 +11323,7 @@ export namespace Prisma {
 
   export type medicineCountOrderByAggregateInput = {
     id?: SortOrder
+    itemCode?: SortOrder
     saltName?: SortOrder
     brandName?: SortOrder
     manufacturer?: SortOrder
@@ -11267,6 +11346,7 @@ export namespace Prisma {
 
   export type medicineMaxOrderByAggregateInput = {
     id?: SortOrder
+    itemCode?: SortOrder
     saltName?: SortOrder
     brandName?: SortOrder
     manufacturer?: SortOrder
@@ -11282,6 +11362,7 @@ export namespace Prisma {
 
   export type medicineMinOrderByAggregateInput = {
     id?: SortOrder
+    itemCode?: SortOrder
     saltName?: SortOrder
     brandName?: SortOrder
     manufacturer?: SortOrder
@@ -11397,6 +11478,7 @@ export namespace Prisma {
     id?: SortOrder
     supplierId?: SortOrder
     purchaseDate?: SortOrder
+    purchaseNumber?: SortOrder
     notes?: SortOrder
     discountType?: SortOrder
     discount?: SortOrder
@@ -11422,6 +11504,7 @@ export namespace Prisma {
     id?: SortOrder
     supplierId?: SortOrder
     purchaseDate?: SortOrder
+    purchaseNumber?: SortOrder
     notes?: SortOrder
     discountType?: SortOrder
     discount?: SortOrder
@@ -11437,6 +11520,7 @@ export namespace Prisma {
     id?: SortOrder
     supplierId?: SortOrder
     purchaseDate?: SortOrder
+    purchaseNumber?: SortOrder
     notes?: SortOrder
     discountType?: SortOrder
     discount?: SortOrder
@@ -11684,6 +11768,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    salesNumber?: SortOrder
     patientId?: SortOrder
     patientName?: SortOrder
     patientContact?: SortOrder
@@ -11708,6 +11793,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    salesNumber?: SortOrder
     patientId?: SortOrder
     patientName?: SortOrder
     patientContact?: SortOrder
@@ -11723,6 +11809,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    salesNumber?: SortOrder
     patientId?: SortOrder
     patientName?: SortOrder
     patientContact?: SortOrder
@@ -12361,6 +12448,7 @@ export namespace Prisma {
   export type PurchaseCreateWithoutPurchasedItemsInput = {
     supplierId: number
     purchaseDate: Date | string
+    purchaseNumber: string
     notes?: string | null
     discountType?: string
     discount?: number
@@ -12376,6 +12464,7 @@ export namespace Prisma {
     id?: number
     supplierId: number
     purchaseDate: Date | string
+    purchaseNumber: string
     notes?: string | null
     discountType?: string
     discount?: number
@@ -12393,6 +12482,7 @@ export namespace Prisma {
   }
 
   export type medicineCreateWithoutPurchaseItemsInput = {
+    itemCode: string
     saltName: string
     brandName: string
     manufacturer: string
@@ -12408,6 +12498,7 @@ export namespace Prisma {
 
   export type medicineUncheckedCreateWithoutPurchaseItemsInput = {
     id?: number
+    itemCode: string
     saltName: string
     brandName: string
     manufacturer: string
@@ -12440,6 +12531,7 @@ export namespace Prisma {
   export type PurchaseUpdateWithoutPurchasedItemsInput = {
     supplierId?: IntFieldUpdateOperationsInput | number
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseNumber?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
@@ -12455,6 +12547,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     supplierId?: IntFieldUpdateOperationsInput | number
     purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseNumber?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     discountType?: StringFieldUpdateOperationsInput | string
     discount?: FloatFieldUpdateOperationsInput | number
@@ -12478,6 +12571,7 @@ export namespace Prisma {
   }
 
   export type medicineUpdateWithoutPurchaseItemsInput = {
+    itemCode?: StringFieldUpdateOperationsInput | string
     saltName?: StringFieldUpdateOperationsInput | string
     brandName?: StringFieldUpdateOperationsInput | string
     manufacturer?: StringFieldUpdateOperationsInput | string
@@ -12493,6 +12587,7 @@ export namespace Prisma {
 
   export type medicineUncheckedUpdateWithoutPurchaseItemsInput = {
     id?: IntFieldUpdateOperationsInput | number
+    itemCode?: StringFieldUpdateOperationsInput | string
     saltName?: StringFieldUpdateOperationsInput | string
     brandName?: StringFieldUpdateOperationsInput | string
     manufacturer?: StringFieldUpdateOperationsInput | string
@@ -12567,6 +12662,7 @@ export namespace Prisma {
   export type SalesCreateWithoutItemsInput = {
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesNumber: string
     patientId?: number | null
     patientName?: string | null
     patientContact?: string | null
@@ -12582,6 +12678,7 @@ export namespace Prisma {
     id?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    salesNumber: string
     patientId?: number | null
     patientName?: string | null
     patientContact?: string | null
@@ -12612,6 +12709,7 @@ export namespace Prisma {
   export type SalesUpdateWithoutItemsInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesNumber?: StringFieldUpdateOperationsInput | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
     patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12627,6 +12725,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    salesNumber?: StringFieldUpdateOperationsInput | string
     patientId?: NullableIntFieldUpdateOperationsInput | number | null
     patientName?: NullableStringFieldUpdateOperationsInput | string | null
     patientContact?: NullableStringFieldUpdateOperationsInput | string | null

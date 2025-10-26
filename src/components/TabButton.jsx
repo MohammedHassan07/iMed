@@ -2,7 +2,7 @@ import React from 'react';
 
 const TabButton = ({ tabs, activeTab, setActiveTab }) => {
     return (
-        <div className="flex space-x-4 mb-6">
+        <div className="flex space-x-4 ">
             {tabs.map((tab) => (
                 <button
                     key={tab.value}

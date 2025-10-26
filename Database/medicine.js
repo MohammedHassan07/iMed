@@ -1,4 +1,6 @@
 import prisma from './index.js'
+import xlsx from 'xlsx'
+import fs from 'fs'
 
 // add medicine
 export async function createMedicine(data) {
@@ -147,3 +149,15 @@ export async function getMedicineOnTyping({ search }) {
     };
 }
 
+// bulk upload
+export async function bulkUpload(fileContent) {
+
+    console.log('here')
+    const workbook = xlsx.read(fileContent, { type: 'array' });  
+    const sheetName = workbook.SheetNames[0]; 
+    const worksheet = workbook.Sheets[sheetName];
+    const jsonData = xlsx.utils.sheet_to_json(worksheet); 
+    
+
+    return jsonData;
+}

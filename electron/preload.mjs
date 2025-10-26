@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   addMedicine: (data) => ipcRenderer.invoke('add-medicine', data),
   getMedicine: (data) => ipcRenderer.invoke('get-medicine', data),
   getMedicineOnTyping: (search) => ipcRenderer.invoke('getMedicineOnTyping', search),
+  bulkUpload: (data) => ipcRenderer.invoke('bulkUpload', data),
 
   // purchase
   addPurchase: (data) => ipcRenderer.invoke('add-purchase', data),
