@@ -18,6 +18,7 @@ import AddInventory from './pages/Inventory/AddInventory'
 import ReturnSales from './pages/Sales/ReturnSales'
 import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
+import Payments from './pages/payments/Payments'
 
 function App() {
 
@@ -57,6 +58,9 @@ function App() {
           {/* Supplier */}
           <Route path='/supplier/add' Component={AddSupplier} />
           <Route path='/supplier/' Component={GetSupplier} />
+
+          {/* payments */}
+          <Route path='/payments/' Component={Payments}/>
 
         </Routes>
       </BrowserRouter>

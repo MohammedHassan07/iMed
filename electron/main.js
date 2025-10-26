@@ -7,6 +7,7 @@ import { addPurchase, getPurchase, getStocksOnTyping } from '../Database/purchas
 import { addSupplier, getSupplierOnTyping, getSuppliers } from '../Database/supplier.js';
 import { addTax, getAllTaxes, getTaxes } from '../Database/tax.js';
 import { addSales, returnSales } from '../Database/sales.js';
+import { getAllPayments } from '../Database/payments.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -118,4 +119,9 @@ ipcMain.handle('addSales', async (event, data) => {
 })
 ipcMain.handle('returnSales', async (event, data) => {
   return await returnSales(data)
+})
+
+// ------------payments------------------------
+ipcMain.handle('getAllPayments', async (event, data) => {
+  return await getAllPayments(data)
 })

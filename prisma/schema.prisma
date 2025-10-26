@@ -41,7 +41,7 @@ model Purchase {
   updatedAt      DateTime       @updatedAt
   purchasedItems PurchaseItem[]
   paymentId      Int
-  payment        payment       @relation(fields: [paymentId], references: [id])
+  payment        payment        @relation("PaymentToPurchase", fields: [paymentId], references: [id])
 }
 
 model PurchaseItem {
@@ -109,7 +109,7 @@ model Sales {
   salesType      SalesType
   items          SalesItem[]
   paymentId      Int
-  payment        payment     @relation(fields: [paymentId], references: [id])
+  payment        payment     @relation("PaymentToSales", fields: [paymentId], references: [id])
 }
 
 model SalesItem {
@@ -137,6 +137,7 @@ model payment {
   paymentNumber String
   createdAt     DateTime    @default(now())
   amount        Float
-  sales         Sales[]
-  purchases     Purchase[]
+
+  sales     Sales[]    @relation("PaymentToSales")
+  purchases Purchase[] @relation("PaymentToPurchase")
 }

@@ -69,6 +69,7 @@ const Navbar = () => {
         { name: "Add Supplier", path: "/supplier/add" },
       ]
     },
+     { name: "Payments", path: "/payments/" },
 
   ];
 
