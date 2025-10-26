@@ -1,10 +1,10 @@
-export default function generateNumber(lastItem, itemType) {
+export default function generateNumber(lastItem, itemType, code) {
 
     let nextNumber = 1
     const prefix = getPrefix(itemType)
     if (lastItem) {
 
-        const lastItemCode = lastItem.itemCode
+        const lastItemCode = lastItem[`${code}`]
         const numericPart = lastItemCode.replace(prefix, '');
         nextNumber = parseInt(numericPart) + 1;
     }

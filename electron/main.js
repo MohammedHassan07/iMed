@@ -6,7 +6,7 @@ import { bulkUpload, createMedicine, getMedicine, getMedicineOnTyping } from '..
 import { addPurchase, getPurchase, getStocksOnTyping } from '../Database/purchase.js';
 import { addSupplier, getSupplierOnTyping, getSuppliers } from '../Database/supplier.js';
 import { addTax, getAllTaxes, getTaxes } from '../Database/tax.js';
-import { addSales } from '../Database/sales.js';
+import { addSales, returnSales } from '../Database/sales.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -115,4 +115,7 @@ ipcMain.handle('getAllTaxes', async () => {
 // ------------sales------------------------
 ipcMain.handle('addSales', async (event, data) => {
   return await addSales(data)
+})
+ipcMain.handle('returnSales', async (event, data) => {
+  return await returnSales(data)
 })

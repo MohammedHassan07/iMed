@@ -50,6 +50,23 @@ export type Sales = $Result.DefaultSelection<Prisma.$SalesPayload>
 export type SalesItem = $Result.DefaultSelection<Prisma.$SalesItemPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const SalesType: {
+  SALE: 'SALE',
+  REFUND: 'REFUND'
+};
+
+export type SalesType = (typeof SalesType)[keyof typeof SalesType]
+
+}
+
+export type SalesType = $Enums.SalesType
+
+export const SalesType: typeof $Enums.SalesType
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -7415,6 +7432,7 @@ export namespace Prisma {
     discount: number | null
     discountType: string | null
     deliveryCharge: number | null
+    salesType: $Enums.SalesType | null
   }
 
   export type SalesMaxAggregateOutputType = {
@@ -7431,6 +7449,7 @@ export namespace Prisma {
     discount: number | null
     discountType: string | null
     deliveryCharge: number | null
+    salesType: $Enums.SalesType | null
   }
 
   export type SalesCountAggregateOutputType = {
@@ -7447,6 +7466,7 @@ export namespace Prisma {
     discount: number
     discountType: number
     deliveryCharge: number
+    salesType: number
     _all: number
   }
 
@@ -7483,6 +7503,7 @@ export namespace Prisma {
     discount?: true
     discountType?: true
     deliveryCharge?: true
+    salesType?: true
   }
 
   export type SalesMaxAggregateInputType = {
@@ -7499,6 +7520,7 @@ export namespace Prisma {
     discount?: true
     discountType?: true
     deliveryCharge?: true
+    salesType?: true
   }
 
   export type SalesCountAggregateInputType = {
@@ -7515,6 +7537,7 @@ export namespace Prisma {
     discount?: true
     discountType?: true
     deliveryCharge?: true
+    salesType?: true
     _all?: true
   }
 
@@ -7618,6 +7641,7 @@ export namespace Prisma {
     discount: number
     discountType: string
     deliveryCharge: number
+    salesType: $Enums.SalesType
     _count: SalesCountAggregateOutputType | null
     _avg: SalesAvgAggregateOutputType | null
     _sum: SalesSumAggregateOutputType | null
@@ -7653,6 +7677,7 @@ export namespace Prisma {
     discount?: boolean
     discountType?: boolean
     deliveryCharge?: boolean
+    salesType?: boolean
     items?: boolean | Sales$itemsArgs<ExtArgs>
     _count?: boolean | SalesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sales"]>
@@ -7671,6 +7696,7 @@ export namespace Prisma {
     discount?: boolean
     discountType?: boolean
     deliveryCharge?: boolean
+    salesType?: boolean
   }, ExtArgs["result"]["sales"]>
 
   export type SalesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7687,6 +7713,7 @@ export namespace Prisma {
     discount?: boolean
     discountType?: boolean
     deliveryCharge?: boolean
+    salesType?: boolean
   }, ExtArgs["result"]["sales"]>
 
   export type SalesSelectScalar = {
@@ -7703,9 +7730,10 @@ export namespace Prisma {
     discount?: boolean
     discountType?: boolean
     deliveryCharge?: boolean
+    salesType?: boolean
   }
 
-  export type SalesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "salesNumber" | "patientId" | "patientName" | "patientContact" | "patientAddress" | "subTotal" | "netTotal" | "discount" | "discountType" | "deliveryCharge", ExtArgs["result"]["sales"]>
+  export type SalesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "salesNumber" | "patientId" | "patientName" | "patientContact" | "patientAddress" | "subTotal" | "netTotal" | "discount" | "discountType" | "deliveryCharge" | "salesType", ExtArgs["result"]["sales"]>
   export type SalesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | Sales$itemsArgs<ExtArgs>
     _count?: boolean | SalesCountOutputTypeDefaultArgs<ExtArgs>
@@ -7732,6 +7760,7 @@ export namespace Prisma {
       discount: number
       discountType: string
       deliveryCharge: number
+      salesType: $Enums.SalesType
     }, ExtArgs["result"]["sales"]>
     composites: {}
   }
@@ -8169,6 +8198,7 @@ export namespace Prisma {
     readonly discount: FieldRef<"Sales", 'Float'>
     readonly discountType: FieldRef<"Sales", 'String'>
     readonly deliveryCharge: FieldRef<"Sales", 'Float'>
+    readonly salesType: FieldRef<"Sales", 'SalesType'>
   }
     
 
@@ -9862,7 +9892,8 @@ export namespace Prisma {
     netTotal: 'netTotal',
     discount: 'discount',
     discountType: 'discountType',
-    deliveryCharge: 'deliveryCharge'
+    deliveryCharge: 'deliveryCharge',
+    salesType: 'salesType'
   };
 
   export type SalesScalarFieldEnum = (typeof SalesScalarFieldEnum)[keyof typeof SalesScalarFieldEnum]
@@ -9935,6 +9966,13 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'SalesType'
+   */
+  export type EnumSalesTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SalesType'>
     
   /**
    * Deep Input Types
@@ -10405,6 +10443,7 @@ export namespace Prisma {
     discount?: FloatFilter<"Sales"> | number
     discountType?: StringFilter<"Sales"> | string
     deliveryCharge?: FloatFilter<"Sales"> | number
+    salesType?: EnumSalesTypeFilter<"Sales"> | $Enums.SalesType
     items?: SalesItemListRelationFilter
   }
 
@@ -10422,6 +10461,7 @@ export namespace Prisma {
     discount?: SortOrder
     discountType?: SortOrder
     deliveryCharge?: SortOrder
+    salesType?: SortOrder
     items?: SalesItemOrderByRelationAggregateInput
   }
 
@@ -10442,6 +10482,7 @@ export namespace Prisma {
     discount?: FloatFilter<"Sales"> | number
     discountType?: StringFilter<"Sales"> | string
     deliveryCharge?: FloatFilter<"Sales"> | number
+    salesType?: EnumSalesTypeFilter<"Sales"> | $Enums.SalesType
     items?: SalesItemListRelationFilter
   }, "id">
 
@@ -10459,6 +10500,7 @@ export namespace Prisma {
     discount?: SortOrder
     discountType?: SortOrder
     deliveryCharge?: SortOrder
+    salesType?: SortOrder
     _count?: SalesCountOrderByAggregateInput
     _avg?: SalesAvgOrderByAggregateInput
     _max?: SalesMaxOrderByAggregateInput
@@ -10483,6 +10525,7 @@ export namespace Prisma {
     discount?: FloatWithAggregatesFilter<"Sales"> | number
     discountType?: StringWithAggregatesFilter<"Sales"> | string
     deliveryCharge?: FloatWithAggregatesFilter<"Sales"> | number
+    salesType?: EnumSalesTypeWithAggregatesFilter<"Sales"> | $Enums.SalesType
   }
 
   export type SalesItemWhereInput = {
@@ -11072,6 +11115,7 @@ export namespace Prisma {
     discount?: number
     discountType?: string
     deliveryCharge?: number
+    salesType: $Enums.SalesType
     items?: SalesItemCreateNestedManyWithoutSaleInput
   }
 
@@ -11089,6 +11133,7 @@ export namespace Prisma {
     discount?: number
     discountType?: string
     deliveryCharge?: number
+    salesType: $Enums.SalesType
     items?: SalesItemUncheckedCreateNestedManyWithoutSaleInput
   }
 
@@ -11105,6 +11150,7 @@ export namespace Prisma {
     discount?: FloatFieldUpdateOperationsInput | number
     discountType?: StringFieldUpdateOperationsInput | string
     deliveryCharge?: FloatFieldUpdateOperationsInput | number
+    salesType?: EnumSalesTypeFieldUpdateOperationsInput | $Enums.SalesType
     items?: SalesItemUpdateManyWithoutSaleNestedInput
   }
 
@@ -11122,6 +11168,7 @@ export namespace Prisma {
     discount?: FloatFieldUpdateOperationsInput | number
     discountType?: StringFieldUpdateOperationsInput | string
     deliveryCharge?: FloatFieldUpdateOperationsInput | number
+    salesType?: EnumSalesTypeFieldUpdateOperationsInput | $Enums.SalesType
     items?: SalesItemUncheckedUpdateManyWithoutSaleNestedInput
   }
 
@@ -11139,6 +11186,7 @@ export namespace Prisma {
     discount?: number
     discountType?: string
     deliveryCharge?: number
+    salesType: $Enums.SalesType
   }
 
   export type SalesUpdateManyMutationInput = {
@@ -11154,6 +11202,7 @@ export namespace Prisma {
     discount?: FloatFieldUpdateOperationsInput | number
     discountType?: StringFieldUpdateOperationsInput | string
     deliveryCharge?: FloatFieldUpdateOperationsInput | number
+    salesType?: EnumSalesTypeFieldUpdateOperationsInput | $Enums.SalesType
   }
 
   export type SalesUncheckedUpdateManyInput = {
@@ -11170,6 +11219,7 @@ export namespace Prisma {
     discount?: FloatFieldUpdateOperationsInput | number
     discountType?: StringFieldUpdateOperationsInput | string
     deliveryCharge?: FloatFieldUpdateOperationsInput | number
+    salesType?: EnumSalesTypeFieldUpdateOperationsInput | $Enums.SalesType
   }
 
   export type SalesItemCreateInput = {
@@ -11754,6 +11804,13 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type EnumSalesTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.SalesType | EnumSalesTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SalesType[]
+    notIn?: $Enums.SalesType[]
+    not?: NestedEnumSalesTypeFilter<$PrismaModel> | $Enums.SalesType
+  }
+
   export type SalesItemListRelationFilter = {
     every?: SalesItemWhereInput
     some?: SalesItemWhereInput
@@ -11778,6 +11835,7 @@ export namespace Prisma {
     discount?: SortOrder
     discountType?: SortOrder
     deliveryCharge?: SortOrder
+    salesType?: SortOrder
   }
 
   export type SalesAvgOrderByAggregateInput = {
@@ -11803,6 +11861,7 @@ export namespace Prisma {
     discount?: SortOrder
     discountType?: SortOrder
     deliveryCharge?: SortOrder
+    salesType?: SortOrder
   }
 
   export type SalesMinOrderByAggregateInput = {
@@ -11819,6 +11878,7 @@ export namespace Prisma {
     discount?: SortOrder
     discountType?: SortOrder
     deliveryCharge?: SortOrder
+    salesType?: SortOrder
   }
 
   export type SalesSumOrderByAggregateInput = {
@@ -11828,6 +11888,16 @@ export namespace Prisma {
     netTotal?: SortOrder
     discount?: SortOrder
     deliveryCharge?: SortOrder
+  }
+
+  export type EnumSalesTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SalesType | EnumSalesTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SalesType[]
+    notIn?: $Enums.SalesType[]
+    not?: NestedEnumSalesTypeWithAggregatesFilter<$PrismaModel> | $Enums.SalesType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSalesTypeFilter<$PrismaModel>
+    _max?: NestedEnumSalesTypeFilter<$PrismaModel>
   }
 
   export type SalesScalarRelationFilter = {
@@ -12052,6 +12122,10 @@ export namespace Prisma {
     connectOrCreate?: SalesItemCreateOrConnectWithoutSaleInput | SalesItemCreateOrConnectWithoutSaleInput[]
     createMany?: SalesItemCreateManySaleInputEnvelope
     connect?: SalesItemWhereUniqueInput | SalesItemWhereUniqueInput[]
+  }
+
+  export type EnumSalesTypeFieldUpdateOperationsInput = {
+    set?: $Enums.SalesType
   }
 
   export type SalesItemUpdateManyWithoutSaleNestedInput = {
@@ -12286,6 +12360,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSalesTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.SalesType | EnumSalesTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SalesType[]
+    notIn?: $Enums.SalesType[]
+    not?: NestedEnumSalesTypeFilter<$PrismaModel> | $Enums.SalesType
+  }
+
+  export type NestedEnumSalesTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SalesType | EnumSalesTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SalesType[]
+    notIn?: $Enums.SalesType[]
+    not?: NestedEnumSalesTypeWithAggregatesFilter<$PrismaModel> | $Enums.SalesType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSalesTypeFilter<$PrismaModel>
+    _max?: NestedEnumSalesTypeFilter<$PrismaModel>
   }
 
   export type PurchaseItemCreateWithoutMedicineInput = {
@@ -12672,6 +12763,7 @@ export namespace Prisma {
     discount?: number
     discountType?: string
     deliveryCharge?: number
+    salesType: $Enums.SalesType
   }
 
   export type SalesUncheckedCreateWithoutItemsInput = {
@@ -12688,6 +12780,7 @@ export namespace Prisma {
     discount?: number
     discountType?: string
     deliveryCharge?: number
+    salesType: $Enums.SalesType
   }
 
   export type SalesCreateOrConnectWithoutItemsInput = {
@@ -12719,6 +12812,7 @@ export namespace Prisma {
     discount?: FloatFieldUpdateOperationsInput | number
     discountType?: StringFieldUpdateOperationsInput | string
     deliveryCharge?: FloatFieldUpdateOperationsInput | number
+    salesType?: EnumSalesTypeFieldUpdateOperationsInput | $Enums.SalesType
   }
 
   export type SalesUncheckedUpdateWithoutItemsInput = {
@@ -12735,6 +12829,7 @@ export namespace Prisma {
     discount?: FloatFieldUpdateOperationsInput | number
     discountType?: StringFieldUpdateOperationsInput | string
     deliveryCharge?: FloatFieldUpdateOperationsInput | number
+    salesType?: EnumSalesTypeFieldUpdateOperationsInput | $Enums.SalesType
   }
 
   export type PurchaseItemCreateManyMedicineInput = {

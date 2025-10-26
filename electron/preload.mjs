@@ -27,5 +27,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // add sales
   addSales: (data) => ipcRenderer.invoke('addSales', data),
+  returnSales: (data) => ipcRenderer.invoke('returnSales', data),
 
 });

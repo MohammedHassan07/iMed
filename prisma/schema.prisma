@@ -85,6 +85,11 @@ model Tax {
   updatedAt  DateTime @updatedAt
 }
 
+enum SalesType {
+  SALE
+  REFUND
+}
+
 model Sales {
   id             Int         @id @default(autoincrement())
   createdAt      DateTime    @default(now())
@@ -99,6 +104,7 @@ model Sales {
   discount       Float       @default(0)
   discountType   String      @default("percentage")
   deliveryCharge Float       @default(0)
+  salesType      SalesType
   items          SalesItem[]
 }
 

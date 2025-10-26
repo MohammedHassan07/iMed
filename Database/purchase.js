@@ -1,4 +1,5 @@
 import prisma from "./index.js";
+import generateNumber from "./utils/generateNumber.js";
 
 // add purchase
 export async function addPurchase(data) {
@@ -16,6 +17,11 @@ export async function addPurchase(data) {
             medicines
         } = data;
 
+        const lastItem = await prisma.purchase.findFirst({
+            orderBy: { createdAt: 'desc' }
+        })
+
+        const purchaseNumber = generateNumber(lastItem, 'purchase', 'purchaseNumber')
         const purchase = await prisma.purchase.create({
             data: {
                 supplierId,
@@ -27,6 +33,7 @@ export async function addPurchase(data) {
                 subTotal,
                 // totalTax,
                 netTotal,
+                purchaseNumber,
                 total: netTotal,
                 purchasedItems: {
                     create: medicines.map((item) => ({

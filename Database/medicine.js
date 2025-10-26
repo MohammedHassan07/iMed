@@ -19,7 +19,7 @@ export async function createMedicine(data) {
             }
         })
 
-        const itemCode = generateNumber(lastItem, 'item')
+        const itemCode = generateNumber(lastItem, 'item', 'itemCode')
         const medicine = {
 
             saltName: data.saltName,
@@ -179,7 +179,7 @@ export async function bulkUpload(fileContent) {
         }
     });
 
-    let itemCode = generateNumber(lastItem, 'item');
+    let itemCode = generateNumber(lastItem, 'item', 'itemCode');
 
     const duplicateItems = [];
     const newItems = [];

@@ -203,7 +203,8 @@ exports.Prisma.SalesScalarFieldEnum = {
   netTotal: 'netTotal',
   discount: 'discount',
   discountType: 'discountType',
-  deliveryCharge: 'deliveryCharge'
+  deliveryCharge: 'deliveryCharge',
+  salesType: 'salesType'
 };
 
 exports.Prisma.SalesItemScalarFieldEnum = {
@@ -226,7 +227,10 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.SalesType = exports.$Enums.SalesType = {
+  SALE: 'SALE',
+  REFUND: 'REFUND'
+};
 
 exports.Prisma.ModelName = {
   medicine: 'medicine',
