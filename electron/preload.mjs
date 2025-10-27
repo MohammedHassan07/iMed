@@ -30,6 +30,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   returnSales: (data) => ipcRenderer.invoke('returnSales', data),
 
   // payments
-  getAllPayments: (data) => ipcRenderer.invoke('getAllPayments', data)
+  getAllPayments: (data) => ipcRenderer.invoke('getAllPayments', data),
+  getPaymentDetails: (data) => ipcRenderer.invoke('getPaymentDetails', data)
 
 });

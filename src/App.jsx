@@ -19,6 +19,7 @@ import ReturnSales from './pages/Sales/ReturnSales'
 import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import Payments from './pages/payments/Payments'
+import PaymentDetails from './pages/payments/PaymentDetails'
 
 function App() {
 
@@ -61,7 +62,8 @@ function App() {
 
           {/* payments */}
           <Route path='/payments/' Component={Payments}/>
-
+          <Route path='/payment/payment-details/' Component={PaymentDetails}/>
+          
         </Routes>
       </BrowserRouter>
 

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Eye } from "lucide-react";
 import showToast from "../../utils/Toast";
 import Pagination from "../../components/Pagination";
+import ViewDetailsButton from "../../components/ViewDetailsButton";
+import { useNavigate } from "react-router-dom";
 
 const badgeColors = {
   SALE: "bg-green-100 text-green-800",
@@ -18,11 +20,12 @@ const Payments = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0)
+  const navigate = useNavigate()
   const itemsPerPage = 10;
 
   useEffect(() => {
     fetchPayments();
-  }, [page]);
+  }, [currentPage]);
 
   const fetchPayments = async () => {
     try {
@@ -42,8 +45,8 @@ const Payments = () => {
   //  debounce(fetchItems, search, currentPage)
 
   const handleViewDetails = (payment) => {
-    setSelectedPayment(payment);
-    setShowDetails(true);
+
+    navigate('/payment/payment-details/', { state: payment })
   };
 
   const closeDetails = () => {
@@ -64,7 +67,7 @@ const Payments = () => {
               <th className="p-3 text-left">Payment Type</th>
               <th className="p-3 text-left">Date</th>
               <th className="p-3 text-left">Amount</th>
-              <th className="p-3 text-center">Actions</th>
+              <th className="p-3 ">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -86,12 +89,10 @@ const Payments = () => {
                   ₹{pmt.amount?.toFixed(2) || "—"}
                 </td>
                 <td className="p-3 text-center">
-                  <button
-                    onClick={() => handleViewDetails(pmt)}
-                    className="text-blue-600 hover:text-blue-800 flex items-center gap-1 justify-center"
-                  >
-                    <Eye size={18} /> View
-                  </button>
+                  <ViewDetailsButton
+                    hadnleDetailClick={handleViewDetails}
+                    data={pmt}
+                  />
                 </td>
               </tr>
             ))}
