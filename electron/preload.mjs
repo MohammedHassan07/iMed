@@ -31,6 +31,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // payments
   getAllPayments: (data) => ipcRenderer.invoke('getAllPayments', data),
-  getPaymentDetails: (data) => ipcRenderer.invoke('getPaymentDetails', data)
+  getPaymentDetails: (data) => ipcRenderer.invoke('getPaymentDetails', data),
+  getSummaryStats: () => ipcRenderer.invoke('getSummaryStats'),
+  getRevenueGraphData: (data) => ipcRenderer.invoke('getRevenueGraphData', data),
+  getSalesAndPurchaseData: (data) => ipcRenderer.invoke('getSalesAndPurchaseData', data),
 
 });

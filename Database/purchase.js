@@ -14,7 +14,8 @@ export async function addPurchase(data) {
             subTotal,
             // totalTax,
             netTotal,
-            medicines
+            medicines,
+            date,
         } = data;
 
         const [lastItem, lastPayment] = await Promise.all([
@@ -32,6 +33,7 @@ export async function addPurchase(data) {
                     paymentType: "PURCHASE",
                     paymentNumber: paymentNumber,
                     amount: netTotal,
+                    createdAt: new Date(purchaseDate)
                 },
             });
 

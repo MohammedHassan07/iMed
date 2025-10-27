@@ -37,7 +37,7 @@ const PaymentDetails = () => {
         return <div className="text-center mt-10 text-gray-500">Loading...</div>;
 
     const { paymentType, paymentNumber, createdAt, amount, sales, purchases } = payment;
-    const isSale = paymentType === "SALE";
+    const isSale = paymentType === "SALE" || paymentType === 'REFUND';
     const data = isSale ? sales?.[0] : purchases?.[0];
 
     if (!data)

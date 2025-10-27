@@ -139,7 +139,7 @@ model payment {
   paymentNumber String
   createdAt     DateTime    @default(now())
   amount        Float
-
-  sales     Sales[]    @relation("PaymentToSales")
-  purchases Purchase[] @relation("PaymentToPurchase")
+  
+  sales         Sales[]     @relation("PaymentToSales")
+  purchases     Purchase[]  @relation("PaymentToPurchase")
 }
