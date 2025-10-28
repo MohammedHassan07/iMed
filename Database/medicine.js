@@ -105,6 +105,8 @@ export async function getMedicineOnTyping({ search }) {
             purchaseItems: {
                 select: {
                     id: true,
+                    purchaseId: true,
+                    medicineId: true,
                     batchNumber: true,
                     expiryDate: true,
                     purchasePrice: true,

@@ -1,48 +1,44 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import useDebounceEffect from '../utils/debounce'
+import React, { useState, useEffect } from 'react';
+import useDebounceEffect from '../utils/debounce';
 import { Search } from "lucide-react";
 
-const SupplierDetails = () => {
+const SupplierDetails = ({ selectedSupplier, setSelectedSupplier }) => {
 
-    const [suppliers, setSuppliers] = useState([])
-    const [searchSupplier, setSearchSupplier] = useState("")
-    const [selectedSupplier, setSelectedSupplier] = useState(null);
+    const [suppliers, setSuppliers] = useState([]);
+    const [searchSupplier, setSearchSupplier] = useState("");
 
     const handleSelectSupplier = (supplier) => {
-        setSelectedSupplier(supplier)
-        setSearchSupplier("")
-    }
+        setSelectedSupplier(supplier);
+        setSearchSupplier("");
+    };
 
     const fetchSuppliers = async () => {
         try {
-
-            if (searchSupplier === "") return
+            if (searchSupplier === "") return;
             const response = await window.electronAPI.getSuppliersOnTyping({
                 search: searchSupplier.trim(),
-            })
+            });
 
-            console.log("Medicine Response:", response)
+            console.log("Supplier Response:", response);
 
             if (response.status !== "success") {
-                showToast(response.message, "oklch(57.7% 0.245 27.325)")
-                setSuppliers([])
-                return
+                showToast(response.message, "oklch(57.7% 0.245 27.325)");
+                setSuppliers([]);
+                return;
             }
 
-            setSuppliers(response.data || [])
+            setSuppliers(response.data || []);
         } catch (error) {
-            showToast(error.message, "oklch(57.7% 0.245 27.325)")
+            showToast(error.message, "oklch(57.7% 0.245 27.325)");
         }
-    }
+    };
 
     useDebounceEffect(() => {
-        fetchSuppliers()
-    }, [searchSupplier])
+        fetchSuppliers();
+    }, [searchSupplier]);
 
     return (
         <div className="p-4 bg-gray-200 rounded-xl mb-4 border border-gray-200">
-
             <div className="grid grid-cols-[2fr_10fr] items-center mb-4 border-b border-gray-300 pb-3">
                 <div>
                     <h2 className="text-lg font-semibold">Supplier Details</h2>
@@ -101,7 +97,7 @@ const SupplierDetails = () => {
                 <p className="text-gray-500 text-sm">No supplier selected.</p>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default SupplierDetails
+export default SupplierDetails;

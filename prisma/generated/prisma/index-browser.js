@@ -138,6 +138,7 @@ exports.Prisma.PurchaseScalarFieldEnum = {
   supplierId: 'supplierId',
   purchaseDate: 'purchaseDate',
   purchaseNumber: 'purchaseNumber',
+  purchaseType: 'purchaseType',
   notes: 'notes',
   discountType: 'discountType',
   discount: 'discount',
@@ -171,6 +172,25 @@ exports.Prisma.PurchaseItemScalarFieldEnum = {
   isExpired: 'isExpired',
   nearToExpire: 'nearToExpire',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReturnedPurchasedItemScalarFieldEnum = {
+  id: 'id',
+  purchaseId: 'purchaseId',
+  parentPurchaseId: 'parentPurchaseId',
+  medicineId: 'medicineId',
+  batchNumber: 'batchNumber',
+  expiryDate: 'expiryDate',
+  purchasePrice: 'purchasePrice',
+  reason: 'reason',
+  createdAt: 'createdAt',
+  returnDate: 'returnDate',
+  sellingPrice: 'sellingPrice',
+  sellingPricePerMedicine: 'sellingPricePerMedicine',
+  quantity: 'quantity',
+  packageQuantity: 'packageQuantity',
+  totalMedicines: 'totalMedicines',
   updatedAt: 'updatedAt'
 };
 
@@ -255,6 +275,7 @@ exports.Prisma.ModelName = {
   medicine: 'medicine',
   Purchase: 'Purchase',
   PurchaseItem: 'PurchaseItem',
+  ReturnedPurchasedItem: 'ReturnedPurchasedItem',
   Supplier: 'Supplier',
   Tax: 'Tax',
   Sales: 'Sales',

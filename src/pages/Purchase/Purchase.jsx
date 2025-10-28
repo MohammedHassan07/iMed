@@ -6,19 +6,19 @@ import useDebounceEffect from '../../utils/debounce.js'
 import SupplierDetails from "../../components/SupplierDetails.jsx";
 
 const Purchase = () => {
+
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedItems, setSelectedItems] = useState([]);
     const [discount, setDiscount] = useState(0);
     const [selectedTax, setSelectedTax] = useState(0);
+    const [selectedSupplier, setSelectedSupplier] = useState(null);
+
 
     const [discountType, setDiscountType] = useState("percentage"); // 'percentage' | 'fixed'
     const [purchaseDate, setPurchaseDate] = useState('')
     const [notes, setNotes] = useState('')
     const [taxes, setTaxes] = useState([])
     const [medicines, setMedicines] = useState([]);
-
-
-
 
 
     // Add medicine to purchase list
@@ -184,18 +184,16 @@ const Purchase = () => {
             })),
         };
 
-        console.log(" Purchase Data:", purchaseData);
-
         try {
 
             const response = await window.electronAPI.addPurchase(purchaseData);
-
+            console.log(response)
             if (response.status === "success") {
 
-                setSelectedItems([]);
+                // setSelectedItems([]);
                 setSelectedSupplier(null);
                 setDiscount(0);
-                setSearchSupplier("");
+                // setSearchSupplier("");
                 return showToast(' Purchase recorded successfully!', 'oklch(62.7% 0.194 149.214)');
             } else {
                 showToast(` ${response.message || "Failed to record purchase"}`, "oklch(57.7% 0.245 27.325)");
@@ -258,8 +256,10 @@ const Purchase = () => {
 
     return (
         <>
-
-            <SupplierDetails />
+            <SupplierDetails
+                selectedSupplier={selectedSupplier}
+                setSelectedSupplier={setSelectedSupplier} 
+            />
 
             {/* Purchase Details */}
             <div className="grid grid-cols-[7.5fr_4.5fr] p-3 gap-3">

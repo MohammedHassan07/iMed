@@ -9,40 +9,43 @@ datasource db {
 }
 
 model medicine {
-  id               Int            @id @default(autoincrement())
-  itemCode         String
-  saltName         String         @unique
-  brandName        String
-  manufacturer     String
-  packageQuantity  Int
-  productForm      String
-  minQuantityAlert Int
-  storageCondition String
-  boxNumber        Int?
-  description      String?
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  purchaseItems    PurchaseItem[]
-  salesItems       SalesItem[]
+  id                  Int                     @id @default(autoincrement())
+  itemCode            String
+  saltName            String                  @unique
+  brandName           String
+  manufacturer        String
+  packageQuantity     Int
+  productForm         String
+  minQuantityAlert    Int
+  storageCondition    String
+  boxNumber           Int?
+  description         String?
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+  purchaseItems       PurchaseItem[]
+  salesItems          SalesItem[]
+  returnPurchaseItems ReturnedPurchasedItem[]
 }
 
 model Purchase {
-  id             Int            @id @default(autoincrement())
-  supplierId     Int
-  purchaseDate   DateTime
-  purchaseNumber String
-  notes          String?
-  discountType   String         @default("percentage")
-  discount       Float          @default(0)
-  subTotal       Float          @default(0)
-  netTotal       Float          @default(0)
-  tax            Float          @default(0)
-  total          Float          @default(0)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  purchasedItems PurchaseItem[]
-  paymentId      Int
-  payment        payment        @relation("PaymentToPurchase", fields: [paymentId], references: [id])
+  id                   Int                     @id @default(autoincrement())
+  supplierId           Int
+  purchaseDate         DateTime
+  purchaseNumber       String
+  purchaseType         String                  @default("PURCHASE")
+  notes                String?
+  discountType         String?                 @default("percentage")
+  discount             Float?                  @default(0)
+  subTotal             Float                   @default(0)
+  netTotal             Float                   @default(0)
+  tax                  Float?                  @default(0)
+  total                Float                   @default(0)
+  createdAt            DateTime                @default(now())
+  updatedAt            DateTime                @updatedAt
+  purchasedItems       PurchaseItem[]
+  returnPurchasedItems ReturnedPurchasedItem[]
+  paymentId            Int
+  payment              payment                 @relation("PaymentToPurchase", fields: [paymentId], references: [id])
 }
 
 model PurchaseItem {
@@ -69,6 +72,31 @@ model PurchaseItem {
   updatedAt               DateTime @updatedAt
   purchase                Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
   medicine                medicine @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+}
+
+model ReturnedPurchasedItem {
+  id               Int      @id @default(autoincrement())
+  purchaseId       Int
+  parentPurchaseId Int
+  // parentPurchase   Purchase @relation(fields: [parentPurchaseId], references: [id], onDelete: Cascade)
+  medicineId       Int
+  batchNumber      String
+  expiryDate       DateTime
+  purchasePrice    Float
+  reason           String
+  createdAt        DateTime @default(now())
+  returnDate       DateTime
+
+  sellingPrice            Float
+  sellingPricePerMedicine Float
+  quantity                Int
+  packageQuantity         Float
+
+  totalMedicines Float
+
+  updatedAt DateTime @updatedAt
+  purchase  Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  medicine  medicine @relation(fields: [medicineId], references: [id], onDelete: Cascade)
 }
 
 model Supplier {

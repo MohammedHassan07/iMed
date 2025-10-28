@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Trash, Search } from "lucide-react";
 import useDebounceEffect from "../../utils/debounce";
 import MedicineCard from "../../components/MedicineCard";
@@ -6,46 +6,28 @@ import showToast from "../../utils/Toast";
 import SupplierDetails from "../../components/SupplierDetails";
 
 const ReturnPurchase = () => {
-    const [selectedItems, setSelectedItems] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedTax, setSelectedTax] = useState(0);
+    const [selectedItems, setSelectedItems] = useState([]);
     const [medicines, setMedicines] = useState([]);
+    const [selectedSupplier, setSelectedSupplier] = useState(null);
+    const [returnDate, setReturnDate] = useState('')
+    const [notes, setNotes] = useState('')
 
     const handleAddMedicine = (med) => {
+        console.log(med)
         setSelectedItems((prev) => {
             const exists = prev.find((i) => i.id === med.id);
-            if (exists) {
-                return prev.map((item) =>
-                    item.id === med.id
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
-                );
-            } else {
-                return [
-                    ...prev,
-                    {
-                        ...med,
-                        quantity: 1,
-                        batchNumber:
-                            med.purchaseItems && med.purchaseItems[0]
-                                ? med.purchaseItems[0].batchNumber
-                                : "",
-                        expiryDate:
-                            med.purchaseItems && med.purchaseItems[0]
-                                ? new Date(med.purchaseItems[0].expiryDate)
-                                    .toISOString()
-                                    .split("T")[0]
-                                : "",
-                        stockLeft:
-                            med.purchaseItems && med.purchaseItems[0]
-                                ? med.purchaseItems[0].remainingMedicines
-                                : 0,
-                        tax: parseFloat(selectedTax),
-                        mrp: med.purchasePrice || 0,
-                        scheme: 0,
-                    },
-                ];
-            }
+            if (exists) return prev; // avoid duplicates
+
+            return [
+                ...prev,
+                {
+                    ...med,
+                    returnQty: 1,
+                    selectedBatch: "",
+                    reason: "",
+                },
+            ];
         });
     };
 
@@ -58,30 +40,24 @@ const ReturnPurchase = () => {
     };
 
     const handleRemoveItem = (id) => {
-        setSelectedItems((prevItems) =>
-            prevItems.filter((item) => item.id !== id)
-        );
+        setSelectedItems((prev) => prev.filter((item) => item.id !== id));
     };
 
-    const subTotal = selectedItems.reduce(
-        (acc, cur) => acc + (cur.returnQty || 0) * (cur.purchasePrice || 0),
-        0
-    );
-    const tax = subTotal * 0.05;
-    const netTotal = subTotal + tax;
+    const subTotal = selectedItems.reduce((acc, cur) => {
+        const batch = cur.purchaseItems?.find(
+            (b) => b.batchNumber === cur.selectedBatch
+        );
+        return acc + (cur.returnQty || 0) * (batch?.purchasePrice || 0);
+    }, 0);
 
-    useDebounceEffect(() => {
-        fetchItems();
-    }, [searchTerm]);
+    const netTotal = subTotal;
 
     const fetchItems = async () => {
         try {
             const response = await window.electronAPI.getMedicineOnTyping({
                 search: searchTerm.trim(),
             });
-
-            console.log("Medicine Response:", response);
-
+            console.log(response)
             if (response.status !== "success") {
                 showToast(response.message, "oklch(57.7% 0.245 27.325)");
                 setMedicines([]);
@@ -89,27 +65,8 @@ const ReturnPurchase = () => {
             }
 
             const formatted = response.data.map((med) => ({
-                id: med.id,
-                saltName: med.saltName,
-                brandName: med.brandName,
-                batchNumber:
-                    med.purchaseItems && med.purchaseItems[0]
-                        ? med.purchaseItems[0].batchNumber
-                        : "-",
-                expiryDate:
-                    med.purchaseItems && med.purchaseItems[0]
-                        ? new Date(med.purchaseItems[0].expiryDate)
-                            .toISOString()
-                            .split("T")[0]
-                        : "-",
-                stockLeft:
-                    med.purchaseItems && med.purchaseItems[0]
-                        ? med.purchaseItems[0].remainingMedicines
-                        : 0,
-                purchasePrice:
-                    med.purchaseItems && med.purchaseItems[0]
-                        ? med.purchaseItems[0].purchasePrice
-                        : 0,
+                ...med,
+                purchaseItems: med.purchaseItems || [],
             }));
 
             setMedicines(formatted);
@@ -118,131 +75,242 @@ const ReturnPurchase = () => {
         }
     };
 
+    useDebounceEffect(() => {
+        fetchItems();
+    }, [searchTerm]);
+
+    const handleSubmitReturn = async () => {
+        if (selectedItems.length === 0) {
+            return showToast("No medicines selected for return.", "oklch(62.7% 0.194 149.214)");
+        }
+
+        const invalidItem = selectedItems.find(
+            (i) => !i.selectedBatch || !i.reason || i.returnQty <= 0
+        );
+        if (invalidItem)
+            return showToast("Please select batch, reason, and valid return qty for all items.", "oklch(62.7% 0.194 149.214)");
+
+        const medicines = selectedItems.map((item) => {
+            const batch = item.purchaseItems.find(
+                (b) => b.batchNumber === item.selectedBatch
+            );
+            return {
+                purchaseId: batch?.purchaseId,
+                medicineId: item.id,
+                batchNumber: item.selectedBatch,
+                returnQty: Number(item.returnQty),
+                reason: item.reason,
+                purchasePrice: batch?.purchasePrice || 0,
+                sellingPrice: batch?.sellingPrice || 0,
+                sellingPricePerMedicine: batch?.sellingPricePerMedicine || 0,
+                expiryDate: batch?.expiryDate,
+                packageQuantity: item.packageQuantity,
+                totalMedicines: batch?.totalMedicines || 0,
+                remainingMedicines: batch?.remainingMedicines || 0,
+            };
+        });
+        console.log(medicines)
+        const payload = {
+            parentPurchaseId: medicines[0].purchaseId,
+            supplierId: selectedSupplier?.id || null,
+            returnDate: returnDate,
+            notes: notes || '',
+            discountType: "percentage",
+            discount: 0,
+            tax: 0,
+            subTotal,
+            netTotal,
+            medicines,
+
+        };
+
+        console.log(payload)
+        try {
+            console.log("Payload to backend:", payload);
+
+            const response = await window.electronAPI.returnPurchase(payload);
+
+            if (response.status === "success") {
+                showToast("Return submitted successfully!", "oklch(62.7% 0.194 149.214)");
+                setSelectedItems([]);
+            } else {
+                showToast(response.message || "Failed to record return.", "oklch(57.7% 0.245 27.325)");
+            }
+        } catch (error) {
+            showToast(error.message, "oklch(57.7% 0.245 27.325)");
+        }
+    };
+
+
     return (
         <>
-            {/* Supplier Section */}
-            <SupplierDetails />
+            <SupplierDetails
+                selectedSupplier={selectedSupplier}
+                setSelectedSupplier={setSelectedSupplier}
+            />
 
             <div className="grid grid-cols-[7.5fr_4.5fr] p-3 gap-3">
-
-                {/* Left Panel - Return Details */}
+                {/* Left Panel */}
                 <div className="min-w-0 w-full bg-gray-50 rounded-xl p-4 border border-gray-300">
                     {selectedItems.length === 0 ? (
-                        <p className="text-gray-500 text-center">
-                            No medicines selected for return.
-                        </p>
+                        <p className="text-gray-500 text-center">No medicines selected for return.</p>
                     ) : (
                         <div className="overflow-x-auto max-h-[400px] overflow-y-auto rounded-lg">
-                            <table className="min-w-full border border-gray-200 text-sm table-auto">
+                            <div className="flex items-center justify-start space-x-4">
+                                <div className="flex flex-col">
+                                    <label htmlFor="">Return date</label>
+                                    <input
+                                        className="border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950 transition-all duration-100"
+                                        type="date"
+                                        placeholder="Purchase Date"
+                                        onChange={(e) => { setReturnDate(e.target.value) }}
+                                        value={returnDate}
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label htmlFor="">Notes</label>
+                                    <input
+                                        type="text"
+                                        className="outline-0 border rounded-md py-1 px-2 focus:outline-none focus:ring-1 focus:ring-blue-950"
+                                        rows="2"
+                                        placeholder="Enter Notes"
+                                        onChange={(e) => { setNotes(e.target.value) }}
+                                        value={notes}
+                                    />
+                                </div>
+                            </div>
+                            <table className="min-w-full border border-gray-200 text-sm table-auto mt-5">
                                 <thead className="bg-gray-200 text-gray-700">
                                     <tr>
-                                        <th className="py-2 px-3 text-left font-semibold whitespace-nowrap">
-                                            Brand Name
-                                        </th>
-                                        <th className="py-2 px-3 text-left font-semibold">
-                                            Salt Name
-                                        </th>
-                                        <th className="py-2 px-3 text-center font-semibold">
-                                            Return Qty
-                                        </th>
-                                        <th className="py-2 px-3 text-center font-semibold">
-                                            Reason
-                                        </th>
+                                        <th className="py-2 px-3 text-left font-semibold">Brand Name</th>
+                                        <th className="py-2 px-3 text-left font-semibold">Salt Name</th>
+                                        <th className="py-2 px-3 text-center font-semibold">Batch</th>
+                                        <th className="py-2 px-3 text-center font-semibold">Expiry</th>
+                                        <th className="py-2 px-3 text-center font-semibold">Stock</th>
+                                        <th className="py-2 px-3 text-center font-semibold">Return Qty</th>
+                                        <th className="py-2 px-3 text-center font-semibold">Reason</th>
                                         <th className="py-2 px-3 text-center font-semibold">Price</th>
                                         <th className="py-2 px-3 text-center font-semibold">Total</th>
-                                        <th className="py-2 px-3 text-center font-semibold">
-                                            Actions
-                                        </th>
+                                        <th className="py-2 px-3 text-center font-semibold">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {selectedItems.map((item) => (
-                                        <tr key={item.id} className="hover:bg-gray-100">
-                                            <td className="py-2 px-3 truncate">{item.brandName}</td>
-                                            <td className="py-2 px-3 text-gray-600 text-xs truncate whitespace-nowrap">
-                                                {item.saltName}
-                                            </td>
-                                            <td className="py-2 px-3 text-center">
-                                                <input
-                                                    type="number"
-                                                    min="1"
-                                                    value={item.returnQty || 1}
-                                                    onChange={(e) =>
-                                                        handleInputChange(
-                                                            item.id,
-                                                            "returnQty",
-                                                            parseInt(e.target.value) || 1
-                                                        )
-                                                    }
-                                                    className="border border-gray-300 p-1 rounded-md w-16 text-center bg-white"
-                                                />
-                                            </td>
-                                            <td className="py-2 px-3 text-center">
-                                                <select
-                                                    value={item.reason || ""}
-                                                    onChange={(e) =>
-                                                        handleInputChange(item.id, "reason", e.target.value)
-                                                    }
-                                                    className="border border-gray-300 p-1 rounded-md w-28 text-center bg-white text-sm"
-                                                >
-                                                    <option value="">Select</option>
-                                                    <option value="Expired">Expired</option>
-                                                    <option value="Damaged">Damaged</option>
-                                                    <option value="Wrong Supply">Wrong Supply</option>
-                                                    <option value="Other">Other</option>
-                                                </select>
-                                            </td>
-                                            <td className="py-2 px-3 text-center">
-                                                ₹{item.purchasePrice}
-                                            </td>
-                                            <td className="py-2 px-3 text-center">
-                                                ₹
-                                                {(
-                                                    (item.purchasePrice || 0) * (item.returnQty || 0)
-                                                ).toFixed(2)}
-                                            </td>
-                                            <td className="py-2 px-3 text-center cursor-pointer">
-                                                <div
-                                                    className="flex items-center justify-center"
-                                                    onClick={() => handleRemoveItem(item.id)}
-                                                >
+                                    {selectedItems.map((item) => {
+                                        const batch = item.purchaseItems.find(
+                                            (b) => b.batchNumber === item.selectedBatch
+                                        );
+                                        return (
+                                            <tr key={item.id} className="hover:bg-gray-100">
+                                                <td className="py-2 px-3">{item.brandName}</td>
+                                                <td className="py-2 px-3">{item.saltName}</td>
+                                                <td className="py-2 px-3 text-center">
+                                                    <select
+                                                        value={item.selectedBatch || ""}
+                                                        onChange={(e) =>
+                                                            handleInputChange(item.id, "selectedBatch", e.target.value)
+                                                        }
+                                                        className="border border-gray-300 p-1 rounded-md bg-white text-sm"
+                                                    >
+                                                        <option value="">Select</option>
+                                                        {item.purchaseItems.map((b) => (
+                                                            <option
+                                                                key={b.batchNumber}
+                                                                value={b.batchNumber}
+                                                            >
+                                                                {b.batchNumber}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                                <td className="py-2 px-3 text-center">
+                                                    {batch
+                                                        ? new Date(batch.expiryDate)
+                                                            .toISOString()
+                                                            .split("T")[0]
+                                                        : "-"}
+                                                </td>
+                                                <td className="py-2 px-3 text-center">
+                                                    {batch?.remainingMedicines || 0}
+                                                </td>
+                                                <td className="py-2 px-3 text-center">
+                                                    <input
+                                                        type="number"
+                                                        min="1"
+                                                        max={batch?.remainingMedicines || 1}
+                                                        value={item.returnQty || 1}
+                                                        onChange={(e) =>
+                                                            handleInputChange(
+                                                                item.id,
+                                                                "returnQty",
+                                                                parseInt(e.target.value) || 1
+                                                            )
+                                                        }
+                                                        className="border border-gray-300 p-1 rounded-md w-16 text-center bg-white"
+                                                    />
+                                                </td>
+                                                <td className="py-2 px-3 text-center">
+                                                    <select
+                                                        value={item.reason || ""}
+                                                        onChange={(e) =>
+                                                            handleInputChange(item.id, "reason", e.target.value)
+                                                        }
+                                                        className="border border-gray-300 p-1 rounded-md w-28 text-center bg-white text-sm"
+                                                    >
+                                                        <option value="">Select</option>
+                                                        <option value="Expired">Expired</option>
+                                                        <option value="Damaged">Damaged</option>
+                                                        <option value="Wrong Supply">Wrong Supply</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                </td>
+                                                <td className="py-2 px-3 text-center">
+                                                    ₹{batch?.purchasePrice?.toFixed(2) || "0.00"}
+                                                </td>
+                                                <td className="py-2 px-3 text-center">
+                                                    ₹{(
+                                                        (batch?.purchasePrice || 0) *
+                                                        (item.returnQty || 0)
+                                                    ).toFixed(2)}
+                                                </td>
+                                                <td className="py-2 px-3 text-center cursor-pointer">
                                                     <Trash
                                                         size={20}
-                                                        className="text-red-600 hover:text-red-800"
+                                                        onClick={() => handleRemoveItem(item.id)}
+                                                        className="text-red-600 hover:text-red-800 cursor-pointer"
                                                     />
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>
                     )}
 
-                    {/* Billing Summary */}
+                    {/* Billing */}
                     {selectedItems.length > 0 && (
-                        <div className="mt-6 border-t pt-4">
-                            <div className="flex justify-between mb-2">
-                                <span className="font-medium">Subtotal</span>
+                        <div className="mt-6 border-t pt-4 space-y-3">
+                            <div className="flex justify-between items-center">
+                                <span className="font-medium">Subtotal:</span>
                                 <span>₹{subTotal.toFixed(2)}</span>
                             </div>
-                            <div className="flex justify-between mb-2">
-                                <span className="font-medium">Tax (5%)</span>
-                                <span>₹{tax.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between text-lg font-semibold mb-4">
-                                <span>Return Net Total</span>
+                            <div className="flex justify-between text-lg font-semibold border-t pt-2">
+                                <span>Total Return Amount:</span>
                                 <span>₹{netTotal.toFixed(2)}</span>
                             </div>
-                            <button className="w-full py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+
+                            <button
+                                onClick={handleSubmitReturn}
+                                className="w-full py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                            >
                                 Submit Return
                             </button>
                         </div>
                     )}
                 </div>
 
-                {/* Medicine List */}
-                <div className="w-full bg-gray-50 shadow-md rounded-xl p-4 border border-gray-300 ">
+                {/* Right Panel - Medicine Search */}
+                <div className="w-full bg-gray-50 shadow-md rounded-xl p-4 border border-gray-300">
                     <div className="relative mb-5">
                         <Search className="absolute left-3 top-2 text-gray-500" size={18} />
                         <input
@@ -255,7 +323,7 @@ const ReturnPurchase = () => {
                     </div>
 
                     <div className="overflow-auto h-[80vh]">
-                        <div className="flex flex-wrap justify-start gap-4 ">
+                        <div className="flex flex-wrap justify-start gap-4">
                             {medicines.map((med) => (
                                 <MedicineCard
                                     key={med.id}
