@@ -285,51 +285,61 @@ export async function returnPurchase(data) {
             subTotal,
             netTotal,
             medicines,
-            returnDate
+            returnDate,
         } = data;
 
+        if (!Array.isArray(medicines) || medicines.length === 0) {
+            throw new Error("No medicines provided for return.");
+        }
+
         const [lastPurchase, lastPayment] = await Promise.all([
-            prisma.purchase.findFirst({ orderBy: { createdAt: 'desc' } }),
-            prisma.payment.findFirst({ orderBy: { createdAt: 'desc' } })
+            prisma.purchase.findFirst({ orderBy: { createdAt: "desc" } }),
+            prisma.payment.findFirst({ orderBy: { createdAt: "desc" } }),
         ]);
 
         const returnNumber = generateNumber(lastPurchase, "purchase", "purchaseNumber");
         const paymentNumber = generateNumber(lastPayment, "payment", "paymentNumber");
 
         const transactionResult = await prisma.$transaction(async (prisma) => {
-
+            // 🔹 STEP 1: Validate all medicine entries before processing
             for (const item of medicines) {
-                const currentItem = await prisma.purchaseItem.findFirst({
+                const existingItems = await prisma.purchaseItem.findMany({
                     where: {
-                        purchaseId: parentPurchaseId,
-                        medicineId: item.medicineId,
+                        purchaseId: Number(item.purchaseId),
+                        medicineId: Number(item.medicineId),
                         batchNumber: item.batchNumber,
                     },
                 });
 
-                if (!currentItem) {
+                if (!existingItems.length) {
                     throw new Error(
-                        `Batch ${item.batchNumber} for medicine ID ${item.medicineId} not found in purchase.`
+                        `Batch ${item.batchNumber} for medicine ID ${item.medicineId} not found in purchase ID ${item.purchaseId}.`
                     );
                 }
 
-                const availableQty = currentItem.remainingMedicines / currentItem.packageQuantity;
-                if (item.returnQty > availableQty) {
+                const totalAvailableQty = existingItems.reduce(
+                    (sum, record) => sum + record.remainingMedicines / record.packageQuantity,
+                    0
+                );
+
+                if (item.returnQty > totalAvailableQty) {
                     throw new Error(
-                        `Not enough stock for batch ${item.batchNumber}. Available: ${availableQty}, Requested: ${item.returnQty}`
+                        `Insufficient stock for batch ${item.batchNumber}. Available: ${totalAvailableQty}, Requested: ${item.returnQty}.`
                     );
                 }
             }
 
+            // 🔹 STEP 2: Create Payment record
             const payment = await prisma.payment.create({
                 data: {
                     paymentType: "RETURN",
                     paymentNumber: paymentNumber,
-                    amount: netTotal,
+                    amount: parseFloat(netTotal),
                     createdAt: new Date(returnDate),
                 },
             });
 
+            // 🔹 STEP 3: Create Return Purchase record
             const returnPurchase = await prisma.purchase.create({
                 data: {
                     supplierId,
@@ -337,52 +347,82 @@ export async function returnPurchase(data) {
                     purchaseNumber: returnNumber,
                     purchaseType: "RETURN",
                     notes: notes || null,
-                    subTotal: subTotal,
-                    netTotal: netTotal,
-                    total: netTotal,
+                    subTotal: parseFloat(subTotal),
+                    netTotal: parseFloat(netTotal),
+                    total: parseFloat(netTotal),
                     paymentId: payment.id,
                     returnPurchasedItems: {
                         create: medicines.map((item) => ({
                             medicineId: item.medicineId,
                             batchNumber: item.batchNumber,
-                            expiryDate: new Date(item.expiryDate),
+                            expiryDate: item.expiryDate ? new Date(item.expiryDate) : null,
                             quantity: item.returnQty,
                             purchasePrice: parseFloat(item.purchasePrice),
                             reason: item.reason || "Damaged / Expired",
-                            sellingPrice: item.sellingPrice,
-                            sellingPricePerMedicine: item.sellingPricePerMedicine,
+                            sellingPrice: parseFloat(item.sellingPrice),
+                            sellingPricePerMedicine: parseFloat(item.sellingPricePerMedicine),
                             packageQuantity: item.packageQuantity,
                             totalMedicines: item.totalMedicines,
                             returnDate: new Date(returnDate),
                             parentPurchaseId: item.purchaseId,
-                            purchaseDate: new Date(item.purchaseDate)
-
+                            purchaseDate: new Date(item.purchaseDate),
                         })),
                     },
                 },
                 include: { returnPurchasedItems: true },
             });
 
+            // 🔹 STEP 4: Deduct quantities & mark as sold if zero
             for (const item of medicines) {
-                await prisma.purchaseItem.updateMany({
+                // Fetch all batches to distribute return quantity properly
+                const batchItems = await prisma.purchaseItem.findMany({
                     where: {
-                        purchaseId: parentPurchaseId,
-                        medicineId: item.medicineId,
+                        purchaseId: Number(item.purchaseId),
+                        medicineId: Number(item.medicineId),
                         batchNumber: item.batchNumber,
                     },
-                    data: {
-                        quantity: {
-                            decrement: item.returnQty,
-                        },
-                        remainingMedicines: {
-                            decrement: item.returnQty * item.packageQuantity,
-                        },
-                        totalMedicines: {
-                            decrement: item.returnQty * item.packageQuantity,
-                        },
-                        isSold: false,
-                    },
+                    orderBy: { id: "asc" },
                 });
+
+                let remainingToReturn = item.returnQty;
+
+                for (const batch of batchItems) {
+                    if (remainingToReturn <= 0) break;
+
+                    const batchAvailable = batch.remainingMedicines / batch.packageQuantity;
+                    const deduction = Math.min(remainingToReturn, batchAvailable);
+
+                    await prisma.purchaseItem.update({
+                        where: { id: batch.id },
+                        data: {
+                            quantity: { decrement: deduction },
+                            remainingMedicines: { decrement: deduction * batch.packageQuantity },
+                            totalMedicines: { decrement: deduction * batch.packageQuantity },
+                        },
+                    });
+
+                    remainingToReturn -= deduction;
+
+                    // Check updated stock level for this batch
+                    const updatedBatch = await prisma.purchaseItem.findUnique({
+                        where: { id: batch.id },
+                        select: { remainingMedicines: true },
+                    });
+
+                    if (updatedBatch && updatedBatch.remainingMedicines <= 0) {
+                        await prisma.purchaseItem.update({
+                            where: { id: batch.id },
+                            data: { isSold: true },
+                        });
+                    }
+                }
+
+                // If any return qty remains unallocated, something went wrong
+                if (remainingToReturn > 0) {
+                    throw new Error(
+                        `Failed to fully return quantity for medicine ID ${item.medicineId}, batch ${item.batchNumber}.`
+                    );
+                }
             }
 
             return { payment, returnPurchase };
@@ -390,17 +430,19 @@ export async function returnPurchase(data) {
 
         return {
             status: "success",
-            message: "Purchase return successfully processed",
+            message: "Purchase return successfully processed.",
             data: transactionResult,
         };
     } catch (error) {
         console.error("Error returning purchase:", error);
         return {
             status: "failed",
-            message: error.message || "Failed to process return.",
+            message: error.message || "Failed to process purchase return.",
         };
     }
 }
+
+
 
 
 

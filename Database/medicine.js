@@ -120,6 +120,9 @@ export async function getMedicineOnTyping({ search }) {
                     sellingPricePerMedicine: true,
                     purchaseDate: true,
                 },
+                where: {
+                    remainingMedicines: { gt: 0 }, // optional: exclude out-of-stock
+                },
             },
         },
     });
@@ -132,18 +135,19 @@ export async function getMedicineOnTyping({ search }) {
         const batchMap = new Map();
 
         med.purchaseItems.forEach((item) => {
-            if (batchMap.has(item.batchNumber)) {
-                const existing = batchMap.get(item.batchNumber);
-                batchMap.set(item.batchNumber, {
+            // 👇 composite key by batch + purchaseId
+            const key = `${item.batchNumber}_${item.purchaseId}`;
+
+            if (batchMap.has(key)) {
+                const existing = batchMap.get(key);
+                batchMap.set(key, {
                     ...existing,
                     quantity: existing.quantity + item.quantity,
-                    remainingMedicines:
-                        existing.remainingMedicines + item.remainingMedicines,
-                    totalMedicines:
-                        existing.totalMedicines + item.totalMedicines,
+                    remainingMedicines: existing.remainingMedicines + item.remainingMedicines,
+                    totalMedicines: existing.totalMedicines + item.totalMedicines,
                 });
             } else {
-                batchMap.set(item.batchNumber, { ...item });
+                batchMap.set(key, { ...item });
             }
         });
 
@@ -159,6 +163,7 @@ export async function getMedicineOnTyping({ search }) {
         data: mergedMedicines,
     };
 }
+
 
 // bulk upload
 export async function bulkUpload(fileContent) {
