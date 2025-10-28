@@ -66,7 +66,9 @@ export async function addPurchase(data) {
                             remainingMedicines: parseInt(item.quantity * item.packageQuantity),
                             sellingPricePerMedicine: parseFloat(item.sellingPrice / item.quantity),
                             scheme: item.scheme,
-                            packageQuantity: item.packageQuantity
+                            packageQuantity: item.packageQuantity,
+                            purchaseDate: new Date(purchaseDate),
+
                         }))
                     }
                 },
@@ -178,6 +180,7 @@ export async function getStocksOnTyping({ search }) {
                     profit: true,
                     tax: true,
                     sellingPricePerMedicine: true,
+                    purchaseDate: true,
                 },
             },
         },
@@ -279,7 +282,6 @@ export async function returnPurchase(data) {
             parentPurchaseId,
             notes,
             supplierId,
-            purchaseDate,
             subTotal,
             netTotal,
             medicines,
@@ -296,19 +298,42 @@ export async function returnPurchase(data) {
 
         const transactionResult = await prisma.$transaction(async (prisma) => {
 
+            for (const item of medicines) {
+                const currentItem = await prisma.purchaseItem.findFirst({
+                    where: {
+                        purchaseId: parentPurchaseId,
+                        medicineId: item.medicineId,
+                        batchNumber: item.batchNumber,
+                    },
+                });
+
+                if (!currentItem) {
+                    throw new Error(
+                        `Batch ${item.batchNumber} for medicine ID ${item.medicineId} not found in purchase.`
+                    );
+                }
+
+                const availableQty = currentItem.remainingMedicines / currentItem.packageQuantity;
+                if (item.returnQty > availableQty) {
+                    throw new Error(
+                        `Not enough stock for batch ${item.batchNumber}. Available: ${availableQty}, Requested: ${item.returnQty}`
+                    );
+                }
+            }
+
             const payment = await prisma.payment.create({
                 data: {
                     paymentType: "RETURN",
                     paymentNumber: paymentNumber,
                     amount: netTotal,
-                    createdAt: new Date(),
+                    createdAt: new Date(returnDate),
                 },
             });
 
             const returnPurchase = await prisma.purchase.create({
                 data: {
                     supplierId,
-                    purchaseDate: new Date(),   // needs to change
+                    purchaseDate: new Date(returnDate),
                     purchaseNumber: returnNumber,
                     purchaseType: "RETURN",
                     notes: notes || null,
@@ -326,57 +351,39 @@ export async function returnPurchase(data) {
                             reason: item.reason || "Damaged / Expired",
                             sellingPrice: item.sellingPrice,
                             sellingPricePerMedicine: item.sellingPricePerMedicine,
-                            quantity: item.returnQty,
                             packageQuantity: item.packageQuantity,
                             totalMedicines: item.totalMedicines,
                             returnDate: new Date(returnDate),
                             parentPurchaseId: item.purchaseId,
+                            purchaseDate: new Date(item.purchaseDate)
+
                         })),
                     },
                 },
                 include: { returnPurchasedItems: true },
             });
 
-            // Update stock (reduce remaining medicines)
             for (const item of medicines) {
-
-                const currentItem = await prisma.purchaseItem.findFirst({
+                await prisma.purchaseItem.updateMany({
                     where: {
                         purchaseId: parentPurchaseId,
                         medicineId: item.medicineId,
                         batchNumber: item.batchNumber,
-
+                    },
+                    data: {
+                        quantity: {
+                            decrement: item.returnQty,
+                        },
+                        remainingMedicines: {
+                            decrement: item.returnQty * item.packageQuantity,
+                        },
+                        totalMedicines: {
+                            decrement: item.returnQty * item.packageQuantity,
+                        },
+                        isSold: false,
                     },
                 });
-
-                if (currentItem) {
-                    const updatedRemainingMedicines = currentItem.remainingMedicines - (item.returnQty * item.packageQuantity);
-
-                    console.log(item.returnQty, item.packageQuantity)
-                    const isSold = updatedRemainingMedicines === 0;
-
-                    await prisma.purchaseItem.updateMany({
-                        where: {
-                            purchaseId: parentPurchaseId,
-                            medicineId: item.medicineId,
-                            batchNumber: item.batchNumber,
-                        },
-                        data: {
-                            quantity: {
-                                decrement: item.returnQty,
-                            },
-                            remainingMedicines: {
-                                decrement: item.returnQty * item.packageQuantity,
-                            },
-                            totalMedicines: {
-                                decrement: item.returnQty * item.packageQuantity,
-                            },
-                            isSold: isSold,
-                        },
-                    });
-                }
             }
-
 
             return { payment, returnPurchase };
         });
@@ -388,8 +395,12 @@ export async function returnPurchase(data) {
         };
     } catch (error) {
         console.error("Error returning purchase:", error);
-        return { status: "failed", message: error.message };
+        return {
+            status: "failed",
+            message: error.message || "Failed to process return.",
+        };
     }
 }
+
 
 

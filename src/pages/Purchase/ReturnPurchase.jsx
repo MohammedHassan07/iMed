@@ -80,15 +80,23 @@ const ReturnPurchase = () => {
     }, [searchTerm]);
 
     const handleSubmitReturn = async () => {
+
+        if (!selectedSupplier || !returnDate) {
+            return showToast("Please select supplier.", "oklch(57.7% 0.245 27.325)");
+
+        }
+        if (!returnDate) {
+            return showToast("Please select return date.", "oklch(57.7% 0.245 27.325)");
+        }
         if (selectedItems.length === 0) {
-            return showToast("No medicines selected for return.", "oklch(62.7% 0.194 149.214)");
+            return showToast("No medicines selected for return.", "oklch(57.7% 0.245 27.325)");
         }
 
         const invalidItem = selectedItems.find(
             (i) => !i.selectedBatch || !i.reason || i.returnQty <= 0
         );
         if (invalidItem)
-            return showToast("Please select batch, reason, and valid return qty for all items.", "oklch(62.7% 0.194 149.214)");
+            return showToast("Please select batch, reason, and valid return qty for all items.", "oklch(57.7% 0.245 27.325)");
 
         const medicines = selectedItems.map((item) => {
             const batch = item.purchaseItems.find(
@@ -107,8 +115,10 @@ const ReturnPurchase = () => {
                 packageQuantity: item.packageQuantity,
                 totalMedicines: batch?.totalMedicines || 0,
                 remainingMedicines: batch?.remainingMedicines || 0,
+                purchaseDate: batch.purchaseDate,
             };
         });
+
         console.log(medicines)
         const payload = {
             parentPurchaseId: medicines[0].purchaseId,
@@ -124,15 +134,14 @@ const ReturnPurchase = () => {
 
         };
 
-        console.log(payload)
         try {
             console.log("Payload to backend:", payload);
 
             const response = await window.electronAPI.returnPurchase(payload);
-
+            console.log(response)
             if (response.status === "success") {
                 showToast("Return submitted successfully!", "oklch(62.7% 0.194 149.214)");
-                setSelectedItems([]);
+                // setSelectedItems([]);
             } else {
                 showToast(response.message || "Failed to record return.", "oklch(57.7% 0.245 27.325)");
             }

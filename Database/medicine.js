@@ -118,6 +118,7 @@ export async function getMedicineOnTyping({ search }) {
                     profit: true,
                     tax: true,
                     sellingPricePerMedicine: true,
+                    purchaseDate: true,
                 },
             },
         },

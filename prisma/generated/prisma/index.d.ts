@@ -3308,7 +3308,7 @@ export namespace Prisma {
   export type PurchaseGroupByOutputType = {
     id: number
     supplierId: number
-    purchaseDate: Date
+    purchaseDate: Date | null
     purchaseNumber: string
     purchaseType: string
     notes: string | null
@@ -3444,7 +3444,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       supplierId: number
-      purchaseDate: Date
+      purchaseDate: Date | null
       purchaseNumber: string
       purchaseType: string
       notes: string | null
@@ -4411,6 +4411,7 @@ export namespace Prisma {
     batchNumber: string | null
     expiryDate: Date | null
     purchasePrice: number | null
+    purchaseDate: Date | null
     sellingPrice: number | null
     sellingPricePerMedicine: number | null
     quantity: number | null
@@ -4435,6 +4436,7 @@ export namespace Prisma {
     batchNumber: string | null
     expiryDate: Date | null
     purchasePrice: number | null
+    purchaseDate: Date | null
     sellingPrice: number | null
     sellingPricePerMedicine: number | null
     quantity: number | null
@@ -4459,6 +4461,7 @@ export namespace Prisma {
     batchNumber: number
     expiryDate: number
     purchasePrice: number
+    purchaseDate: number
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -4519,6 +4522,7 @@ export namespace Prisma {
     batchNumber?: true
     expiryDate?: true
     purchasePrice?: true
+    purchaseDate?: true
     sellingPrice?: true
     sellingPricePerMedicine?: true
     quantity?: true
@@ -4543,6 +4547,7 @@ export namespace Prisma {
     batchNumber?: true
     expiryDate?: true
     purchasePrice?: true
+    purchaseDate?: true
     sellingPrice?: true
     sellingPricePerMedicine?: true
     quantity?: true
@@ -4567,6 +4572,7 @@ export namespace Prisma {
     batchNumber?: true
     expiryDate?: true
     purchasePrice?: true
+    purchaseDate?: true
     sellingPrice?: true
     sellingPricePerMedicine?: true
     quantity?: true
@@ -4678,6 +4684,7 @@ export namespace Prisma {
     batchNumber: string
     expiryDate: Date
     purchasePrice: number
+    purchaseDate: Date
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -4721,6 +4728,7 @@ export namespace Prisma {
     batchNumber?: boolean
     expiryDate?: boolean
     purchasePrice?: boolean
+    purchaseDate?: boolean
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
@@ -4747,6 +4755,7 @@ export namespace Prisma {
     batchNumber?: boolean
     expiryDate?: boolean
     purchasePrice?: boolean
+    purchaseDate?: boolean
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
@@ -4773,6 +4782,7 @@ export namespace Prisma {
     batchNumber?: boolean
     expiryDate?: boolean
     purchasePrice?: boolean
+    purchaseDate?: boolean
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
@@ -4799,6 +4809,7 @@ export namespace Prisma {
     batchNumber?: boolean
     expiryDate?: boolean
     purchasePrice?: boolean
+    purchaseDate?: boolean
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
@@ -4816,7 +4827,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "sellingPrice" | "sellingPricePerMedicine" | "quantity" | "packageQuantity" | "profit" | "tax" | "total" | "totalMedicines" | "remainingMedicines" | "scheme" | "isSold" | "isExpired" | "nearToExpire" | "createdAt" | "updatedAt", ExtArgs["result"]["purchaseItem"]>
+  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "purchaseDate" | "sellingPrice" | "sellingPricePerMedicine" | "quantity" | "packageQuantity" | "profit" | "tax" | "total" | "totalMedicines" | "remainingMedicines" | "scheme" | "isSold" | "isExpired" | "nearToExpire" | "createdAt" | "updatedAt", ExtArgs["result"]["purchaseItem"]>
   export type PurchaseItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
     medicine?: boolean | medicineDefaultArgs<ExtArgs>
@@ -4843,6 +4854,7 @@ export namespace Prisma {
       batchNumber: string
       expiryDate: Date
       purchasePrice: number
+      purchaseDate: Date
       sellingPrice: number
       sellingPricePerMedicine: number
       quantity: number
@@ -5289,6 +5301,7 @@ export namespace Prisma {
     readonly batchNumber: FieldRef<"PurchaseItem", 'String'>
     readonly expiryDate: FieldRef<"PurchaseItem", 'DateTime'>
     readonly purchasePrice: FieldRef<"PurchaseItem", 'Float'>
+    readonly purchaseDate: FieldRef<"PurchaseItem", 'DateTime'>
     readonly sellingPrice: FieldRef<"PurchaseItem", 'Float'>
     readonly sellingPricePerMedicine: FieldRef<"PurchaseItem", 'Float'>
     readonly quantity: FieldRef<"PurchaseItem", 'Int'>
@@ -5765,6 +5778,7 @@ export namespace Prisma {
     reason: string | null
     createdAt: Date | null
     returnDate: Date | null
+    purchaseDate: Date | null
     sellingPrice: number | null
     sellingPricePerMedicine: number | null
     quantity: number | null
@@ -5784,6 +5798,7 @@ export namespace Prisma {
     reason: string | null
     createdAt: Date | null
     returnDate: Date | null
+    purchaseDate: Date | null
     sellingPrice: number | null
     sellingPricePerMedicine: number | null
     quantity: number | null
@@ -5803,6 +5818,7 @@ export namespace Prisma {
     reason: number
     createdAt: number
     returnDate: number
+    purchaseDate: number
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -5850,6 +5866,7 @@ export namespace Prisma {
     reason?: true
     createdAt?: true
     returnDate?: true
+    purchaseDate?: true
     sellingPrice?: true
     sellingPricePerMedicine?: true
     quantity?: true
@@ -5869,6 +5886,7 @@ export namespace Prisma {
     reason?: true
     createdAt?: true
     returnDate?: true
+    purchaseDate?: true
     sellingPrice?: true
     sellingPricePerMedicine?: true
     quantity?: true
@@ -5888,6 +5906,7 @@ export namespace Prisma {
     reason?: true
     createdAt?: true
     returnDate?: true
+    purchaseDate?: true
     sellingPrice?: true
     sellingPricePerMedicine?: true
     quantity?: true
@@ -5994,6 +6013,7 @@ export namespace Prisma {
     reason: string
     createdAt: Date
     returnDate: Date
+    purchaseDate: Date
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -6032,6 +6052,7 @@ export namespace Prisma {
     reason?: boolean
     createdAt?: boolean
     returnDate?: boolean
+    purchaseDate?: boolean
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
@@ -6053,6 +6074,7 @@ export namespace Prisma {
     reason?: boolean
     createdAt?: boolean
     returnDate?: boolean
+    purchaseDate?: boolean
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
@@ -6074,6 +6096,7 @@ export namespace Prisma {
     reason?: boolean
     createdAt?: boolean
     returnDate?: boolean
+    purchaseDate?: boolean
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
@@ -6095,6 +6118,7 @@ export namespace Prisma {
     reason?: boolean
     createdAt?: boolean
     returnDate?: boolean
+    purchaseDate?: boolean
     sellingPrice?: boolean
     sellingPricePerMedicine?: boolean
     quantity?: boolean
@@ -6103,7 +6127,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ReturnedPurchasedItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "parentPurchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "reason" | "createdAt" | "returnDate" | "sellingPrice" | "sellingPricePerMedicine" | "quantity" | "packageQuantity" | "totalMedicines" | "updatedAt", ExtArgs["result"]["returnedPurchasedItem"]>
+  export type ReturnedPurchasedItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "parentPurchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "reason" | "createdAt" | "returnDate" | "purchaseDate" | "sellingPrice" | "sellingPricePerMedicine" | "quantity" | "packageQuantity" | "totalMedicines" | "updatedAt", ExtArgs["result"]["returnedPurchasedItem"]>
   export type ReturnedPurchasedItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
     medicine?: boolean | medicineDefaultArgs<ExtArgs>
@@ -6134,6 +6158,7 @@ export namespace Prisma {
       reason: string
       createdAt: Date
       returnDate: Date
+      purchaseDate: Date
       sellingPrice: number
       sellingPricePerMedicine: number
       quantity: number
@@ -6575,6 +6600,7 @@ export namespace Prisma {
     readonly reason: FieldRef<"ReturnedPurchasedItem", 'String'>
     readonly createdAt: FieldRef<"ReturnedPurchasedItem", 'DateTime'>
     readonly returnDate: FieldRef<"ReturnedPurchasedItem", 'DateTime'>
+    readonly purchaseDate: FieldRef<"ReturnedPurchasedItem", 'DateTime'>
     readonly sellingPrice: FieldRef<"ReturnedPurchasedItem", 'Float'>
     readonly sellingPricePerMedicine: FieldRef<"ReturnedPurchasedItem", 'Float'>
     readonly quantity: FieldRef<"ReturnedPurchasedItem", 'Int'>
@@ -12713,6 +12739,7 @@ export namespace Prisma {
     batchNumber: 'batchNumber',
     expiryDate: 'expiryDate',
     purchasePrice: 'purchasePrice',
+    purchaseDate: 'purchaseDate',
     sellingPrice: 'sellingPrice',
     sellingPricePerMedicine: 'sellingPricePerMedicine',
     quantity: 'quantity',
@@ -12744,6 +12771,7 @@ export namespace Prisma {
     reason: 'reason',
     createdAt: 'createdAt',
     returnDate: 'returnDate',
+    purchaseDate: 'purchaseDate',
     sellingPrice: 'sellingPrice',
     sellingPricePerMedicine: 'sellingPricePerMedicine',
     quantity: 'quantity',
@@ -13008,7 +13036,7 @@ export namespace Prisma {
     NOT?: PurchaseWhereInput | PurchaseWhereInput[]
     id?: IntFilter<"Purchase"> | number
     supplierId?: IntFilter<"Purchase"> | number
-    purchaseDate?: DateTimeFilter<"Purchase"> | Date | string
+    purchaseDate?: DateTimeNullableFilter<"Purchase"> | Date | string | null
     purchaseNumber?: StringFilter<"Purchase"> | string
     purchaseType?: StringFilter<"Purchase"> | string
     notes?: StringNullableFilter<"Purchase"> | string | null
@@ -13029,7 +13057,7 @@ export namespace Prisma {
   export type PurchaseOrderByWithRelationInput = {
     id?: SortOrder
     supplierId?: SortOrder
-    purchaseDate?: SortOrder
+    purchaseDate?: SortOrderInput | SortOrder
     purchaseNumber?: SortOrder
     purchaseType?: SortOrder
     notes?: SortOrderInput | SortOrder
@@ -13053,7 +13081,7 @@ export namespace Prisma {
     OR?: PurchaseWhereInput[]
     NOT?: PurchaseWhereInput | PurchaseWhereInput[]
     supplierId?: IntFilter<"Purchase"> | number
-    purchaseDate?: DateTimeFilter<"Purchase"> | Date | string
+    purchaseDate?: DateTimeNullableFilter<"Purchase"> | Date | string | null
     purchaseNumber?: StringFilter<"Purchase"> | string
     purchaseType?: StringFilter<"Purchase"> | string
     notes?: StringNullableFilter<"Purchase"> | string | null
@@ -13074,7 +13102,7 @@ export namespace Prisma {
   export type PurchaseOrderByWithAggregationInput = {
     id?: SortOrder
     supplierId?: SortOrder
-    purchaseDate?: SortOrder
+    purchaseDate?: SortOrderInput | SortOrder
     purchaseNumber?: SortOrder
     purchaseType?: SortOrder
     notes?: SortOrderInput | SortOrder
@@ -13100,7 +13128,7 @@ export namespace Prisma {
     NOT?: PurchaseScalarWhereWithAggregatesInput | PurchaseScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Purchase"> | number
     supplierId?: IntWithAggregatesFilter<"Purchase"> | number
-    purchaseDate?: DateTimeWithAggregatesFilter<"Purchase"> | Date | string
+    purchaseDate?: DateTimeNullableWithAggregatesFilter<"Purchase"> | Date | string | null
     purchaseNumber?: StringWithAggregatesFilter<"Purchase"> | string
     purchaseType?: StringWithAggregatesFilter<"Purchase"> | string
     notes?: StringNullableWithAggregatesFilter<"Purchase"> | string | null
@@ -13125,6 +13153,7 @@ export namespace Prisma {
     batchNumber?: StringFilter<"PurchaseItem"> | string
     expiryDate?: DateTimeFilter<"PurchaseItem"> | Date | string
     purchasePrice?: FloatFilter<"PurchaseItem"> | number
+    purchaseDate?: DateTimeFilter<"PurchaseItem"> | Date | string
     sellingPrice?: FloatFilter<"PurchaseItem"> | number
     sellingPricePerMedicine?: FloatFilter<"PurchaseItem"> | number
     quantity?: IntFilter<"PurchaseItem"> | number
@@ -13151,6 +13180,7 @@ export namespace Prisma {
     batchNumber?: SortOrder
     expiryDate?: SortOrder
     purchasePrice?: SortOrder
+    purchaseDate?: SortOrder
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
@@ -13180,6 +13210,7 @@ export namespace Prisma {
     batchNumber?: StringFilter<"PurchaseItem"> | string
     expiryDate?: DateTimeFilter<"PurchaseItem"> | Date | string
     purchasePrice?: FloatFilter<"PurchaseItem"> | number
+    purchaseDate?: DateTimeFilter<"PurchaseItem"> | Date | string
     sellingPrice?: FloatFilter<"PurchaseItem"> | number
     sellingPricePerMedicine?: FloatFilter<"PurchaseItem"> | number
     quantity?: IntFilter<"PurchaseItem"> | number
@@ -13206,6 +13237,7 @@ export namespace Prisma {
     batchNumber?: SortOrder
     expiryDate?: SortOrder
     purchasePrice?: SortOrder
+    purchaseDate?: SortOrder
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
@@ -13238,6 +13270,7 @@ export namespace Prisma {
     batchNumber?: StringWithAggregatesFilter<"PurchaseItem"> | string
     expiryDate?: DateTimeWithAggregatesFilter<"PurchaseItem"> | Date | string
     purchasePrice?: FloatWithAggregatesFilter<"PurchaseItem"> | number
+    purchaseDate?: DateTimeWithAggregatesFilter<"PurchaseItem"> | Date | string
     sellingPrice?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     sellingPricePerMedicine?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     quantity?: IntWithAggregatesFilter<"PurchaseItem"> | number
@@ -13269,6 +13302,7 @@ export namespace Prisma {
     reason?: StringFilter<"ReturnedPurchasedItem"> | string
     createdAt?: DateTimeFilter<"ReturnedPurchasedItem"> | Date | string
     returnDate?: DateTimeFilter<"ReturnedPurchasedItem"> | Date | string
+    purchaseDate?: DateTimeFilter<"ReturnedPurchasedItem"> | Date | string
     sellingPrice?: FloatFilter<"ReturnedPurchasedItem"> | number
     sellingPricePerMedicine?: FloatFilter<"ReturnedPurchasedItem"> | number
     quantity?: IntFilter<"ReturnedPurchasedItem"> | number
@@ -13290,6 +13324,7 @@ export namespace Prisma {
     reason?: SortOrder
     createdAt?: SortOrder
     returnDate?: SortOrder
+    purchaseDate?: SortOrder
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
@@ -13314,6 +13349,7 @@ export namespace Prisma {
     reason?: StringFilter<"ReturnedPurchasedItem"> | string
     createdAt?: DateTimeFilter<"ReturnedPurchasedItem"> | Date | string
     returnDate?: DateTimeFilter<"ReturnedPurchasedItem"> | Date | string
+    purchaseDate?: DateTimeFilter<"ReturnedPurchasedItem"> | Date | string
     sellingPrice?: FloatFilter<"ReturnedPurchasedItem"> | number
     sellingPricePerMedicine?: FloatFilter<"ReturnedPurchasedItem"> | number
     quantity?: IntFilter<"ReturnedPurchasedItem"> | number
@@ -13335,6 +13371,7 @@ export namespace Prisma {
     reason?: SortOrder
     createdAt?: SortOrder
     returnDate?: SortOrder
+    purchaseDate?: SortOrder
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
@@ -13362,6 +13399,7 @@ export namespace Prisma {
     reason?: StringWithAggregatesFilter<"ReturnedPurchasedItem"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ReturnedPurchasedItem"> | Date | string
     returnDate?: DateTimeWithAggregatesFilter<"ReturnedPurchasedItem"> | Date | string
+    purchaseDate?: DateTimeWithAggregatesFilter<"ReturnedPurchasedItem"> | Date | string
     sellingPrice?: FloatWithAggregatesFilter<"ReturnedPurchasedItem"> | number
     sellingPricePerMedicine?: FloatWithAggregatesFilter<"ReturnedPurchasedItem"> | number
     quantity?: IntWithAggregatesFilter<"ReturnedPurchasedItem"> | number
@@ -13861,7 +13899,7 @@ export namespace Prisma {
 
   export type PurchaseCreateInput = {
     supplierId: number
-    purchaseDate: Date | string
+    purchaseDate?: Date | string | null
     purchaseNumber: string
     purchaseType?: string
     notes?: string | null
@@ -13881,7 +13919,7 @@ export namespace Prisma {
   export type PurchaseUncheckedCreateInput = {
     id?: number
     supplierId: number
-    purchaseDate: Date | string
+    purchaseDate?: Date | string | null
     purchaseNumber: string
     purchaseType?: string
     notes?: string | null
@@ -13900,7 +13938,7 @@ export namespace Prisma {
 
   export type PurchaseUpdateInput = {
     supplierId?: IntFieldUpdateOperationsInput | number
-    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchaseNumber?: StringFieldUpdateOperationsInput | string
     purchaseType?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13920,7 +13958,7 @@ export namespace Prisma {
   export type PurchaseUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     supplierId?: IntFieldUpdateOperationsInput | number
-    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchaseNumber?: StringFieldUpdateOperationsInput | string
     purchaseType?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13940,7 +13978,7 @@ export namespace Prisma {
   export type PurchaseCreateManyInput = {
     id?: number
     supplierId: number
-    purchaseDate: Date | string
+    purchaseDate?: Date | string | null
     purchaseNumber: string
     purchaseType?: string
     notes?: string | null
@@ -13957,7 +13995,7 @@ export namespace Prisma {
 
   export type PurchaseUpdateManyMutationInput = {
     supplierId?: IntFieldUpdateOperationsInput | number
-    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchaseNumber?: StringFieldUpdateOperationsInput | string
     purchaseType?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13974,7 +14012,7 @@ export namespace Prisma {
   export type PurchaseUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     supplierId?: IntFieldUpdateOperationsInput | number
-    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchaseNumber?: StringFieldUpdateOperationsInput | string
     purchaseType?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13993,6 +14031,7 @@ export namespace Prisma {
     batchNumber: string
     expiryDate: Date | string
     purchasePrice: number
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -14019,6 +14058,7 @@ export namespace Prisma {
     batchNumber: string
     expiryDate: Date | string
     purchasePrice: number
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -14040,6 +14080,7 @@ export namespace Prisma {
     batchNumber?: StringFieldUpdateOperationsInput | string
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     purchasePrice?: FloatFieldUpdateOperationsInput | number
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -14066,6 +14107,7 @@ export namespace Prisma {
     batchNumber?: StringFieldUpdateOperationsInput | string
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     purchasePrice?: FloatFieldUpdateOperationsInput | number
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -14090,6 +14132,7 @@ export namespace Prisma {
     batchNumber: string
     expiryDate: Date | string
     purchasePrice: number
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -14111,6 +14154,7 @@ export namespace Prisma {
     batchNumber?: StringFieldUpdateOperationsInput | string
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     purchasePrice?: FloatFieldUpdateOperationsInput | number
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -14135,6 +14179,7 @@ export namespace Prisma {
     batchNumber?: StringFieldUpdateOperationsInput | string
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     purchasePrice?: FloatFieldUpdateOperationsInput | number
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -14160,6 +14205,7 @@ export namespace Prisma {
     reason: string
     createdAt?: Date | string
     returnDate: Date | string
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -14181,6 +14227,7 @@ export namespace Prisma {
     reason: string
     createdAt?: Date | string
     returnDate: Date | string
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -14197,6 +14244,7 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -14218,6 +14266,7 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -14237,6 +14286,7 @@ export namespace Prisma {
     reason: string
     createdAt?: Date | string
     returnDate: Date | string
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -14253,6 +14303,7 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -14272,6 +14323,7 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -14904,6 +14956,17 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type FloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -15007,6 +15070,20 @@ export namespace Prisma {
     paymentId?: SortOrder
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -15061,6 +15138,7 @@ export namespace Prisma {
     batchNumber?: SortOrder
     expiryDate?: SortOrder
     purchasePrice?: SortOrder
+    purchaseDate?: SortOrder
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
@@ -15102,6 +15180,7 @@ export namespace Prisma {
     batchNumber?: SortOrder
     expiryDate?: SortOrder
     purchasePrice?: SortOrder
+    purchaseDate?: SortOrder
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
@@ -15126,6 +15205,7 @@ export namespace Prisma {
     batchNumber?: SortOrder
     expiryDate?: SortOrder
     purchasePrice?: SortOrder
+    purchaseDate?: SortOrder
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
@@ -15179,6 +15259,7 @@ export namespace Prisma {
     reason?: SortOrder
     createdAt?: SortOrder
     returnDate?: SortOrder
+    purchaseDate?: SortOrder
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
@@ -15211,6 +15292,7 @@ export namespace Prisma {
     reason?: SortOrder
     createdAt?: SortOrder
     returnDate?: SortOrder
+    purchaseDate?: SortOrder
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
@@ -15230,6 +15312,7 @@ export namespace Prisma {
     reason?: SortOrder
     createdAt?: SortOrder
     returnDate?: SortOrder
+    purchaseDate?: SortOrder
     sellingPrice?: SortOrder
     sellingPricePerMedicine?: SortOrder
     quantity?: SortOrder
@@ -15732,6 +15815,10 @@ export namespace Prisma {
     connect?: ReturnedPurchasedItemWhereUniqueInput | ReturnedPurchasedItemWhereUniqueInput[]
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type NullableFloatFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -16211,6 +16298,31 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -16294,6 +16406,7 @@ export namespace Prisma {
     batchNumber: string
     expiryDate: Date | string
     purchasePrice: number
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -16318,6 +16431,7 @@ export namespace Prisma {
     batchNumber: string
     expiryDate: Date | string
     purchasePrice: number
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -16380,6 +16494,7 @@ export namespace Prisma {
     reason: string
     createdAt?: Date | string
     returnDate: Date | string
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -16399,6 +16514,7 @@ export namespace Prisma {
     reason: string
     createdAt?: Date | string
     returnDate: Date | string
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -16442,6 +16558,7 @@ export namespace Prisma {
     batchNumber?: StringFilter<"PurchaseItem"> | string
     expiryDate?: DateTimeFilter<"PurchaseItem"> | Date | string
     purchasePrice?: FloatFilter<"PurchaseItem"> | number
+    purchaseDate?: DateTimeFilter<"PurchaseItem"> | Date | string
     sellingPrice?: FloatFilter<"PurchaseItem"> | number
     sellingPricePerMedicine?: FloatFilter<"PurchaseItem"> | number
     quantity?: IntFilter<"PurchaseItem"> | number
@@ -16519,6 +16636,7 @@ export namespace Prisma {
     reason?: StringFilter<"ReturnedPurchasedItem"> | string
     createdAt?: DateTimeFilter<"ReturnedPurchasedItem"> | Date | string
     returnDate?: DateTimeFilter<"ReturnedPurchasedItem"> | Date | string
+    purchaseDate?: DateTimeFilter<"ReturnedPurchasedItem"> | Date | string
     sellingPrice?: FloatFilter<"ReturnedPurchasedItem"> | number
     sellingPricePerMedicine?: FloatFilter<"ReturnedPurchasedItem"> | number
     quantity?: IntFilter<"ReturnedPurchasedItem"> | number
@@ -16531,6 +16649,7 @@ export namespace Prisma {
     batchNumber: string
     expiryDate: Date | string
     purchasePrice: number
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -16555,6 +16674,7 @@ export namespace Prisma {
     batchNumber: string
     expiryDate: Date | string
     purchasePrice: number
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -16589,6 +16709,7 @@ export namespace Prisma {
     reason: string
     createdAt?: Date | string
     returnDate: Date | string
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -16608,6 +16729,7 @@ export namespace Prisma {
     reason: string
     createdAt?: Date | string
     returnDate: Date | string
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -16709,7 +16831,7 @@ export namespace Prisma {
 
   export type PurchaseCreateWithoutPurchasedItemsInput = {
     supplierId: number
-    purchaseDate: Date | string
+    purchaseDate?: Date | string | null
     purchaseNumber: string
     purchaseType?: string
     notes?: string | null
@@ -16728,7 +16850,7 @@ export namespace Prisma {
   export type PurchaseUncheckedCreateWithoutPurchasedItemsInput = {
     id?: number
     supplierId: number
-    purchaseDate: Date | string
+    purchaseDate?: Date | string | null
     purchaseNumber: string
     purchaseType?: string
     notes?: string | null
@@ -16802,7 +16924,7 @@ export namespace Prisma {
 
   export type PurchaseUpdateWithoutPurchasedItemsInput = {
     supplierId?: IntFieldUpdateOperationsInput | number
-    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchaseNumber?: StringFieldUpdateOperationsInput | string
     purchaseType?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16821,7 +16943,7 @@ export namespace Prisma {
   export type PurchaseUncheckedUpdateWithoutPurchasedItemsInput = {
     id?: IntFieldUpdateOperationsInput | number
     supplierId?: IntFieldUpdateOperationsInput | number
-    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchaseNumber?: StringFieldUpdateOperationsInput | string
     purchaseType?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16885,7 +17007,7 @@ export namespace Prisma {
 
   export type PurchaseCreateWithoutReturnPurchasedItemsInput = {
     supplierId: number
-    purchaseDate: Date | string
+    purchaseDate?: Date | string | null
     purchaseNumber: string
     purchaseType?: string
     notes?: string | null
@@ -16904,7 +17026,7 @@ export namespace Prisma {
   export type PurchaseUncheckedCreateWithoutReturnPurchasedItemsInput = {
     id?: number
     supplierId: number
-    purchaseDate: Date | string
+    purchaseDate?: Date | string | null
     purchaseNumber: string
     purchaseType?: string
     notes?: string | null
@@ -16978,7 +17100,7 @@ export namespace Prisma {
 
   export type PurchaseUpdateWithoutReturnPurchasedItemsInput = {
     supplierId?: IntFieldUpdateOperationsInput | number
-    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchaseNumber?: StringFieldUpdateOperationsInput | string
     purchaseType?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16997,7 +17119,7 @@ export namespace Prisma {
   export type PurchaseUncheckedUpdateWithoutReturnPurchasedItemsInput = {
     id?: IntFieldUpdateOperationsInput | number
     supplierId?: IntFieldUpdateOperationsInput | number
-    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchaseNumber?: StringFieldUpdateOperationsInput | string
     purchaseType?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17371,7 +17493,7 @@ export namespace Prisma {
 
   export type PurchaseCreateWithoutPaymentInput = {
     supplierId: number
-    purchaseDate: Date | string
+    purchaseDate?: Date | string | null
     purchaseNumber: string
     purchaseType?: string
     notes?: string | null
@@ -17390,7 +17512,7 @@ export namespace Prisma {
   export type PurchaseUncheckedCreateWithoutPaymentInput = {
     id?: number
     supplierId: number
-    purchaseDate: Date | string
+    purchaseDate?: Date | string | null
     purchaseNumber: string
     purchaseType?: string
     notes?: string | null
@@ -17474,7 +17596,7 @@ export namespace Prisma {
     NOT?: PurchaseScalarWhereInput | PurchaseScalarWhereInput[]
     id?: IntFilter<"Purchase"> | number
     supplierId?: IntFilter<"Purchase"> | number
-    purchaseDate?: DateTimeFilter<"Purchase"> | Date | string
+    purchaseDate?: DateTimeNullableFilter<"Purchase"> | Date | string | null
     purchaseNumber?: StringFilter<"Purchase"> | string
     purchaseType?: StringFilter<"Purchase"> | string
     notes?: StringNullableFilter<"Purchase"> | string | null
@@ -17495,6 +17617,7 @@ export namespace Prisma {
     batchNumber: string
     expiryDate: Date | string
     purchasePrice: number
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -17532,6 +17655,7 @@ export namespace Prisma {
     reason: string
     createdAt?: Date | string
     returnDate: Date | string
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -17544,6 +17668,7 @@ export namespace Prisma {
     batchNumber?: StringFieldUpdateOperationsInput | string
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     purchasePrice?: FloatFieldUpdateOperationsInput | number
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17568,6 +17693,7 @@ export namespace Prisma {
     batchNumber?: StringFieldUpdateOperationsInput | string
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     purchasePrice?: FloatFieldUpdateOperationsInput | number
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17591,6 +17717,7 @@ export namespace Prisma {
     batchNumber?: StringFieldUpdateOperationsInput | string
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     purchasePrice?: FloatFieldUpdateOperationsInput | number
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17645,6 +17772,7 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17664,6 +17792,7 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17682,6 +17811,7 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17696,6 +17826,7 @@ export namespace Prisma {
     batchNumber: string
     expiryDate: Date | string
     purchasePrice: number
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -17723,6 +17854,7 @@ export namespace Prisma {
     reason: string
     createdAt?: Date | string
     returnDate: Date | string
+    purchaseDate: Date | string
     sellingPrice: number
     sellingPricePerMedicine: number
     quantity: number
@@ -17735,6 +17867,7 @@ export namespace Prisma {
     batchNumber?: StringFieldUpdateOperationsInput | string
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     purchasePrice?: FloatFieldUpdateOperationsInput | number
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17759,6 +17892,7 @@ export namespace Prisma {
     batchNumber?: StringFieldUpdateOperationsInput | string
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     purchasePrice?: FloatFieldUpdateOperationsInput | number
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17782,6 +17916,7 @@ export namespace Prisma {
     batchNumber?: StringFieldUpdateOperationsInput | string
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     purchasePrice?: FloatFieldUpdateOperationsInput | number
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17807,6 +17942,7 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17826,6 +17962,7 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17844,6 +17981,7 @@ export namespace Prisma {
     reason?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
     sellingPrice?: FloatFieldUpdateOperationsInput | number
     sellingPricePerMedicine?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -17911,7 +18049,7 @@ export namespace Prisma {
   export type PurchaseCreateManyPaymentInput = {
     id?: number
     supplierId: number
-    purchaseDate: Date | string
+    purchaseDate?: Date | string | null
     purchaseNumber: string
     purchaseType?: string
     notes?: string | null
@@ -17979,7 +18117,7 @@ export namespace Prisma {
 
   export type PurchaseUpdateWithoutPaymentInput = {
     supplierId?: IntFieldUpdateOperationsInput | number
-    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchaseNumber?: StringFieldUpdateOperationsInput | string
     purchaseType?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17998,7 +18136,7 @@ export namespace Prisma {
   export type PurchaseUncheckedUpdateWithoutPaymentInput = {
     id?: IntFieldUpdateOperationsInput | number
     supplierId?: IntFieldUpdateOperationsInput | number
-    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchaseNumber?: StringFieldUpdateOperationsInput | string
     purchaseType?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18017,7 +18155,7 @@ export namespace Prisma {
   export type PurchaseUncheckedUpdateManyWithoutPaymentInput = {
     id?: IntFieldUpdateOperationsInput | number
     supplierId?: IntFieldUpdateOperationsInput | number
-    purchaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchaseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchaseNumber?: StringFieldUpdateOperationsInput | string
     purchaseType?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null

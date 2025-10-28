@@ -30,7 +30,7 @@ model medicine {
 model Purchase {
   id                   Int                     @id @default(autoincrement())
   supplierId           Int
-  purchaseDate         DateTime
+  purchaseDate         DateTime?
   purchaseNumber       String
   purchaseType         String                  @default("PURCHASE")
   notes                String?
@@ -55,6 +55,7 @@ model PurchaseItem {
   batchNumber             String
   expiryDate              DateTime
   purchasePrice           Float
+  purchaseDate            DateTime
   sellingPrice            Float
   sellingPricePerMedicine Float
   quantity                Int
@@ -86,6 +87,7 @@ model ReturnedPurchasedItem {
   reason           String
   createdAt        DateTime @default(now())
   returnDate       DateTime
+  purchaseDate     DateTime
 
   sellingPrice            Float
   sellingPricePerMedicine Float
