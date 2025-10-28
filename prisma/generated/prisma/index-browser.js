@@ -168,6 +168,8 @@ exports.Prisma.PurchaseItemScalarFieldEnum = {
   remainingMedicines: 'remainingMedicines',
   scheme: 'scheme',
   isSold: 'isSold',
+  isExpired: 'isExpired',
+  nearToExpire: 'nearToExpire',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

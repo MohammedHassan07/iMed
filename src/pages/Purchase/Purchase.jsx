@@ -2,29 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Search, Trash } from "lucide-react";
 import MedicineCard from "../../components/MedicineCard";
 import showToast from "../../utils/Toast";
-import debounce from '../../utils/debounce.js'
+import useDebounceEffect from '../../utils/debounce.js'
+import SupplierDetails from "../../components/SupplierDetails.jsx";
 
 const Purchase = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedItems, setSelectedItems] = useState([]);
     const [discount, setDiscount] = useState(0);
     const [selectedTax, setSelectedTax] = useState(0);
-    const [searchSupplier, setSearchSupplier] = useState("");
-    const [selectedSupplier, setSelectedSupplier] = useState(null);
+
     const [discountType, setDiscountType] = useState("percentage"); // 'percentage' | 'fixed'
     const [purchaseDate, setPurchaseDate] = useState('')
     const [notes, setNotes] = useState('')
     const [taxes, setTaxes] = useState([])
     const [medicines, setMedicines] = useState([]);
 
-    const [suppliers, setSuppliers] = useState([]);
 
 
-    // Select supplier
-    const handleSelectSupplier = (supplier) => {
-        setSelectedSupplier(supplier);
-        setSearchSupplier("");
-    };
+
 
     // Add medicine to purchase list
     const handleAddMedicine = (med) => {
@@ -83,7 +78,7 @@ const Purchase = () => {
         const scheme = Number(item.scheme) || 0;
         const purchasePrice = Number(item.purchasePrice) || 0;
         const itemTotalPrice = Number(getItemTotal(item))
-    
+
         const sellingPrice = Number(item.sellingPrice) || 0;
 
         const totalStrips = qty + scheme;
@@ -233,28 +228,6 @@ const Purchase = () => {
         }
     }
 
-    const fetchSuppliers = async () => {
-        try {
-
-            if (searchSupplier === "") return
-            const response = await window.electronAPI.getSuppliersOnTyping({
-                search: searchSupplier.trim(),
-            });
-
-            console.log("Medicine Response:", response);
-
-            if (response.status !== "success") {
-                showToast(response.message, "oklch(57.7% 0.245 27.325)");
-                setSuppliers([]);
-                return;
-            }
-
-            setSuppliers(response.data || []);
-        } catch (error) {
-            showToast(error.message, "oklch(57.7% 0.245 27.325)");
-        }
-    }
-
     const fetchTaxes = async () => {
 
         try {
@@ -275,73 +248,18 @@ const Purchase = () => {
         }
     }
 
-    debounce(fetchSuppliers, searchSupplier)
-    debounce(fetchItems, searchTerm)
-    debounce(fetchTaxes)
+    useDebounceEffect(() => {
+        fetchItems();
+    }, [searchTerm]);
+
+    useEffect(() => {
+        fetchTaxes();
+    }, []);
 
     return (
         <>
-            {/* Supplier Section */}
-            <div className="p-4 bg-gray-200 rounded-xl mb-4 border border-gray-200">
 
-                <div className="grid grid-cols-[2fr_10fr] items-center mb-4 border-b border-gray-300 pb-3">
-                    <div>
-                        <h2 className="text-lg font-semibold">Supplier Details</h2>
-                    </div>
-
-                    <div className="relative w-full">
-                        <Search className="absolute left-3 top-2 text-blue-950" size={18} />
-                        <input
-                            type="text"
-                            placeholder="Search Supplier..."
-                            value={searchSupplier}
-                            onChange={(e) => setSearchSupplier(e.target.value)}
-                            className="border border-blue-950 rounded-lg pl-10 pr-3 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300 w-full"
-                        />
-
-                        {searchSupplier && suppliers.length > 0 && (
-                            <ul className="absolute bg-gray-300 border border-gray-300 rounded-md mt-1 shadow-md z-10 w-full max-h-48 overflow-auto">
-                                {suppliers.map((supplier) => (
-                                    <li
-                                        key={supplier.id}
-                                        onClick={() => handleSelectSupplier(supplier)}
-                                        className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-                                    >
-                                        {supplier.contactPerson} — {supplier.companyName}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
-                </div>
-
-                {selectedSupplier ? (
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="flex flex-col">
-                            <span className="font-semibold text-gray-700">Name:</span>
-                            <span className="text-gray-600">{selectedSupplier.contactPerson}</span>
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="font-semibold text-gray-700">Company:</span>
-                            <span className="text-gray-600">{selectedSupplier.companyName}</span>
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="font-semibold text-gray-700">Contact:</span>
-                            <span className="text-gray-600">{selectedSupplier.contact}</span>
-                        </div>
-                        <div className="col-span-2 text-right">
-                            <button
-                                onClick={() => setSelectedSupplier(null)}
-                                className="text-sm text-red-600 hover:underline"
-                            >
-                                Remove Supplier
-                            </button>
-                        </div>
-                    </div>
-                ) : (
-                    <p className="text-gray-500 text-sm">No supplier selected.</p>
-                )}
-            </div>
+            <SupplierDetails />
 
             {/* Purchase Details */}
             <div className="grid grid-cols-[7.5fr_4.5fr] p-3 gap-3">
@@ -633,7 +551,7 @@ const Purchase = () => {
                 </div>
 
                 {/* Medicine List */}
-                <div className="w-full bg-gray-50 shadow-md rounded-xl p-4 border border-gray-300 overflow-auto h-[80vh]">
+                <div className="w-full bg-gray-50 shadow-md rounded-xl p-4 border border-gray-300 ">
                     <div className="relative mb-5">
                         <Search className="absolute left-3 top-2 text-gray-500" size={18} />
                         <input
@@ -644,14 +562,17 @@ const Purchase = () => {
                             className="w-full pl-10 pr-3 border rounded-md py-1 px-2 border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300"
                         />
                     </div>
-                    <div className="flex flex-wrap justify-start gap-4 ">
-                        {medicines.map((med) => (
-                            <MedicineCard
-                                key={med.id}
-                                med={med}
-                                handleAddMedicine={handleAddMedicine}
-                            />
-                        ))}
+                    <div className="overflow-auto  h-[80vh]">
+
+                        <div className="flex flex-wrap justify-start gap-4 ">
+                            {medicines.map((med) => (
+                                <MedicineCard
+                                    key={med.id}
+                                    med={med}
+                                    handleAddMedicine={handleAddMedicine}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

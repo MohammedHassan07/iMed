@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   addPurchase: (data) => ipcRenderer.invoke('add-purchase', data),
   getPurchase: (data) => ipcRenderer.invoke('getPurchase', data),
   getStocksOnTyping: (data) => ipcRenderer.invoke('getStocksOnTyping', data),
+  getNearExpiryMedicines: () => ipcRenderer.invoke('getNearExpiryMedicines'),
 
 
   // suppliers

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Search } from "lucide-react";
 import MedicineCard from "./MedicineCard";
-import debounce from "../utils/debounce";
 import showToast from "../utils/Toast";
-const MedicineSearch = ({  onSelectMedicine }) => {
+import useDebounceEffect from "../utils/debounce";
+const MedicineSearch = ({ onSelectMedicine, handleAddSales }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [medicines, setMedicines] = useState([])
 
@@ -28,10 +28,13 @@ const MedicineSearch = ({  onSelectMedicine }) => {
       showToast(error.message, "oklch(57.7% 0.245 27.325)");
     }
   }
-  debounce(fetchItems, searchTerm)
-  
+
+  useDebounceEffect(() => {
+    fetchItems()
+  }, [searchTerm, handleAddSales])
+
   return (
-    <div className="w-full bg-gray-50 shadow-md rounded-xl p-4 border border-gray-300 overflow-auto h-[80vh]">
+    <div className="w-full bg-gray-50 shadow-md rounded-xl p-4 border border-gray-300  h-[80vh]">
       {/* Search Box */}
       <div className="relative mb-5">
         <Search className="absolute left-3 top-2 text-gray-500" size={18} />

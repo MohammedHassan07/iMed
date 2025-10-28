@@ -63,6 +63,8 @@ model PurchaseItem {
   remainingMedicines      Float
   scheme                  Float
   isSold                  Boolean  @default(false)
+  isExpired               Boolean  @default(false)
+  nearToExpire            Boolean  @default(false)
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
   purchase                Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
@@ -139,7 +141,7 @@ model payment {
   paymentNumber String
   createdAt     DateTime    @default(now())
   amount        Float
-  
-  sales         Sales[]     @relation("PaymentToSales")
-  purchases     Purchase[]  @relation("PaymentToPurchase")
+
+  sales     Sales[]    @relation("PaymentToSales")
+  purchases Purchase[] @relation("PaymentToPurchase")
 }

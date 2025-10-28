@@ -4244,6 +4244,8 @@ export namespace Prisma {
     remainingMedicines: number | null
     scheme: number | null
     isSold: boolean | null
+    isExpired: boolean | null
+    nearToExpire: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4266,6 +4268,8 @@ export namespace Prisma {
     remainingMedicines: number | null
     scheme: number | null
     isSold: boolean | null
+    isExpired: boolean | null
+    nearToExpire: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4288,6 +4292,8 @@ export namespace Prisma {
     remainingMedicines: number
     scheme: number
     isSold: number
+    isExpired: number
+    nearToExpire: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4346,6 +4352,8 @@ export namespace Prisma {
     remainingMedicines?: true
     scheme?: true
     isSold?: true
+    isExpired?: true
+    nearToExpire?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4368,6 +4376,8 @@ export namespace Prisma {
     remainingMedicines?: true
     scheme?: true
     isSold?: true
+    isExpired?: true
+    nearToExpire?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4390,6 +4400,8 @@ export namespace Prisma {
     remainingMedicines?: true
     scheme?: true
     isSold?: true
+    isExpired?: true
+    nearToExpire?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4499,6 +4511,8 @@ export namespace Prisma {
     remainingMedicines: number
     scheme: number
     isSold: boolean
+    isExpired: boolean
+    nearToExpire: boolean
     createdAt: Date
     updatedAt: Date
     _count: PurchaseItemCountAggregateOutputType | null
@@ -4540,6 +4554,8 @@ export namespace Prisma {
     remainingMedicines?: boolean
     scheme?: boolean
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
@@ -4564,6 +4580,8 @@ export namespace Prisma {
     remainingMedicines?: boolean
     scheme?: boolean
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
@@ -4588,6 +4606,8 @@ export namespace Prisma {
     remainingMedicines?: boolean
     scheme?: boolean
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
@@ -4612,11 +4632,13 @@ export namespace Prisma {
     remainingMedicines?: boolean
     scheme?: boolean
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "sellingPrice" | "sellingPricePerMedicine" | "quantity" | "packageQuantity" | "profit" | "tax" | "total" | "totalMedicines" | "remainingMedicines" | "scheme" | "isSold" | "createdAt" | "updatedAt", ExtArgs["result"]["purchaseItem"]>
+  export type PurchaseItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchaseId" | "medicineId" | "batchNumber" | "expiryDate" | "purchasePrice" | "sellingPrice" | "sellingPricePerMedicine" | "quantity" | "packageQuantity" | "profit" | "tax" | "total" | "totalMedicines" | "remainingMedicines" | "scheme" | "isSold" | "isExpired" | "nearToExpire" | "createdAt" | "updatedAt", ExtArgs["result"]["purchaseItem"]>
   export type PurchaseItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchase?: boolean | PurchaseDefaultArgs<ExtArgs>
     medicine?: boolean | medicineDefaultArgs<ExtArgs>
@@ -4654,6 +4676,8 @@ export namespace Prisma {
       remainingMedicines: number
       scheme: number
       isSold: boolean
+      isExpired: boolean
+      nearToExpire: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["purchaseItem"]>
@@ -5098,6 +5122,8 @@ export namespace Prisma {
     readonly remainingMedicines: FieldRef<"PurchaseItem", 'Float'>
     readonly scheme: FieldRef<"PurchaseItem", 'Float'>
     readonly isSold: FieldRef<"PurchaseItem", 'Boolean'>
+    readonly isExpired: FieldRef<"PurchaseItem", 'Boolean'>
+    readonly nearToExpire: FieldRef<"PurchaseItem", 'Boolean'>
     readonly createdAt: FieldRef<"PurchaseItem", 'DateTime'>
     readonly updatedAt: FieldRef<"PurchaseItem", 'DateTime'>
   }
@@ -11242,6 +11268,8 @@ export namespace Prisma {
     remainingMedicines: 'remainingMedicines',
     scheme: 'scheme',
     isSold: 'isSold',
+    isExpired: 'isExpired',
+    nearToExpire: 'nearToExpire',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -11619,6 +11647,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFilter<"PurchaseItem"> | number
     scheme?: FloatFilter<"PurchaseItem"> | number
     isSold?: BoolFilter<"PurchaseItem"> | boolean
+    isExpired?: BoolFilter<"PurchaseItem"> | boolean
+    nearToExpire?: BoolFilter<"PurchaseItem"> | boolean
     createdAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     purchase?: XOR<PurchaseScalarRelationFilter, PurchaseWhereInput>
@@ -11643,6 +11673,8 @@ export namespace Prisma {
     remainingMedicines?: SortOrder
     scheme?: SortOrder
     isSold?: SortOrder
+    isExpired?: SortOrder
+    nearToExpire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     purchase?: PurchaseOrderByWithRelationInput
@@ -11670,6 +11702,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFilter<"PurchaseItem"> | number
     scheme?: FloatFilter<"PurchaseItem"> | number
     isSold?: BoolFilter<"PurchaseItem"> | boolean
+    isExpired?: BoolFilter<"PurchaseItem"> | boolean
+    nearToExpire?: BoolFilter<"PurchaseItem"> | boolean
     createdAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     purchase?: XOR<PurchaseScalarRelationFilter, PurchaseWhereInput>
@@ -11694,6 +11728,8 @@ export namespace Prisma {
     remainingMedicines?: SortOrder
     scheme?: SortOrder
     isSold?: SortOrder
+    isExpired?: SortOrder
+    nearToExpire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PurchaseItemCountOrderByAggregateInput
@@ -11724,6 +11760,8 @@ export namespace Prisma {
     remainingMedicines?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     scheme?: FloatWithAggregatesFilter<"PurchaseItem"> | number
     isSold?: BoolWithAggregatesFilter<"PurchaseItem"> | boolean
+    isExpired?: BoolWithAggregatesFilter<"PurchaseItem"> | boolean
+    nearToExpire?: BoolWithAggregatesFilter<"PurchaseItem"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"PurchaseItem"> | Date | string
   }
@@ -12347,6 +12385,8 @@ export namespace Prisma {
     remainingMedicines: number
     scheme: number
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     purchase: PurchaseCreateNestedOneWithoutPurchasedItemsInput
@@ -12371,6 +12411,8 @@ export namespace Prisma {
     remainingMedicines: number
     scheme: number
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12390,6 +12432,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
     isSold?: BoolFieldUpdateOperationsInput | boolean
+    isExpired?: BoolFieldUpdateOperationsInput | boolean
+    nearToExpire?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     purchase?: PurchaseUpdateOneRequiredWithoutPurchasedItemsNestedInput
@@ -12414,6 +12458,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
     isSold?: BoolFieldUpdateOperationsInput | boolean
+    isExpired?: BoolFieldUpdateOperationsInput | boolean
+    nearToExpire?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12436,6 +12482,8 @@ export namespace Prisma {
     remainingMedicines: number
     scheme: number
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12455,6 +12503,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
     isSold?: BoolFieldUpdateOperationsInput | boolean
+    isExpired?: BoolFieldUpdateOperationsInput | boolean
+    nearToExpire?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12477,6 +12527,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
     isSold?: BoolFieldUpdateOperationsInput | boolean
+    isExpired?: BoolFieldUpdateOperationsInput | boolean
+    nearToExpire?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13233,6 +13285,8 @@ export namespace Prisma {
     remainingMedicines?: SortOrder
     scheme?: SortOrder
     isSold?: SortOrder
+    isExpired?: SortOrder
+    nearToExpire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13272,6 +13326,8 @@ export namespace Prisma {
     remainingMedicines?: SortOrder
     scheme?: SortOrder
     isSold?: SortOrder
+    isExpired?: SortOrder
+    nearToExpire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13294,6 +13350,8 @@ export namespace Prisma {
     remainingMedicines?: SortOrder
     scheme?: SortOrder
     isSold?: SortOrder
+    isExpired?: SortOrder
+    nearToExpire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14241,6 +14299,8 @@ export namespace Prisma {
     remainingMedicines: number
     scheme: number
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     purchase: PurchaseCreateNestedOneWithoutPurchasedItemsInput
@@ -14263,6 +14323,8 @@ export namespace Prisma {
     remainingMedicines: number
     scheme: number
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14341,6 +14403,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFilter<"PurchaseItem"> | number
     scheme?: FloatFilter<"PurchaseItem"> | number
     isSold?: BoolFilter<"PurchaseItem"> | boolean
+    isExpired?: BoolFilter<"PurchaseItem"> | boolean
+    nearToExpire?: BoolFilter<"PurchaseItem"> | boolean
     createdAt?: DateTimeFilter<"PurchaseItem"> | Date | string
     updatedAt?: DateTimeFilter<"PurchaseItem"> | Date | string
   }
@@ -14390,6 +14454,8 @@ export namespace Prisma {
     remainingMedicines: number
     scheme: number
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     medicine: medicineCreateNestedOneWithoutPurchaseItemsInput
@@ -14412,6 +14478,8 @@ export namespace Prisma {
     remainingMedicines: number
     scheme: number
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15093,6 +15161,8 @@ export namespace Prisma {
     remainingMedicines: number
     scheme: number
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15122,6 +15192,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
     isSold?: BoolFieldUpdateOperationsInput | boolean
+    isExpired?: BoolFieldUpdateOperationsInput | boolean
+    nearToExpire?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     purchase?: PurchaseUpdateOneRequiredWithoutPurchasedItemsNestedInput
@@ -15144,6 +15216,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
     isSold?: BoolFieldUpdateOperationsInput | boolean
+    isExpired?: BoolFieldUpdateOperationsInput | boolean
+    nearToExpire?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15165,6 +15239,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
     isSold?: BoolFieldUpdateOperationsInput | boolean
+    isExpired?: BoolFieldUpdateOperationsInput | boolean
+    nearToExpire?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15215,6 +15291,8 @@ export namespace Prisma {
     remainingMedicines: number
     scheme: number
     isSold?: boolean
+    isExpired?: boolean
+    nearToExpire?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15234,6 +15312,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
     isSold?: BoolFieldUpdateOperationsInput | boolean
+    isExpired?: BoolFieldUpdateOperationsInput | boolean
+    nearToExpire?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     medicine?: medicineUpdateOneRequiredWithoutPurchaseItemsNestedInput
@@ -15256,6 +15336,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
     isSold?: BoolFieldUpdateOperationsInput | boolean
+    isExpired?: BoolFieldUpdateOperationsInput | boolean
+    nearToExpire?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15277,6 +15359,8 @@ export namespace Prisma {
     remainingMedicines?: FloatFieldUpdateOperationsInput | number
     scheme?: FloatFieldUpdateOperationsInput | number
     isSold?: BoolFieldUpdateOperationsInput | boolean
+    isExpired?: BoolFieldUpdateOperationsInput | boolean
+    nearToExpire?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

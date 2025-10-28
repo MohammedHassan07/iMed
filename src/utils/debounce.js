@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 
-function debounce(cb, ...dependency) {
-useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      cb();
-    }, 400); // wait 400ms after user stops typing
-    return () => clearTimeout(delayDebounce);
-  }, dependency);
+function useDebounceEffect(callback, dependencies) {
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      callback();
+    }, 400);
+
+    return () => clearTimeout(handler);
+  }, dependencies);
 }
-export default debounce
+
+export default useDebounceEffect;

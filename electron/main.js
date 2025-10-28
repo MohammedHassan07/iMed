@@ -3,7 +3,7 @@ import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import chokidar from 'chokidar';
 import { bulkUpload, createMedicine, getMedicine, getMedicineOnTyping } from '../Database/medicine.js';
-import { addPurchase, getPurchase, getStocksOnTyping } from '../Database/purchase.js';
+import { addPurchase, getNearExpiryMedicines, getPurchase, getStocksOnTyping } from '../Database/purchase.js';
 import { addSupplier, getSupplierOnTyping, getSuppliers } from '../Database/supplier.js';
 import { addTax, getAllTaxes, getTaxes } from '../Database/tax.js';
 import { addSales, returnSales } from '../Database/sales.js';
@@ -83,8 +83,10 @@ ipcMain.handle('getPurchase', async (event, data) => {
   return await getPurchase(data)
 })
 ipcMain.handle('getStocksOnTyping', async (event, data) => {
-
   return await getStocksOnTyping(data)
+})
+ipcMain.handle('getNearExpiryMedicines', async (event) => {
+  return await getNearExpiryMedicines()
 })
 
 // ------------supplier------------------------

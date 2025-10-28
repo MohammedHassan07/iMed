@@ -162,7 +162,8 @@ export async function getStocksOnTyping({ search }) {
         include: {
             purchaseItems: {
                 where: {
-                    isSold: false,  // Only fetch unsold purchase items
+                    isSold: false,
+                    isExpired: false
                 },
                 select: {
                     id: true,
@@ -225,3 +226,48 @@ export async function getStocksOnTyping({ search }) {
     };
 }
 
+// get neart to expire medicines
+export async function getNearExpiryMedicines() {
+    const today = new Date();
+    const nearExpiryDate = new Date();
+    nearExpiryDate.setMonth(today.getMonth() + 2); 
+
+    const nearExpiryMedicines = await prisma.purchaseItem.findMany({
+        where: {
+            expiryDate: {
+                gte: today,
+                lte: nearExpiryDate,
+            },
+            isExpired: false,
+        },
+        select: {
+            batchNumber: true,
+            expiryDate: true,
+            remainingMedicines: true,
+            medicine: {
+                select: {
+                    saltName: true,
+                    brandName: true,
+                },
+            },
+        },
+        orderBy: {
+            expiryDate: 'asc',
+        },
+    });
+
+    if (!nearExpiryMedicines || nearExpiryMedicines.length < 1) {
+        return { status: "failed", message: "No near-expiry medicines found." };
+    }
+
+    // Format response for frontend
+    const formatted = nearExpiryMedicines.map((item) => ({
+        saltName: item.medicine.saltName,
+        brandName: item.medicine.brandName,
+        batchNumber: item.batchNumber,
+        expiryDate: item.expiryDate.toISOString().split("T")[0],
+        stockLeft: item.remainingMedicines,
+    }));
+
+    return { status: "success", data: formatted };
+}
