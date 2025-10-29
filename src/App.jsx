@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home/Home'
 import AddItem from './pages/Item/AddItem'
@@ -26,7 +26,7 @@ function App() {
   return (
     <>
 
-      <BrowserRouter>
+      <HashRouter>
         <Navbar />
         <ToastContainer />
 
@@ -65,7 +65,7 @@ function App() {
           <Route path='/payment/payment-details/' Component={PaymentDetails}/>
           
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
 
     </>
   )

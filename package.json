@@ -5,6 +5,11 @@
   "type": "module",
   "main": "electron/main.js",
   "homepage": "https://yourwebsite.com",
+  "description": "A Pharmacy Management app",
+  "author": {
+    "name": "Mohammed Hassan",
+    "email": "mhassancs260@gmail.com"
+  },
   "scripts": {
     "lint": "eslint .",
     "preview": "vite preview",
@@ -15,6 +20,57 @@
     "build": "vite build && electron-builder",
     "start": "cross-env NODE_ENV=production electron ."
   },
+  "build": {
+    "appId": "com.imed.desktop",
+    "productName": "IMed Pharmacy Manager",
+    "copyright": "Copyright © 2025 Mohammed Hassan",
+    "directories": {
+      "buildResources": "electron"
+    },
+    "asar": true,
+    "asarUnpack": [
+      "assets/**"
+    ],
+    "files": [
+      "dist/**/*",
+      "Database/**/*",
+      "assets/**/*",
+      "prisma/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/database.sqlite",
+        "to": "assets/database.sqlite"
+      }
+    ],
+    "win": {
+      "icon": "electron/icon.ico",
+      "target": "nsis",
+      "artifactName": "IMed-${version}-Setup.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "IMed Pharmacy Manager"
+    },
+    "mac": {
+      "icon": "electron/icon.icns",
+      "target": "dmg"
+    },
+    "linux": {
+      "icon": "electron/icon.png",
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "category": "Utility",
+      "maintainer": "Mohammed Hassan"
+    }
+  },
   "dependencies": {
     "@prisma/client": "^6.17.1",
     "@tailwindcss/vite": "^4.1.14",
@@ -22,7 +78,6 @@
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "date-fns": "^4.1.0",
-    "electron": "^38.3.0",
     "lucide-react": "^0.545.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -36,8 +91,10 @@
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@types/react": "^19.1.16",
+    "electron": "^38.3.0",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.4",
+    "electron-builder": "^26.0.12",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
