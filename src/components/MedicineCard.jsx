@@ -1,6 +1,6 @@
-import tablet from '../assets/tablet.png'
+import tablet from '../assets/tablet.jpg'
 import syrup from '../assets/syrup.jpg'
-import ointment from '../assets/ointment.png'
+import ointment from '../assets/ointment.jpg'
 
 const MedicineCard = ({ med, handleAddMedicine }) => {
 
@@ -10,7 +10,7 @@ const MedicineCard = ({ med, handleAddMedicine }) => {
             ointment: ointment,
             syrup: syrup
         }
-        return imageSrc[imageType] || tablet
+        return imageSrc[imageType.trim().toLowerCase()] || tablet
     }
     const totalRemaining =
         med.purchaseItems?.reduce(
