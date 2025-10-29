@@ -4,7 +4,7 @@ import DynamicForm from "../../components/DynamicForm";
 import DeleteModal from "../../components/DeleteMoodal";
 import Pagination from "../../components/Pagination";
 import showToast from "../../utils/Toast";
-import debounce from "../../utils/debounce";
+import useDebounceEffect from "../../utils/debounce";
 
 const GetItems = () => {
   const [items, setItems] = useState([]);
@@ -25,9 +25,29 @@ const GetItems = () => {
     { name: "brandName", label: "Brand Name", type: "text", placeholder: "Enter brand name" },
     { name: "manufacturer", label: "Manufacturer", type: "text", placeholder: "Enter manufacturer" },
     { name: "packageQuantity", label: "Package Quantity", type: "number", placeholder: "Enter quantity" },
-    { name: "productForm", label: "Product Form", type: "text", placeholder: "Enter product form" },
-    { name: "expiryDate", label: "Expiry Date", type: "date", placeholder: "Select expiry date" },
+    {
+      name: "productForm",
+      label: "Product Form",
+      type: "select",
+      options: ["Tablet", "Capsule", "Syrup", "Injection", "Cream", "Powder"],
+      placeholder: "Select product form",
+    },
+    {
+      name: "storageCondition",
+      label: "Storage Condition",
+      type: "select",
+      options: ["Room Temperature", "Refrigerated", "Box"],
+      placeholder: "Select storage condition",
+    },
+    {
+      name: "boxNumber",
+      label: "Box Number",
+      type: "text",
+      placeholder: "Enter box number",
+      conditional: (formData) => formData.storageCondition === "Box", // 👈 Conditional logic
+    },
   ];
+
 
   const handleOpenModal = (type, item) => {
     setModalType(type);
@@ -54,18 +74,68 @@ const GetItems = () => {
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [showModal]);
 
-  const handleUpdate = () => {
-    console.log("Updated Item:", formData);
-    // Example update logic (you can replace with API call)
-    setItems((prev) =>
-      prev.map((item) => (item.id === formData.id ? formData : item))
-    );
-    handleCloseModal();
+  const handleUpdate = async () => {
+    try {
+      const requiredFields = [
+        "saltName",
+        "brandName",
+        "manufacturer",
+        "packageQuantity",
+        "productForm",
+        "storageCondition",
+      ];
+
+      for (let field of requiredFields) {
+        if (!formData[field] || formData[field].toString().trim() === "") {
+          showToast(`${field} is required`, "oklch(57.7% 0.245 27.325)");
+          return;
+        }
+      }
+
+      if (formData.storageCondition === "Box" && (!formData.boxNumber)
+      ) {
+        showToast("Box Number is required when Storage Condition is Box", "oklch(57.7% 0.245 27.325)");
+        return;
+      }
+
+      const response = await window.electronAPI.updateMedicine(formData);
+
+      if (response.status !== "success") {
+        showToast(response.message || "Update failed", "oklch(57.7% 0.245 27.325)");
+        return;
+      }
+
+      setItems((prev) =>
+        prev.map((item) => (item.id === formData.id ? { ...item, ...formData } : item))
+      );
+
+      showToast("Item updated successfully", "oklch(67.7% 0.145 147.325)");
+      handleCloseModal();
+    } catch (error) {
+      console.error("Update error:", error);
+      showToast(error.message || "An unexpected error occurred", "oklch(57.7% 0.245 27.325)");
+    }
   };
 
-  const handleDelete = () => {
-    console.log("Deleted Item:", selectedItem);
-    setItems((prev) => prev.filter((item) => item.id !== selectedItem.id));
+  const handleDelete = async () => {
+    console.log("Deleted Item:", selectedItem)
+    setItems((prev) => prev.filter((item) => item.id !== selectedItem.id))
+
+    try {
+
+      const response = await window.electronAPI.deleteMedicine(selectedItem.id)
+
+      if (response.status === "success") {
+        setItems((prev) => prev.filter((item) => item.id !== selectedItem.id))
+        showToast("Medicine deleted successfully", "oklch(67.7% 0.145 147.325)")
+        handleCloseModal();
+      } else {
+        showToast(response.message || "Failed to delete medicine", "oklch(57.7% 0.245 27.325)")
+      }
+    } catch (error) {
+      console.error("Delete error:", error)
+      showToast("An error occurred while deleting", "oklch(57.7% 0.245 27.325)")
+    }
     handleCloseModal();
   };
 
@@ -95,7 +165,7 @@ const GetItems = () => {
       showToast(error.message, "oklch(57.7% 0.245 27.325)");
     }
   };
-  debounce(fetchItems, search, currentPage)
+  useDebounceEffect(fetchItems, [search, currentPage])
 
   return (
     <div className="p-6">
@@ -122,7 +192,7 @@ const GetItems = () => {
               <th className="p-3 text-left">Manufacturer</th>
               <th className="p-3 text-left">Package Qty</th>
               <th className="p-3 text-left">Form</th>
-              <th className="p-3 text-left">Expiry</th>
+              <th className="p-3 text-left">Storage</th>
               <th className="p-3 text-center">Actions</th>
             </tr>
           </thead>
@@ -136,7 +206,7 @@ const GetItems = () => {
                 <td className="p-3">{item.manufacturer}</td>
                 <td className="p-3">{item.packageQuantity}</td>
                 <td className="p-3">{item.productForm}</td>
-                <td className="p-3">{item.expiryDate}</td>
+                <td className="p-3">{item.storageCondition} {item.storageCondition === 'Box' && '(' + item.boxNumber + ')'}</td>
                 <td className="p-3 text-center flex justify-center items-center gap-3">
                   <EditDelete handleOpenModal={handleOpenModal} item={item} isDelete={true} />
                 </td>

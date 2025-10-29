@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import chokidar from 'chokidar';
-import { bulkUpload, createMedicine, getMedicine, getMedicineOnTyping } from '../Database/medicine.js';
+import { bulkUpload, createMedicine, deleteMedicine, getMedicine, getMedicineOnTyping, updateMedicine } from '../Database/medicine.js';
 import { addPurchase, getNearExpiryMedicines, getPurchase, getStocksOnTyping, returnPurchase } from '../Database/purchase.js';
 import { addSupplier, getSupplierOnTyping, getSuppliers } from '../Database/supplier.js';
 import { addTax, getAllTaxes, getTaxes } from '../Database/tax.js';
@@ -73,6 +73,12 @@ ipcMain.handle('getMedicineOnTyping', async (event, search) => {
 })
 ipcMain.handle('bulkUpload', async (event, data) => {
   return await bulkUpload(data)
+})
+ipcMain.handle('updateMedicine', async (event, data) => {
+  return await updateMedicine(data)
+})
+ipcMain.handle('deleteMedicine', async (event, data) => {
+  return await deleteMedicine(data)
 })
 
 // ------------purchase------------------------
