@@ -20,6 +20,8 @@ import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import Payments from './pages/payments/Payments'
 import PaymentDetails from './pages/payments/PaymentDetails'
+import AddCompany from './pages/company/AddCompany'
+import GetCompany from './pages/company/GetCompany'
 
 function App() {
 
@@ -61,9 +63,13 @@ function App() {
           <Route path='/supplier/' Component={GetSupplier} />
 
           {/* payments */}
-          <Route path='/payments/' Component={Payments}/>
-          <Route path='/payment/payment-details/' Component={PaymentDetails}/>
-          
+          <Route path='/payments/' Component={Payments} />
+          <Route path='/payment/payment-details/' Component={PaymentDetails} />
+
+          {/* company */}
+          <Route path='/company/add' Component={AddCompany} />
+          <Route path='/company/' Component={GetCompany} />
+
         </Routes>
       </HashRouter>
 

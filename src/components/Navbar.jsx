@@ -69,7 +69,14 @@ const Navbar = () => {
         { name: "Add Supplier", path: "/supplier/add" },
       ]
     },
-     { name: "Payments", path: "/payments/" },
+    { name: "Payments", path: "/payments/" },
+    {
+      name: "Company",
+      submenu: [
+        { name: "Get Company", path: "/company/" },
+        { name: "Add Company", path: "/company/add" },
+      ]
+    },
 
   ];
 

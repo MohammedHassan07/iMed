@@ -1,0 +1,69 @@
+import React, { useState } from "react";
+import showToast from "../../utils/Toast";
+
+const AddCompany = () => {
+    const [form, setForm] = useState({
+        companyName: '',
+        mfgCode: "",
+    });
+
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        for (const field in form) {
+            if (form[field] === "") {
+                showToast(`Please fill in the ${field.replace(/([A-Z])/g, ' $1')}`, 'oklch(57.7% 0.245 27.325)');
+                return;
+            }
+        }
+
+        try {
+
+            const response = await window.electronAPI.addCompany(form);
+            console.log(response)
+
+            if (response.status !== 'success') {
+                return showToast(response.message || 'Something went wrong !!!', 'oklch(57.7% 0.245 27.325)');
+            }
+
+            return showToast(response.message, 'oklch(62.7% 0.194 149.214)');
+        } catch (error) {
+            console.log(error)
+            return showToast(error.message || 'Something went wrong !!!', 'oklch(57.7% 0.245 27.325)');
+        }
+    };
+
+    return (
+        <div className="p-6 bg-gray-50 min-h-screen flex justify-center items-start">
+            <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+                <input
+                    name="companyName"
+                    placeholder="company Name"
+                    value={form.companyName}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
+                <input
+                    name="mfgCode"
+                    placeholder="MFG Code"
+                    value={form.mfgCode}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
+            
+                <button
+                    type="submit"
+                    className="bg-blue-950 text-white px-6 py-2 rounded-lg hover:bg-blue-900"
+                >
+                    Add Company
+                </button>
+            </form>
+        </div>
+    );
+};
+
+export default AddCompany;

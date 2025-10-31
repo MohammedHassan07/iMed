@@ -252,6 +252,14 @@ exports.Prisma.PaymentScalarFieldEnum = {
   amount: 'amount'
 };
 
+exports.Prisma.CompanyScalarFieldEnum = {
+  id: 'id',
+  companyName: 'companyName',
+  mfgCode: 'mfgCode',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -282,7 +290,8 @@ exports.Prisma.ModelName = {
   Tax: 'Tax',
   Sales: 'Sales',
   SalesItem: 'SalesItem',
-  payment: 'payment'
+  payment: 'payment',
+  Company: 'Company'
 };
 
 /**

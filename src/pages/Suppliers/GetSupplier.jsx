@@ -4,6 +4,7 @@ import DynamicForm from "../../components/DynamicForm";
 import DeleteModal from "../../components/DeleteMoodal";
 import showToast from "../../utils/Toast";
 import debounce from '../../utils/debounce.js'
+import useDebounceEffect from "../../utils/debounce.js";
 
 const GetSupplier = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -96,7 +97,7 @@ const GetSupplier = () => {
 
 
   // ---- Debounced API call ----
-  debounce(fetchItems, search, currentPage)
+  useDebounceEffect(fetchItems, [search, currentPage])
 
 
 
@@ -142,7 +143,7 @@ const GetSupplier = () => {
                 <td className="px-4 py-3 truncate">{supplier.address}</td>
                 <td className="px-4 py-3 flex items-center justify-center space-x-3">
 
-                  <EditDelete handleOpenModal={handleOpenModal} item={supplier} />
+                  <EditDelete handleOpenModal={handleOpenModal} item={supplier} isDelete={true} />
                 </td>
               </tr>
             ))}
