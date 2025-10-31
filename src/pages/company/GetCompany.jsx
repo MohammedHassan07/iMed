@@ -7,7 +7,7 @@ import debounce from '../../utils/debounce.js'
 import useDebounceEffect from "../../utils/debounce.js";
 
 const GetCompany = () => {
-    const [suppliers, setSuppliers] = useState([]);
+    const [companies, setCompanies] = useState([]);
 
     const [items, setItems] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -50,13 +50,48 @@ const GetCompany = () => {
         };
     }, [showModal]);
 
-    const handleUpdate = () => {
-        console.log("Updated Item:", formData);
-        handleCloseModal();
+    const handleUpdate = async () => {
+
+        try {
+            console.log("Updated Item:", formData);
+
+            const response = await window.electronAPI.updateCompany(formData)
+
+            if (response.status !== 'success') {
+                return showToast(response.message || "Update failed", "oklch(57.7% 0.245 27.325)");
+
+            }
+            showToast("Item updated successfully", "oklch(67.7% 0.145 147.325)");
+            setCompanies((prev) =>
+                prev.map((item) => (item.id === formData.id ? { ...item, ...formData } : item))
+            );
+            handleCloseModal();
+        } catch (error) {
+            console.error("Update error:", error);
+            showToast(error.message || "An unexpected error occurred", "oklch(57.7% 0.245 27.325)");
+        }
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         console.log("Deleted Item:", selectedItem);
+
+        setCompanies((prev) => prev.filter((item) => item.id !== selectedItem.id))
+
+        try {
+
+            const response = await window.electronAPI.deleteCompany(selectedItem.id)
+
+            if (response.status === "success") {
+                setItems((prev) => prev.filter((item) => item.id !== selectedItem.id))
+                showToast("Medicine deleted successfully", "oklch(67.7% 0.145 147.325)")
+                handleCloseModal();
+            } else {
+                showToast(response.message || "Failed to delete medicine", "oklch(57.7% 0.245 27.325)")
+            }
+        } catch (error) {
+            console.error("Delete error:", error)
+            showToast("An error occurred while deleting", "oklch(57.7% 0.245 27.325)")
+        }
         handleCloseModal();
     };
 
@@ -82,11 +117,11 @@ const GetCompany = () => {
 
             if (response.status !== "success") {
                 showToast(response.message, "oklch(57.7% 0.245 27.325)");
-                setSuppliers([]);
+                setCompanies([]);
                 return;
             }
 
-            setSuppliers(response.data || []);
+            setCompanies(response.data || []);
             setTotalPages(response.totalPages || 1);
         } catch (error) {
             showToast(error.message, "oklch(57.7% 0.245 27.325)");
@@ -100,7 +135,7 @@ const GetCompany = () => {
     return (
         <div className="p-6">
             <div className="grid grid-cols-[2fr_10fr] items-center">
-                <h2 className="text-2xl font-semibold">All Suppliers</h2>
+                <h2 className="text-2xl font-semibold">All Companies</h2>
 
                 <div className="border border-blue-950 rounded w-full">
                     <input
@@ -127,7 +162,7 @@ const GetCompany = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {suppliers.map((supplier, index) => (
+                        {companies.map((supplier, index) => (
                             <tr
                                 key={supplier.id}
                                 className="hover:bg-gray-50 border-t border-gray-200 transition"
@@ -139,16 +174,16 @@ const GetCompany = () => {
                                 <td className="px-4 py-3 truncate">{supplier.address}</td> */}
                                 <td className="px-4 py-3 flex items-center justify-center space-x-3">
 
-                                    <EditDelete handleOpenModal={handleOpenModal} item={supplier} />
+                                    <EditDelete handleOpenModal={handleOpenModal} item={supplier} isDelete={true}/>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
 
-                {suppliers.length === 0 && (
+                {companies.length === 0 && (
                     <div className="text-center py-6 text-gray-500">
-                        No suppliers found.
+                        No companies found.
                     </div>
                 )}
             </div>
@@ -185,7 +220,7 @@ const GetCompany = () => {
                     >
 
                         {modalType === "update" ? <DynamicForm
-                            title="Update Supplier"
+                            title="Update Company"
                             fields={fields}
                             formData={formData}
                             handleChange={handleChange}

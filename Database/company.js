@@ -45,7 +45,7 @@ export async function addCompany(data) {
 export const getCompany = async ({ page = 1, limit = 5, search = "" }) => {
 
     try {
-        console.log('Database URL:', process.env.DATABASE_URL);
+
         const skip = (page - 1) * limit;
         const where = search
             ? {
@@ -83,3 +83,82 @@ export const getCompany = async ({ page = 1, limit = 5, search = "" }) => {
         return { status: "failed", message: "No company found" };
     }
 }
+
+// update company
+export const updateCompany = async (data) => {
+    try {
+
+        const { id, companyName, mfgCode } = data;
+
+        if (!id) {
+            return { status: 'failed', message: 'Company ID is required' };
+        }
+
+        const company = await prisma.company.findUnique({
+            where: { id: Number(id) },
+        });
+
+        if (!company) {
+            return { status: 'failed', message: 'Company not found' };
+        }
+
+        if (mfgCode && mfgCode !== company.mfgCode) {
+            const existingMfgCode = await prisma.company.findUnique({
+                where: { mfgCode },
+            });
+
+            if (existingMfgCode) {
+                return { status: 'failed', message: 'MfgCode is already in use by another company' };
+            }
+        }
+
+        const updatedData = {};
+        if (companyName) updatedData.companyName = companyName;
+        if (mfgCode) updatedData.mfgCode = mfgCode;
+        updatedData.updatedAt = new Date();
+
+        if (Object.keys(updatedData).length === 0) {
+            return { status: 'failed', message: 'No valid fields to update' };
+        }
+
+        const updatedCompany = await prisma.company.update({
+            where: { id: Number(id) },
+            data: updatedData,
+        });
+
+        return { status: 'success', message: 'Company updated' };
+
+    } catch (error) {
+        console.log(error);
+        return { status: 'failed', message: 'Internal error' };
+    }
+};
+
+// delete company
+export const deleteCompany = async (id) => {
+    try {
+      
+        if (!id || isNaN(id)) {
+            return { status: 'failed', message: 'Invalid company ID' };
+        }
+
+        const company = await prisma.company.findUnique({
+            where: { id },
+        });
+
+        if (!company) {
+            return { status: 'failed', message: 'Company not found' };
+        }
+
+        await prisma.company.delete({
+            where: { id },
+        });
+
+        return { status: 'success', message: 'Company deleted successfully' };
+
+    } catch (error) {
+        console.log(error);
+        return { status: 'failed', message: 'Internal error' };
+    }
+};
+

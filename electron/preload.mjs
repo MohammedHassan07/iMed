@@ -42,5 +42,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // company
   getCompany: (data) => ipcRenderer.invoke('getCompany', data),
   addCompany: (data) => ipcRenderer.invoke('addCompany', data),
+  updateCompany: (data) => ipcRenderer.invoke('updateCompany', data),
+  deleteCompany: (data) => ipcRenderer.invoke('deleteCompany', data),
 
 });

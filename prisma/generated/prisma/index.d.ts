@@ -14926,14 +14926,14 @@ export namespace Prisma {
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    mfgCode?: string
     AND?: CompanyWhereInput | CompanyWhereInput[]
     OR?: CompanyWhereInput[]
     NOT?: CompanyWhereInput | CompanyWhereInput[]
     companyName?: StringFilter<"Company"> | string
-    mfgCode?: StringFilter<"Company"> | string
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
-  }, "id">
+  }, "id" | "mfgCode">
 
   export type CompanyOrderByWithAggregationInput = {
     id?: SortOrder

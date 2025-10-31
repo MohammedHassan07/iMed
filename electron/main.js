@@ -8,7 +8,7 @@ import { addSupplier, getSupplierOnTyping, getSuppliers } from '../Database/supp
 import { addTax, getAllTaxes, getTaxes } from '../Database/tax.js';
 import { addSales, returnSales } from '../Database/sales.js';
 import { getAllPayments, getRevenueGraphData, getSalesAndPurchaseData, getSummaryStats, paymentDetails } from '../Database/payments.js';
-import { addCompany, getCompany } from '../Database/company.js';
+import { addCompany, deleteCompany, getCompany, updateCompany } from '../Database/company.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -150,9 +150,16 @@ ipcMain.handle('getSalesAndPurchaseData', async (event, data) => {
   return await getSalesAndPurchaseData(data)
 })
 
+// ------------company------------------------
 ipcMain.handle('addCompany', async (event, data) => {
   return await addCompany(data)
 })
 ipcMain.handle('getCompany', async (event, data) => {
   return await getCompany(data)
+})
+ipcMain.handle('updateCompany', async (event, data) => {
+  return await updateCompany(data)
+})
+ipcMain.handle('deleteCompany', async (event, data) => {
+  return await deleteCompany(data)
 })
