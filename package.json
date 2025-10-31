@@ -78,6 +78,7 @@
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "date-fns": "^4.1.0",
+    "kbar": "^0.1.0-beta.48",
     "lucide-react": "^0.545.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -91,9 +92,9 @@
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@types/react": "^19.1.16",
-    "electron": "^38.3.0",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.4",
+    "electron": "^38.3.0",
     "electron-builder": "^26.0.12",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
