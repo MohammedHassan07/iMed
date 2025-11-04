@@ -19,7 +19,7 @@ const Payments = () => {
   const [showDetails, setShowDetails] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0)
+  const [totalPages, setTotalPages] = useState(1)
   const navigate = useNavigate()
   const itemsPerPage = 10;
 

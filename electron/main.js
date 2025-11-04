@@ -39,10 +39,10 @@ function createWindow() {
 
 app.whenReady().then(() => {
   createWindow();
-  Menu.setApplicationMenu(null);
-
 
   if (process.env.NODE_ENV === 'development') {
+
+    Menu.setApplicationMenu(null);
     const watcher = chokidar.watch([path.join(__dirname, 'main.js'), path.join(__dirname, 'preload.js')]);
     watcher.on('change', () => {
       console.log('Electron main/preload changed, reloading app...');
