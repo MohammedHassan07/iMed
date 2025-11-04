@@ -51,3 +51,13 @@ iMed is a **desktop pharmacy management application** built using **ReactJS**, *
 
 ## 👨‍💻 Contributors
 - **Developer:** [Mohammed Hassan](https://www.linkedin.com/in/mohammed-hassan-343b00215)
+
+## 📥 Installation and Setup 
+### open terminal and run the command
+```sh
+npm install
+```
+Step 2: Start development server of electron
+```sh
+npm run dev
+```
